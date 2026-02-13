@@ -1,0 +1,16 @@
+package dataFactory;
+
+import dataObject.ContactUsDO;
+
+public class ContactUsDF {
+
+    public static ContactUsDO createContactMessage(){
+        ContactUsDO contactUs= new ContactUsDO();
+        contactUs.setName("Amitesh");
+        contactUs.setEmail("amitesh@yopmail.com");
+        contactUs.setSubject("Amitesh");
+        contactUs.setMessage("This is a message");
+        return contactUs;
+    }
+}
+
