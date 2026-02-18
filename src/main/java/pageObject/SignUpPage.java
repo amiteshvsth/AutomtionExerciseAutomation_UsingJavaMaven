@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 import pageObject.base.BasePage;
 
-public class SignUpPage extends BasePage {
+public class SignUpPage extends CommonPage {
 
     public SignUpPage(WebDriver driver) {
         super(driver);
@@ -90,7 +90,7 @@ public class SignUpPage extends BasePage {
         selenium.enterText(address1,data.getAddress1(),true);
         selenium.enterText(address2,data.getAddress2(),true);
 
-        selenium.selectDropDownValueByText(country,data.getCountry().toString());
+        selenium.selectDropDownValueByText(country,data.getCountry().getValue());
 
         selenium.enterText(state,data.getState(),true);
         selenium.enterText(city,data.getCity(),true);

@@ -1,6 +1,9 @@
 package utilities;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class Constants {
 
@@ -28,4 +31,23 @@ public class Constants {
     public static final String DOWNLOAD_FOLDER = System.getProperty("user.dir") + File.separator + "src\\main\\resources\\downloadFiles";
     public static final String UPLOAD_FOLDER = System.getProperty("user.dir") + File.separator + "src\\main\\resources\\uploadFiles";
 
+    public static List<String> expectedProductCategories = Arrays.asList("WOMEN","MEN", "KIDS");
+    public static List<String> expectedBrands = Arrays.asList("POLO", "H&M" ,"MADAME", "MAST & HARBOUR", "BABYHUG" , "ALLEN SOLLY JUNIOR", "KOOKIE KIDS", "BIBA");
+
+    public static Map<String, Integer> expectedBrandCounts = Map.of(
+            "Polo", 6,
+            "H&M", 5,
+            "Madame", 5,
+            "Mast & Harbour", 3,
+            "Babyhug", 4,
+            "Allen Solly Junior", 3,
+            "Kookie Kids", 3,
+            "Biba", 5
+    );
+
+    public static Map<String, Integer> expectedSubCategoriesCounts = Map.of(
+            "Men", 2,
+            "Women", 3,
+            "Kids", 2
+    );
     }

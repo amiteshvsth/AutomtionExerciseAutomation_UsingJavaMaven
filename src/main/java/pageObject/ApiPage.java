@@ -1,10 +1,9 @@
 package pageObject;
 
-import pageObject.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class ApiPage extends BasePage {
+public class ApiPage extends CommonPage {
 
     private final By apiHeader = By.xpath("//h2[contains(text(),'APIs List')]");
 

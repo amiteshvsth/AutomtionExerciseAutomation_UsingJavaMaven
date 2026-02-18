@@ -1,11 +1,10 @@
 package pageObject;
 
 import dataObject.UserDO;
-import pageObject.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class LoginSignupPage extends BasePage {
+public class LoginSignupPage extends CommonPage {
     public LoginSignupPage(WebDriver driver){
         super(driver);
     }
@@ -19,16 +18,27 @@ public class LoginSignupPage extends BasePage {
     private final By signupEmail = By.cssSelector("[data-qa='signup-email']");
     private final By signupBtn = By.cssSelector("[data-qa='signup-button']");
 
+    private final By loginErrorMessage = By.xpath("//p[text()='Your email or password is incorrect!']");
+    private final By signUpErrorMessage = By.xpath("//p[text()='Email Address already exist!']");
 
-    public void login(UserDO user) throws InterruptedException {
+    public HomePage login(UserDO user) throws InterruptedException {
         selenium.enterText(loginEmail,user.getEmail(),true);
         selenium.enterText(loginPassword,user.getPassword(),true);
         selenium.clickOn(loginBtn);
+        return new HomePage(driver);
     }
 
     public void signup(UserDO user) throws InterruptedException {
+        selenium.enterText(signupName,user.getName(),true);
         selenium.enterText(signupEmail,user.getEmail(),true);
-        selenium.enterText(signupName,user.getPassword(),true);
         selenium.clickOn(signupBtn);
+    }
+
+    public String getLoginErrorMessage(){
+        return selenium.getText(loginErrorMessage);
+    }
+
+    public String getSignUpErrorMessage(){
+        return selenium.getText(signUpErrorMessage);
     }
 }

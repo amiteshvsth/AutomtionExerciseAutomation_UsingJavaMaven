@@ -219,7 +219,7 @@ public class SeleniumHelpers extends WaitHelpers {
      */
     public void clickOn(By by) throws InterruptedException {
         waitTillElementIsClickable(by).click();
-        waitForJavascriptToLoad();
+//        waitForJavascriptToLoad();
     }
 
     public boolean isElementVisible(WebElement element) {

@@ -4,7 +4,7 @@ import dataObject.ContactUsDO;
 
 public class ContactUsDF {
 
-    public static ContactUsDO createContactMessage(){
+    public static ContactUsDO fillContactUsDetails(){
         ContactUsDO contactUs= new ContactUsDO();
         contactUs.setName("Amitesh");
         contactUs.setEmail("amitesh@yopmail.com");

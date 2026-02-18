@@ -1,5 +1,8 @@
 package enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Country {
 
     INDIA("India"),
@@ -10,7 +13,7 @@ public enum Country {
     NEW_ZEALAND("New Zealand"),
     SINGAPORE("Singapore");
 
-    public String value;
+    public final String value;
 
     Country(String value) {
         this.value = value;

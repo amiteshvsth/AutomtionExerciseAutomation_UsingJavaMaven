@@ -1,9 +1,6 @@
 package utilities;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
@@ -264,19 +261,30 @@ public class WaitHelpers {
     /**
      * This function will wait for page to load (waiting for JavaScript to finish loading) before moving further
      */
-    public void waitForJavascriptToLoad() throws InterruptedException {
-        Thread.sleep(1000);
-        ExpectedCondition<Boolean> expectation = d -> {
-            if (driver != null) {
-                return Objects.equals(((JavascriptExecutor) driver).executeScript("return document.readyState"), "complete");
+    public void waitForJavascriptToLoad() {
+
+        WebDriverWait wait = new WebDriverWait(
+                driver,
+                Duration.ofSeconds(Constants.WEBDRIVER_WAIT_DURATION)
+        );
+
+        wait.until(driver -> {
+            try {
+                String state = (String) ((JavascriptExecutor) driver)
+                        .executeScript("return document.readyState");
+
+                return "complete".equals(state);
+
+            } catch (UnhandledAlertException e) {
+                try {
+                    Alert alert = driver.switchTo().alert();
+                    System.out.println("Alert during JS wait: " + alert.getText());
+                    alert.accept();
+                } catch (NoAlertPresentException ignored) {}
+
+                return false;
             }
-            return false;
-        };
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(Constants.WEBDRIVER_WAIT_DURATION));
-        try {
-            wait.until(expectation);
-        } catch (Exception | Error e) {
-            e.printStackTrace();
-        }
+        });
     }
+
 }

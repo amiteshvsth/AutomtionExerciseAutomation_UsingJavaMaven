@@ -57,26 +57,18 @@ public class BaseTest {
     }
 
     @BeforeMethod
-    @Parameters({"browser", "browserMode", "URL"})
-    public void setUp(@Optional("chrome") String browser, @Optional("normal") String browserMode,
-                      @Optional("USA_ADMIN") String baseUrl, Method method) {
+    @Parameters({"browser", "browserMode"})
+    public void setUp(@Optional("chrome") String browser, @Optional("normal") String browserMode, Method method) {
         try {
-
 
             Map<String, Object> customPrefs = new HashMap<>();
 
-            if (method.getName().equals("verifyOutstandingInvoicesFunctionality") ||
-                    method.getName().equals("verifyThatUserIsAbleToAddInvoiceMemoAndIsPrintedInPdfAndIsAbleToDownloadAndPrintPdfFromActionColumnSuccessfully")
-                    || method.getName().equals("verifyThatUserIsAbleToDownloadAndPrintInvoicePdfOfSelectedInvoicesFromDownloadLinkAtTop")
-                    || method.getName().equals("verifyUniqueInvoiceNumberGeneratedUserCanFinalizeThatInvoiceAndPerformReceivePaymentWithDownloadAndOpenInNewTabFunctionalityThroughClientPayerTab")) {
-                customPrefs.put("plugins.always_open_pdf_externally", false);
-            } else {
-                customPrefs.put("plugins.always_open_pdf_externally", true);
-            }
-
             driverManager = new DriverManager();
             driver = driverManager.setUp(browser, browserMode, customPrefs);
+            driver.manage().window().maximize();
             selenium = new SeleniumHelpers(driver);
+
+            selenium.navigateToPage("https://automationexercise.com/login");
             Logger.reset();
 
 

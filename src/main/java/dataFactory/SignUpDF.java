@@ -12,8 +12,8 @@ public class SignUpDF {
         signUpDO.setName("Amitesh");
         signUpDO.setPassword("Amitesh");
         signUpDO.setDay("12");
-        signUpDO.setMonth("12");
-        signUpDO.setYear("12");
+        signUpDO.setMonth("January");
+        signUpDO.setYear("2000");
         signUpDO.setNewsletter(true);
         signUpDO.setOption(true);
 
@@ -22,7 +22,7 @@ public class SignUpDF {
         signUpDO.setCompany("Amitesh");
         signUpDO.setAddress1("Amitesh");
         signUpDO.setAddress2("Amitesh");
-        signUpDO.setCountry(Country.USA);
+        signUpDO.setCountry(Country.INDIA);
         signUpDO.setState("Amitesh");
         signUpDO.setCity("Amitesh");
         signUpDO.setZipcode("Amitesh");

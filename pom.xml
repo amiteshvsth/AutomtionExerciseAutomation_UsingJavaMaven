@@ -19,6 +19,7 @@
         <fasterxml.version>2.18.3</fasterxml.version>
         <itextpdf.version>7.2.5</itextpdf.version>
         <json.version>20250517</json.version>
+        <logback.version>1.5.13</logback.version>
 
     </properties>
 
@@ -68,6 +69,12 @@
             <artifactId>json</artifactId>
             <version>${json.version}</version>
         </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>
