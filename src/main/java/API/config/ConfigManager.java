@@ -10,7 +10,7 @@ public class ConfigManager {
     static {
         try (InputStream input = ConfigManager.class
                 .getClassLoader()
-                .getResourceAsStream("config.properties")) {
+                .getResourceAsStream("constants.properties")) {
             properties.load(input);
         } catch (Exception e) {
             throw new RuntimeException("Failed to load config");

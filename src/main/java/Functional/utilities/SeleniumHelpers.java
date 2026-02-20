@@ -41,6 +41,28 @@ public class SeleniumHelpers extends WaitHelpers {
         return screenshotPath;
     }
 
+    public void closeAdvertisement() {
+
+        try {
+            List<WebElement> iframes = driver.findElements(By.xpath("//iframe[@title='Advertisement']"));
+
+            for (WebElement frame : iframes) {
+
+                driver.switchTo().frame(frame);
+                List<WebElement> closeBtns =
+                        driver.findElements(By.xpath("//div[@id='dismiss-button']/div"));
+
+                if (!closeBtns.isEmpty()) {
+                    closeBtns.getFirst().click();
+                    driver.switchTo().defaultContent();
+                    return;
+                }
+                driver.switchTo().defaultContent();
+            }
+
+        } catch (Exception ignored) {}
+    }
+
     //Navigation
     public void navigateToPage(String url) {
         driver.get(url);
@@ -189,7 +211,7 @@ public class SeleniumHelpers extends WaitHelpers {
      */
     public void clickOn(WebElement e) throws InterruptedException {
         waitTillElementIsClickable(e).click();
-        waitForJavascriptToLoad();
+//        waitForJavascriptToLoad();
     }
 
     public boolean isClickable(WebElement element) {
@@ -220,6 +242,7 @@ public class SeleniumHelpers extends WaitHelpers {
     public void clickOn(By by) throws InterruptedException {
         waitTillElementIsClickable(by).click();
 //        waitForJavascriptToLoad();
+//        closeAdvertisement();
     }
 
     public boolean isElementVisible(WebElement element) {

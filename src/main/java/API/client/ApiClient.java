@@ -9,43 +9,46 @@ import java.util.Map;
 public class ApiClient {
 
     static {
-        RestAssured.baseURI = ConfigManager.getValue("baseUrl");
+        RestAssured.baseURI = ConfigManager.getValue("apiUrl");
     }
 
-    public static Response getRequest(String endpoint) {
-        return RestAssured
-                .given()
-                .log().all()
-                .when()
-                .get(endpoint)
-                .then()
-                .log().all()
-                .extract().response();
-    }
+    private static <T> ApiResponse<T> execute(
+            String method,
+            String endpoint,
+            Map<String, ?> formParams,
+            Class<T> clazz
+    ) {
 
-    public static Response postRequest(String endpoint, Object body) {
-        return RestAssured
+        Response response = RestAssured
                 .given()
                 .contentType("application/x-www-form-urlencoded")
-                .formParams((Map<String, ?>) body)
+                .formParams(formParams != null ? formParams : Map.of())
                 .log().all()
                 .when()
-                .post(endpoint)
+                .request(method, endpoint)
                 .then()
                 .log().all()
-                .extract().response();
+                .extract()
+                .response();
+
+        return ApiResponse.map(response, clazz, method, endpoint);
     }
 
-    public static Response deleteRequest(String endpoint, Object body) {
-        return RestAssured
-                .given()
-                .contentType("application/x-www-form-urlencoded")
-                .formParams((Map<String, ?>) body)
-                .log().all()
-                .when()
-                .delete(endpoint)
-                .then()
-                .log().all()
-                .extract().response();
+    // PUBLIC METHODS
+
+    public static <T> ApiResponse<T> get(String endpoint, Class<T> clazz) {
+        return execute("GET", endpoint, null, clazz);
+    }
+
+    public static <T> ApiResponse<T> post(String endpoint, Map<String, ?> body, Class<T> clazz) {
+        return execute("POST", endpoint, body, clazz);
+    }
+
+    public static <T> ApiResponse<T> put(String endpoint, Map<String, ?> body, Class<T> clazz) {
+        return execute("PUT", endpoint, body, clazz);
+    }
+
+    public static <T> ApiResponse<T> delete(String endpoint, Map<String, ?> body, Class<T> clazz) {
+        return execute("DELETE", endpoint, body, clazz);
     }
 }

@@ -1,21 +1,29 @@
 package API.services;
 
 import API.client.ApiClient;
+import API.client.ApiResponse;
+import API.dataObjects.response.user.UserResponseDO;
 import API.endpoints.APIRoutes;
-import io.restassured.response.Response;
 
 import java.util.Map;
 
 public class AuthService {
 
-    public Response login(String email, String password) {
-        return ApiClient.postRequest(APIRoutes.VERIFY_LOGIN,
-                Map.of("email", email, "password", password));
+    public ApiResponse<UserResponseDO> login(String email, String password) {
+
+        return ApiClient.post(
+                APIRoutes.VERIFY_LOGIN,
+                Map.of("email", email, "password", password),
+                UserResponseDO.class
+        );
     }
 
-    public Response deleteLogin(String email, String password) {
-        return ApiClient.deleteRequest(APIRoutes.VERIFY_LOGIN,
-                Map.of("email", email, "password", password));
+    public ApiResponse<UserResponseDO> deleteLogin(String email, String password) {
+
+        return ApiClient.delete(
+                APIRoutes.VERIFY_LOGIN,
+                Map.of("email", email, "password", password),
+                UserResponseDO.class
+        );
     }
 }
-

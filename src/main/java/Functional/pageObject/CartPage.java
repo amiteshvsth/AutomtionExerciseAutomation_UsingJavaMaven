@@ -77,6 +77,7 @@ public class CartPage extends CommonPage {
 
     public void clickDeleteProduct() throws InterruptedException {
         selenium.clickOn(deleteProductBtn);
+        selenium.waitTillElementsCountIsEqualTo(deleteProductBtn, 0);
     }
 
     public boolean isEmptyCartMessageDisplayed() {

@@ -25,6 +25,11 @@ public class DriverManager {
                 prefs.putAll(customPrefs);
                 ChromeOptions cOptions = new ChromeOptions();
                 cOptions.setExperimentalOption("prefs", prefs);
+                cOptions.addArguments(
+                        "--host-resolver-rules=MAP googlesyndication.com 127.0.0.1, " +
+                                "MAP doubleclick.net 127.0.0.1, " +
+                                "MAP googleads.g.doubleclick.net 127.0.0.1"
+                );
                 if (browserMode.equalsIgnoreCase("incognito")) {
                     cOptions.addArguments("--incognito");
                 }
@@ -47,6 +52,11 @@ public class DriverManager {
                 chromeOptions.setExperimentalOption("prefs", prefs1);
                 if (browserMode.equalsIgnoreCase("incognito")) {
                     chromeOptions.addArguments("--incognito");
+                    chromeOptions.addArguments(
+                            "--host-resolver-rules=MAP googlesyndication.com 127.0.0.1, " +
+                                    "MAP doubleclick.net 127.0.0.1, " +
+                                    "MAP googleads.g.doubleclick.net 127.0.0.1"
+                    );
                 }
                 driver = new ChromeDriver(chromeOptions);
                 break;

@@ -1,19 +1,38 @@
 package API.services;
 
 import API.client.ApiClient;
+import API.client.ApiResponse;
+import API.dataObjects.response.user.UserResponseDO;
 import API.endpoints.APIRoutes;
-import io.restassured.response.Response;
 
 import java.util.Map;
 
 public class UserService {
 
-    public Response createUser(Map<String, String> userData) {
-        return ApiClient.postRequest(APIRoutes.CREATE_ACCOUNT, userData);
+    public ApiResponse<UserResponseDO> createUser(Map<String, String> userData) {
+
+        return ApiClient.post(
+                APIRoutes.CREATE_ACCOUNT,
+                userData,
+                UserResponseDO.class
+        );
     }
 
-    public Response deleteUser(String email, String password) {
-        return ApiClient.deleteRequest(APIRoutes.DELETE_ACCOUNT,
-                Map.of("email", email, "password", password));
+    public ApiResponse<UserResponseDO> updateUser(Map<String, String> userData) {
+
+        return ApiClient.put(
+                APIRoutes.UPDATE_ACCOUNT,
+                userData,
+                UserResponseDO.class
+        );
+    }
+
+    public ApiResponse<UserResponseDO> deleteUser(String email, String password) {
+
+        return ApiClient.delete(
+                APIRoutes.DELETE_ACCOUNT,
+                Map.of("email", email, "password", password),
+                UserResponseDO.class
+        );
     }
 }

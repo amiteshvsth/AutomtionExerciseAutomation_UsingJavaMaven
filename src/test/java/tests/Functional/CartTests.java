@@ -55,19 +55,19 @@ public class CartTests extends BaseTest {
         productDetailPage.clickAddToCart();
         productDetailPage.clickViewCart();
         cartPage.clickDeleteProduct();
-        Assert.assertFalse(cartPage.isProductImageDisplayed(),"Product image is  displayed.");
         Assert.assertFalse(cartPage.isCartMenuDisplayed(),"Cart Menu is  displayed.");
         Assert.assertFalse(cartPage.isCardTableImageHeaderDisplayed(),"Image Header is  displayed.");
         Assert.assertFalse(cartPage.isCartTableDescriptionHeaderDisplayed(),"Description Header is  displayed.");
         Assert.assertFalse(cartPage.isCartTablePriceHeaderDisplayed(),"Price Header is  displayed.");
         Assert.assertFalse(cartPage.isCartTableQuantityHeaderDisplayed(),"Quantity Header is  displayed.");
         Assert.assertFalse(cartPage.isCartTableTotalHeaderDisplayed(),"Total Header is  displayed.");
+        Assert.assertFalse(cartPage.isProductImageDisplayed(),"Product image is  displayed.");
         Assert.assertFalse(cartPage.isProductPriceDisplayed(),"Product Price is  displayed.");
         Assert.assertFalse(cartPage.isProductQuantityDisplayed(),"Product Quantity is  displayed.");
         Assert.assertFalse(cartPage.isTotalPriceDisplayed(),"Total price is  displayed.");
         Assert.assertFalse(cartPage.isProceedToCheckoutButtonDisplayed(),"Proceed to checkout button is  displayed.");
-        Assert.assertTrue(cartPage.isEmptyCartMessageDisplayed(),"Cart message is  displayed");
-        Assert.assertTrue(cartPage.isBuyProductsLinkDisplayed(),"Buy Products Link is  displayed");
+        Assert.assertTrue(cartPage.isEmptyCartMessageDisplayed(),"Cart message is  not displayed");
+        Assert.assertTrue(cartPage.isBuyProductsLinkDisplayed(),"Buy Products Link is  not displayed");
     }
 }
 

@@ -29,7 +29,6 @@ public class CommonPage extends BasePage {
     private final By footerText = By.xpath("//p[normalize-space()='Get the most recent updates from our site and be updated your self...']");
     private final By copyrightText = By.xpath("//p[@class='pull-left']");
     private final By scrollToTopIcon = By.xpath("//a[@id='scrollUp']");
-    private final By closeAdvertisementIcon = By.xpath("//div[@id='dismiss-button']/div");
     private final By successMessage = By.id("success-subscribe");
 
     public void goToProductsPage() throws InterruptedException { selenium.clickOn(productsLink); }
@@ -97,28 +96,6 @@ public class CommonPage extends BasePage {
         return selenium.isElementPresent(successMessage);
     }
 
-    public void closeAdvertisement() {
 
-        try {
-
-            List<WebElement> iframes = driver.findElements(By.xpath("//iframe[@title='Advertisement']"));
-
-            for (WebElement frame : iframes) {
-
-                driver.switchTo().frame(frame);
-                List<WebElement> closeBtns =
-                        driver.findElements(closeAdvertisementIcon);
-
-                if (!closeBtns.isEmpty()) {
-                    closeBtns.get(0).click();
-                    driver.switchTo().defaultContent();
-                    return;
-                }
-
-                driver.switchTo().defaultContent();
-            }
-
-        } catch (Exception ignored) {}
-    }
 
 }
