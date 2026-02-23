@@ -1,10 +1,14 @@
 package API.client;
 
+import API.dataObjects.response.product.ProductDO;
+import API.dataObjects.response.product.ProductsResponseDO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import lombok.Getter;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class ApiResponse<T> {
@@ -16,22 +20,44 @@ public class ApiResponse<T> {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    // MAPPING LOGIC
+    // ==============================
+    // ===== MAPPING LOGIC ==========
+    // ==============================
 
-    public static <T> ApiResponse<T> map(Response response, Class<T> clazz, String method, String endpoint ) {
+    public static <T> ApiResponse<T> map(
+            Response response,
+            Class<T> clazz,
+            String method,
+            String endpoint) {
 
         String content = response.getBody().asString();
 
         // 🔴 Handle 5xx errors
         if (response.getStatusCode() >= 500) {
-            throw new RuntimeException( String.format( "Server Error\nMethod: %s\nEndpoint: %s\nStatus: %d\nBody: %s", method, endpoint, response.getStatusCode(), content ));
+            throw new RuntimeException(
+                    String.format(
+                            "Server Error\nMethod: %s\nEndpoint: %s\nStatus: %d\nBody: %s",
+                            method,
+                            endpoint,
+                            response.getStatusCode(),
+                            content
+                    )
+            );
         }
 
         T dto;
         try {
             dto = objectMapper.readValue(content, clazz);
         } catch (Exception e) {
-            throw new RuntimeException( String.format( "Deserialization Failed\nExpected Type: %s\nEndpoint: %s\nResponse Body: %s", clazz.getSimpleName(), endpoint, content ), e );
+            throw new RuntimeException(
+                    String.format(
+                            "Deserialization Failed\nExpected Type: %s\nEndpoint: %s\nResponse Body: %s",
+                            clazz.getSimpleName(),
+                            endpoint,
+                            content
+                    ),
+                    e
+            );
         }
 
         ApiResponse<T> apiResponse = new ApiResponse<>();
@@ -47,18 +73,67 @@ public class ApiResponse<T> {
         return apiResponse;
     }
 
+    // ==============================
+    // ===== SUCCESS CHECK ==========
+    // ==============================
 
-    // SUCCESS CHECK
     public void ensureSuccess() {
-
-        if (statusCode >= 200 && statusCode < 300) return;
+        if (isSuccess()) return;
 
         throw new RuntimeException(
                 String.format(
                         "Request Failed\nStatus Code: %d\nResponse Body: %s",
                         statusCode,
-                        rawResponse.getBody().asString()
+                        getBodyAsString()
                 )
         );
     }
+
+    public boolean isSuccess() {
+        return statusCode >= 200 && statusCode < 300;
+    }
+
+    // ==============================
+    // ===== NEW HELPER METHODS =====
+    // ==============================
+
+    /**
+     * Cleaner alias instead of getDto()
+     */
+    public T getBody() {
+        return dto;
+    }
+
+    /**
+     * Returns raw body as string
+     */
+    public String getBodyAsString() {
+        return rawResponse.getBody().asString();
+    }
+
+    /**
+     * Extract response time in milliseconds
+     */
+    public long getResponseTime() {
+        return rawResponse.getTime();
+    }
+
+    /**
+     * Generic header getter
+     */
+    public String getHeader(String headerName) {
+        return rawResponse.getHeader(headerName);
+    }
+
+    /**
+     * Safe token extractor (if DTO contains a "token" field)
+     */
+    public String getToken() {
+        try {
+            return rawResponse.jsonPath().getString("token");
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

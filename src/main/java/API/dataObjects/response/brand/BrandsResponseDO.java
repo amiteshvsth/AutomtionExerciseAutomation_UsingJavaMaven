@@ -11,4 +11,5 @@ public class BrandsResponseDO {
 
     private int responseCode;
     private List<BrandDO> brands;
+
 }
