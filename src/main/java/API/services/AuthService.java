@@ -15,4 +15,14 @@ public class AuthService {
         return ApiClient.post( APIRoutes.VERIFY_LOGIN, Map.of("email", userRequestDO.getEmail(), "password", userRequestDO.getPassword()), CommonResponseDO.class );
     }
 
+    public ApiResponse<CommonResponseDO> loginWithoutEmailParameter(UserRequestDO userRequestDO) {
+
+        return ApiClient.post( APIRoutes.VERIFY_LOGIN, Map.of("password", userRequestDO.getPassword()), CommonResponseDO.class );
+    }
+
+    public ApiResponse<CommonResponseDO> loginDelete(UserRequestDO userRequestDO) {
+
+        return ApiClient.delete( APIRoutes.VERIFY_LOGIN, Map.of("email", userRequestDO.getEmail(), "password", userRequestDO.getPassword()), CommonResponseDO.class );
+    }
+
 }

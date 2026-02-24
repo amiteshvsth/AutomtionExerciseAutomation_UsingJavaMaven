@@ -21,6 +21,11 @@ public class ProductService {
         return ApiClient.post( APIRoutes.SEARCH_PRODUCT, Map.of("search_product", product), ProductsResponseDO.class );
     }
 
+    public ApiResponse<CommonResponseDO> searchProductWithoutParameter() {
+
+        return ApiClient.post( APIRoutes.SEARCH_PRODUCT, null, CommonResponseDO.class );
+    }
+
     public ApiResponse<BrandsResponseDO> getAllBrands() {
         return ApiClient.get( APIRoutes.BRANDS, BrandsResponseDO.class);
     }

@@ -2,6 +2,7 @@ package tests.API;
 
 import API.dataFactory.user.UserRequestDF;
 import API.services.AuthService;
+import API.services.UserService;
 import API.utilities.ResponseValidator;
 import org.testng.annotations.Test;
 
@@ -31,4 +32,30 @@ public class AuthTests extends BaseTest {
         ResponseValidator.validateTrue(Objects.equals(response.getDto().getMessage(), "User not found!"), "Username Not Found");
 
     }
+
+    @Test
+    public void verifyThatLoginFailsWithoutEmailParameter() {
+
+        AuthService authService = new AuthService();
+
+        var response = authService.loginWithoutEmailParameter(UserRequestDF.setValidLoginDetails());
+
+        ResponseValidator.validateStatusCode(response.getDto().getResponseCode(), 400);
+        ResponseValidator.validateTrue(Objects.equals(response.getDto().getMessage(), "Bad request, email or password parameter is missing in POST request."), "Logged in without email");
+
+    }
+
+    @Test
+    public void verifyThatLoginFailsWithDeleteRequest() {
+
+        AuthService authService = new AuthService();
+
+        var response = authService.loginDelete(UserRequestDF.setValidLoginDetails());
+
+        ResponseValidator.validateStatusCode(response.getDto().getResponseCode(), 405);
+        ResponseValidator.validateTrue(response.getDto().getMessage().equals("This request method is not supported."), "Logged in with delete method");
+
+    }
+
+
 }

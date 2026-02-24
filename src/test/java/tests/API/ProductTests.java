@@ -52,4 +52,13 @@ public class ProductTests extends BaseTest {
         ResponseValidator.validateNotNull(response.getDto().getProducts());
     }
 
+    @Test
+    public void verifyThatSearchingProductsWithoutParameterFails() {
+
+        ProductService productService = new ProductService();
+        ApiResponse<CommonResponseDO> response = productService.searchProductWithoutParameter();
+        ResponseValidator.validateStatusCode(response.getDto().getResponseCode(), 400);
+        ResponseValidator.validateTrue(response.getDto().getMessage().equals("Bad request, search_product parameter is missing in POST request."),"Search without parameter should not be working");
+    }
+
 }
