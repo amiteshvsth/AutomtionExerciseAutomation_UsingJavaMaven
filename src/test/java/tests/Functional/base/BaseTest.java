@@ -68,7 +68,7 @@ public class BaseTest {
             driver.manage().window().maximize();
             selenium = new SeleniumHelpers(driver);
 
-            selenium.navigateToPage("https://automationexercise.com/login");
+            selenium.navigateToPage(Constants.LOGIN_PAGE_URL);
             Logger.reset();
 
 

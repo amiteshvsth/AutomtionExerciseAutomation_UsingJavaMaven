@@ -21,23 +21,16 @@
         <json.version>20250517</json.version>
         <logback.version>1.5.13</logback.version>
         <restassured.version>5.5.5</restassured.version>
-        <maven.version>3.5.2</maven.version>
+        <maven.surefire.version>3.5.2</maven.surefire.version>
 
     </properties>
 
     <dependencies>
-        <!-- Source: https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium-java.version}</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -88,7 +81,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.version}</version>
+                <version>${maven.surefire.version}</version>
             </plugin>
         </plugins>
     </build>

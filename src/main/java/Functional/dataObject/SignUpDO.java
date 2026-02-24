@@ -29,7 +29,4 @@ public class SignUpDO {
     private String city;
     private String zipcode;
     private String mobile;
-
-
-
 }

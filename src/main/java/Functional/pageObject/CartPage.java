@@ -44,7 +44,7 @@ public class CartPage extends CommonPage {
         selenium.clickOn(proceedToCheckoutBtn);
     }
 
-    public boolean isProceedToCheckoutButtonDisplayed() throws InterruptedException {
+    public boolean isProceedToCheckoutButtonDisplayed() {
         return selenium.isElementPresent(proceedToCheckoutBtn);
     }
 
@@ -68,7 +68,7 @@ public class CartPage extends CommonPage {
 
     public boolean isProductImageDisplayed() {
         List<WebElement> elements = selenium.findElements(productImage);
-        return elements.size() > 0 && elements.getFirst().isDisplayed();
+        return !elements.isEmpty() && elements.getFirst().isDisplayed();
     }
 
     public void clickProductDetails() throws InterruptedException {
@@ -88,43 +88,43 @@ public class CartPage extends CommonPage {
         selenium.clickOn(buyProductsLink);
     }
 
-    public boolean isBuyProductsLinkDisplayed() throws InterruptedException {
+    public boolean isBuyProductsLinkDisplayed()  {
         return selenium.isElementPresent(buyProductsLink);
     }
 
-    public boolean isCartMenuDisplayed() throws InterruptedException {
+    public boolean isCartMenuDisplayed() {
         return selenium.isElementPresent(cartMenu);
     }
 
-    public boolean isCardTableImageHeaderDisplayed() throws InterruptedException {
+    public boolean isCardTableImageHeaderDisplayed() {
         return selenium.isElementPresent(cartTableImageHeader);
     }
 
-    public boolean isCartTableDescriptionHeaderDisplayed() throws InterruptedException {
+    public boolean isCartTableDescriptionHeaderDisplayed() {
         return selenium.isElementPresent(cartTableDescriptionHeader);
     }
 
-    public boolean isCartTablePriceHeaderDisplayed() throws InterruptedException {
+    public boolean isCartTablePriceHeaderDisplayed()  {
         return selenium.isElementPresent(cartTablePriceHeader);
     }
 
-    public boolean isCartTableQuantityHeaderDisplayed() throws InterruptedException {
+    public boolean isCartTableQuantityHeaderDisplayed()  {
         return selenium.isElementPresent(cartTableQuantityHeader);
     }
 
-    public boolean isCartTableTotalHeaderDisplayed() throws InterruptedException {
+    public boolean isCartTableTotalHeaderDisplayed() {
         return selenium.isElementPresent(cartTableTotalHeader);
     }
 
-    public boolean isProductPriceDisplayed() throws InterruptedException {
+    public boolean isProductPriceDisplayed() {
         return selenium.isElementPresent(productPrice);
     }
 
-    public boolean isProductQuantityDisplayed() throws InterruptedException {
+    public boolean isProductQuantityDisplayed()  {
         return selenium.isElementPresent(productQuantity);
     }
 
-    public boolean isTotalPriceDisplayed() throws InterruptedException {
+    public boolean isTotalPriceDisplayed() {
         return selenium.isElementPresent(totalPrice);
     }
 }

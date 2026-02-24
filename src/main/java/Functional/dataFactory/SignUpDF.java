@@ -16,7 +16,6 @@ public class SignUpDF {
         signUpDO.setYear("2000");
         signUpDO.setNewsletter(true);
         signUpDO.setOption(true);
-
         signUpDO.setFirstName("Amitesh");
         signUpDO.setLastName("test");
         signUpDO.setCompany("Amitesh");
@@ -29,5 +28,4 @@ public class SignUpDF {
         signUpDO.setMobile("Amitesh");
         return signUpDO;
     }
-
 }

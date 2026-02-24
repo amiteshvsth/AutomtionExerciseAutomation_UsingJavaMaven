@@ -2,10 +2,7 @@ package Functional.pageObject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import Functional.pageObject.base.BasePage;
-
-import java.util.List;
 
 public class CommonPage extends BasePage {
     public CommonPage(WebDriver driver) {super(driver);}
@@ -95,7 +92,5 @@ public class CommonPage extends BasePage {
     public boolean isSuccessMessageDisplayed() {
         return selenium.isElementPresent(successMessage);
     }
-
-
 
 }

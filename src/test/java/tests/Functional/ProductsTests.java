@@ -183,6 +183,8 @@ public class ProductsTests extends BaseTest {
         Assert.assertEquals(checkoutPage.getBillingAddressPhone(),"932552526","Billing Address Phone does not match");
         checkoutPage.completeCheckout("Order Needs to Placed Immediately");
         cardDetailsPage.completePayment(CardDetailsDF.fillContactUsDetails());
+        Assert.assertTrue(cardDetailsPage.isSuccessMessageDisplayed(),"Success Message is not displayed");
+        Assert.assertEquals(cardDetailsPage.getSuccessMessageText(),"Success","Success message text does not match");
         Assert.assertTrue(orderCompletePage.isOrderPlacedTitleDisplayed(),"Order Placed Title is not displayed.");
         Assert.assertEquals(orderCompletePage.getOrderPlacedTitle(),"ORDER PLACED!","Title does not match");
         Assert.assertEquals(orderCompletePage.getCongratulationsText(),"Congratulations! Your order has been confirmed!","Congratulations text does not match");

@@ -1,14 +1,10 @@
 package API.client;
 
-import API.dataObjects.response.product.ProductDO;
-import API.dataObjects.response.product.ProductsResponseDO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import lombok.Getter;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 public class ApiResponse<T> {
