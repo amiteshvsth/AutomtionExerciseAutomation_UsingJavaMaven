@@ -71,7 +71,6 @@ public class BaseTest {
             selenium.navigateToPage(Constants.LOGIN_PAGE_URL);
             Logger.reset();
 
-
         } catch (Exception e) {
             isSetupFailed.set(true);
         }

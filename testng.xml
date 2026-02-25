@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="C:/Users/amite/IdeaProjects/AutomtionExerciseAutomation_UsingJavaMaven">
+        <classes>
+            <class name="tests.API.AuthTests">
+                <methods>
+                    <include name="verifyThatWeAreAbleToLoginWithValidCredentials"/>
+                    <include name="verifyThatLoginFailsWithInvalidPassword"/>
+                    <include name="verifyThatLoginFailsWithoutEmailParameter"/>
+                    <include name="verifyThatLoginFailsWithDeleteRequest"/>
+                </methods>
+            </class>
+            <class name="tests.API.BrandTests">
+                <methods>
+                    <include name="verifyThatAllBrandsAreReturnedSuccessfully"/>
+                    <include name="verifyThatWeAreNotAbleToAddNewBrands"/>
+                </methods>
+            </class>
+            <class name="tests.API.ProductTests">
+                <methods>
+                    <include name="verifyThatAllProductsAreReturnedSuccessfully"/>
+                    <include name="verifyThatWeAreNotAbleToAddProducts"/>
+                    <include name="verifyThatWeAreAbleToSearchProducts"/>
+                    <include name="verifyThatSearchingProductsWithoutParameterFails"/>
+                </methods>
+            </class>
+            <class name="tests.API.UserTests">
+                <methods>
+                    <include name="verifyUserCanBeRetrievedByEmail"/>
+                    <include name="verifyUserCannotBeRetrievedByUnknownEmail"/>
+                    <include name="verifyThatWeAreAbleToCreateAccountWithValidDetails"/>
+                    <include name="verifyThatWeAreNotAbleToCreateAccountWithInvalidDetails"/>
+                    <include name="verifyThatWeAreAbleToDeleteAccountWithValidDetails"/>
+                    <include name="verifyThatWeAreNotAbleToDeleteAccountWithInvalidDetails"/>
+                    <include name="verifyThatWeAreAbleToUpdateAccountWithValidDetails"/>
+                    <include name="verifyThatWeAreNotAbleToUpdateAccountWithInValidDetails"/>
+                </methods>
+            </class>
+            <class name="tests.Functional.ApiTestingPageTests">
+                <methods>
+                    <include name="VerifySmokeTestsForApiTestingPage"/>
+                </methods>
+            </class>
+            <class name="tests.Functional.CartTests">
+                <methods>
+                    <include name="VerifyThatCartIsEmptyByDefault"/>
+                    <include name="VerifyAddToCartFunctionality"/>
+                    <include name="VerifyThatProductCanBeRemovedFromCart"/>
+                </methods>
+            </class>
+            <class name="tests.Functional.ContactUsTests">
+                <methods>
+                    <include name="VerifyThatContactUsFormIsSubmittedSuccessfully"/>
+                </methods>
+            </class>
+            <class name="tests.Functional.HomePageTests">
+                <methods>
+                    <include name="VerifyHomePageSmokeTest"/>
+                    <include name="VerifySubscribeEmailInHomePage"/>
+                    <include name="VerifyScrollToTopIconInHomePage"/>
+                    <include name="VerifyNavigationToVideoTutorialsPage"/>
+                </methods>
+            </class>
+            <class name="tests.Functional.LoginTests">
+                <methods>
+                    <include name="VerifyThatLoginSuccessfullWithValidCredentials"/>
+                    <include name="VerifyThatLoginFailedWithInvalidCredentials"/>
+                    <include name="VerifyThatLogoutSuccessfull"/>
+                    <include name="VerifyThatAccountDeletedSuccessfully"/>
+                </methods>
+            </class>
+            <class name="tests.Functional.ProductsTests">
+                <methods>
+                    <include name="VerifyThatProductsPageLoadedSuccessfully"/>
+                    <include name="VerifyThatSearchFunctionalityIsWorkingForProductsPage"/>
+                    <include name="VerifyThatProductCountIsCorrectForEachBrand"/>
+                    <include name="VerifyThatProductSubCategoriesCountIsCorrect"/>
+                    <include name="VerifyThatProductDetailsAreDisplayedOnProductDetailsPage"/>
+                    <include name="VerifyThatWeAreAbleToGiveReviewForProducts"/>
+                    <include name="VerifyEndToEndProductCheckoutFunctionality"/>
+                </methods>
+            </class>
+            <class name="tests.Functional.SignUpTests">
+                <methods>
+                    <include name="VerifyThatSignUpSuccessfullWithNewUser"/>
+                    <include name="VerifyThatSignUpFailedWithExistingUserEmail"/>
+                </methods>
+            </class>
+            <class name="tests.Functional.TestCasesPageTests">
+                <methods>
+                    <include name="VerifyThatTestCasesAreDisplayed"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
