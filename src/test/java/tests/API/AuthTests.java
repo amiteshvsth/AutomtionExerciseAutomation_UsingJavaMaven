@@ -2,7 +2,7 @@ package tests.API;
 
 import API.dataFactory.user.UserRequestDF;
 import API.services.AuthService;
-import API.utilities.ResponseValidator;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Objects;
@@ -15,10 +15,10 @@ public class AuthTests extends BaseTest {
         AuthService authService = new AuthService();
 
         var response = authService.login(UserRequestDF.setValidLoginDetails());
-
-        ResponseValidator.validateStatusCode(response.getStatusCode(), 200);
-        ResponseValidator.validateTrue(response.getDto().getResponseCode() == 200, "Login Not Successful");
-        ResponseValidator.validateTrue(response.getDto().getMessage().equals("User exists!"), "User does not exist");
+        
+        Assert.assertEquals( response.getStatusCode(), 200, "Unexpected status code.");
+        Assert.assertEquals(response.getDto().getResponseCode(), 200, "Login Not Successful");
+        Assert.assertEquals(response.getDto().getMessage(), "User exists!", "User does not exist");
     }
 
     @Test
@@ -28,8 +28,8 @@ public class AuthTests extends BaseTest {
 
         var response = authService.login(UserRequestDF.setInvalidLoginDetails());
 
-        ResponseValidator.validateStatusCode(response.getDto().getResponseCode(), 404);
-        ResponseValidator.validateTrue(Objects.equals(response.getDto().getMessage(), "User not found!"), "Username Not Found");
+        Assert.assertEquals(response.getDto().getResponseCode(), 404, "Unexpected status code.");
+        Assert.assertEquals(response.getDto().getMessage(), "User not found!", "Username Not Found");
 
     }
 
@@ -40,8 +40,8 @@ public class AuthTests extends BaseTest {
 
         var response = authService.loginWithoutEmailParameter(UserRequestDF.setValidLoginDetails());
 
-        ResponseValidator.validateStatusCode(response.getDto().getResponseCode(), 400);
-        ResponseValidator.validateTrue(Objects.equals(response.getDto().getMessage(), "Bad request, email or password parameter is missing in POST request."), "Logged in without email");
+        Assert.assertEquals(response.getDto().getResponseCode(), 400, "Unexpected status code.");
+        Assert.assertEquals(response.getDto().getMessage(), "Bad request, email or password parameter is missing in POST request.", "Logged in without email");
 
     }
 
@@ -52,8 +52,8 @@ public class AuthTests extends BaseTest {
 
         var response = authService.loginDelete(UserRequestDF.setValidLoginDetails());
 
-        ResponseValidator.validateStatusCode(response.getDto().getResponseCode(), 405);
-        ResponseValidator.validateTrue(response.getDto().getMessage().equals("This request method is not supported."), "Logged in with delete method");
+        Assert.assertEquals(response.getDto().getResponseCode(), 405,"Unexpected status code.");
+        Assert.assertEquals(response.getDto().getMessage(), "This request method is not supported.", "Logged in with delete method");
 
     }
 }

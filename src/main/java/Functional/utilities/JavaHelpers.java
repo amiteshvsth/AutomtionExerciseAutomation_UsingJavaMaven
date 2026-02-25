@@ -1,8 +1,6 @@
 package Functional.utilities;
 
 import org.openqa.selenium.WebElement;
-import org.testng.Reporter;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -91,7 +89,7 @@ public class JavaHelpers {
         if (listFiles != null) {
             for (File file : listFiles) {
                 boolean delete = file.delete();
-                Reporter.log("Deleted file: " + delete);
+//                Reporter.log("Deleted file: " + delete);
             }
         }
     }

@@ -5,7 +5,6 @@ import API.dataObjects.response.common.CommonResponseDO;
 import API.services.ProductService;
 import API.dataObjects.response.product.ProductsResponseDO;
 import API.dataObjects.response.product.ProductDO;
-import API.utilities.ResponseValidator;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -19,11 +18,11 @@ public class ProductTests extends BaseTest {
         ProductService productService = new ProductService();
         ApiResponse<ProductsResponseDO> response = productService.getAllProducts();
 
-        ResponseValidator.validateStatusCode(response.getStatusCode(), 200);
-        ResponseValidator.validateNotNull(response.getDto().getProducts());
+        Assert.assertEquals(response.getStatusCode(), 200,"Unexpected status code.");
+        Assert.assertNotNull(response.getDto().getProducts());
 
         List<ProductDO> products = response.getDto().getProducts();
-        ResponseValidator.validateTrue(!products.isEmpty(), "Products list should not be empty" );
+        Assert.assertFalse(products.isEmpty(), "Products list should not be empty");
 
         ProductDO product = products.getFirst();
         Assert.assertNotNull(product.getId(), "Product ID is null");
@@ -39,8 +38,8 @@ public class ProductTests extends BaseTest {
 
         ProductService productService = new ProductService();
         ApiResponse<CommonResponseDO> response = productService.addANewProduct("Adidas shoes");
-        ResponseValidator.validateStatusCode(response.getDto().getResponseCode(), 405);
-        ResponseValidator.validateTrue(response.getDto().getMessage().equals("This request method is not supported."),"Product should not be added to the page but its added");
+        Assert.assertEquals(response.getDto().getResponseCode(), 405,"Unexpected response code.");
+        Assert.assertEquals(response.getDto().getMessage(), "This request method is not supported.","Product should not be added to the page but its added");
     }
 
     @Test
@@ -48,8 +47,8 @@ public class ProductTests extends BaseTest {
 
         ProductService productService = new ProductService();
         ApiResponse<ProductsResponseDO> response = productService.searchProduct("Adidas shoes");
-        ResponseValidator.validateStatusCode(response.getDto().getResponseCode(), 200);
-        ResponseValidator.validateNotNull(response.getDto().getProducts());
+        Assert.assertEquals(response.getDto().getResponseCode(), 200,"Unexpected response code.");
+        Assert.assertNotNull(response.getDto().getProducts());
     }
 
     @Test
@@ -57,8 +56,8 @@ public class ProductTests extends BaseTest {
 
         ProductService productService = new ProductService();
         ApiResponse<CommonResponseDO> response = productService.searchProductWithoutParameter();
-        ResponseValidator.validateStatusCode(response.getDto().getResponseCode(), 400);
-        ResponseValidator.validateTrue(response.getDto().getMessage().equals("Bad request, search_product parameter is missing in POST request."),"Search without parameter should not be working");
+        Assert.assertEquals(response.getDto().getResponseCode(), 400,"Unexpected response code.");
+        Assert.assertEquals(response.getDto().getMessage(), "Bad request, search_product parameter is missing in POST request.","Search without parameter should not be working");
     }
 
 }

@@ -1,6 +1,5 @@
 package Functional.utilities;
 
-import org.testng.Reporter;
 
 public class Logger {
 
@@ -8,7 +7,7 @@ public class Logger {
 
     public static void log(String message) {
         int currentStep = stepCount.get();
-        Reporter.log("Step " + currentStep + ": " + message, true);
+//        Reporter.log("Step " + currentStep + ": " + message, true);
         stepCount.set(currentStep + 1);
     }
 
