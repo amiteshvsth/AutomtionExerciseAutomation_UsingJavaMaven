@@ -1,5 +1,6 @@
 package Functional.utilities;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,6 +16,7 @@ public class DriverManager {
     public WebDriver setUp(String browserName, String browserMode, Map<String, Object> customPrefs) {
         switch (browserName.toLowerCase()) {
             case "chrome":
+                WebDriverManager.chromedriver().setup(); // Auto-downloads ChromeDriver
                 Map<String, Object> prefs = new HashMap<>();
                 prefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
                 prefs.put("profile.default_content_setting_values.notifications", 2);
@@ -36,6 +38,7 @@ public class DriverManager {
                 driver = new ChromeDriver(cOptions);
                 break;
             case "chrome-headless":
+                WebDriverManager.chromedriver().setup(); // Auto-downloads ChromeDriver
                 Map<String, Object> prefs1 = new HashMap<>();
                 prefs1.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
                 prefs1.put("profile.default_content_setting_values.notifications", 2);
