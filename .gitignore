@@ -2,9 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-!**/ExtentReport
-!**/ExtentReport/reports
-!**/ExtentReport/screenshots
+ExtentReport/
 .kotlin
 
 ### IntelliJ IDEA ###

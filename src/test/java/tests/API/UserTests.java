@@ -2,6 +2,7 @@ package tests.API;
 
 import API.client.ApiResponse;
 import API.dataFactory.user.UserRequestDF;
+import API.dataObjects.request.user.UserRequestDO;
 import API.dataObjects.response.common.CommonResponseDO;
 import API.services.UserService;
 import API.dataObjects.response.user.UserResponseDO;
@@ -75,7 +76,15 @@ public class UserTests extends BaseTest {
     public void verifyThatWeAreAbleToDeleteAccountWithValidDetails() {
         UserService userService = new UserService();
 
-        var response = userService.deleteUser(UserRequestDF.setValidLoginDetails());
+        //Firstly we create user and then delete it
+        var createUserData = UserRequestDF.setValidSignUpDetails();
+        userService.createUser(createUserData);
+
+        UserRequestDO deleteUserData = new UserRequestDO();
+        deleteUserData.setEmail(createUserData.getEmail());
+        deleteUserData.setPassword(createUserData.getPassword());
+
+        var response = userService.deleteUser(deleteUserData);
 
         Assert.assertEquals(response.getDto().getResponseCode(), 200);
         Assert.assertEquals(response.getDto().getMessage(), "Account deleted!", "Account Not Created");
