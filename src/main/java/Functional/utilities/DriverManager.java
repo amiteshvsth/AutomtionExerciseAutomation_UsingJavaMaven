@@ -48,19 +48,14 @@ public class DriverManager {
                 prefs1.put("download.directory_upgrade", true);
                 prefs1.putAll(customPrefs);
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("headless=new");
-                chromeOptions.addArguments("window-size=1440x900");
-                chromeOptions.addArguments("--proxy-server='direct://'");
-                chromeOptions.addArguments("--proxy-bypass-list=*");
+                chromeOptions.addArguments("--headless=new");
+                chromeOptions.addArguments("--no-sandbox");
+                chromeOptions.addArguments("--disable-dev-shm-usage");
+                chromeOptions.addArguments("--window-size=1920,1080");
+                chromeOptions.addArguments("--remote-allow-origins=*");
+
                 chromeOptions.setExperimentalOption("prefs", prefs1);
-                if (browserMode.equalsIgnoreCase("incognito")) {
-                    chromeOptions.addArguments("--incognito");
-                    chromeOptions.addArguments(
-                            "--host-resolver-rules=MAP googlesyndication.com 127.0.0.1, " +
-                                    "MAP doubleclick.net 127.0.0.1, " +
-                                    "MAP googleads.g.doubleclick.net 127.0.0.1"
-                    );
-                }
+
                 driver = new ChromeDriver(chromeOptions);
                 break;
             default:
