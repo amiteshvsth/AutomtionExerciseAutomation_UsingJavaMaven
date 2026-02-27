@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
-    <test verbose="2" preserve-order="true" name="C:/Users/amite/IdeaProjects/AutomtionExerciseAutomation_UsingJavaMaven">
+    <test verbose="2" preserve-order="true" name="C:/Users/amitesh/IdeaProjects/AutomtionExerciseAutomation_UsingJavaMaven">
         <classes>
             <class name="tests.API.AuthTests">
                 <methods>
                     <include name="verifyThatWeAreAbleToLoginWithValidCredentials"/>
-                    <include name="verifyThatLoginFailsWithInvalidPassword"/>
+                    <include name="verifyThatLoginFailsWithInvalidUserDetails"/>
                     <include name="verifyThatLoginFailsWithoutEmailParameter"/>
                     <include name="verifyThatLoginFailsWithDeleteRequest"/>
                 </methods>
@@ -39,57 +39,57 @@
             </class>
             <class name="tests.Functional.ApiTestingPageTests">
                 <methods>
-                    <include name="VerifySmokeTestsForApiTestingPage"/>
+                    <include name="verifySmokeTestsForApiTestingPage"/>
                 </methods>
             </class>
             <class name="tests.Functional.CartTests">
                 <methods>
-                    <include name="VerifyThatCartIsEmptyByDefault"/>
-                    <include name="VerifyAddToCartFunctionality"/>
-                    <include name="VerifyThatProductCanBeRemovedFromCart"/>
+                    <include name="verifyThatCartIsEmptyByDefault"/>
+                    <include name="verifyAddToCartFunctionality"/>
+                    <include name="verifyThatProductCanBeRemovedFromCart"/>
                 </methods>
             </class>
             <class name="tests.Functional.ContactUsTests">
                 <methods>
-                    <include name="VerifyThatContactUsFormIsSubmittedSuccessfully"/>
+                    <include name="verifyThatContactUsFormIsSubmittedSuccessfully"/>
                 </methods>
             </class>
             <class name="tests.Functional.HomePageTests">
                 <methods>
-                    <include name="VerifyHomePageSmokeTest"/>
-                    <include name="VerifySubscribeEmailInHomePage"/>
-                    <include name="VerifyScrollToTopIconInHomePage"/>
-                    <include name="VerifyNavigationToVideoTutorialsPage"/>
+                    <include name="verifyHomePageSmokeTest"/>
+                    <include name="verifySubscribeEmailInHomePage"/>
+                    <include name="verifyScrollToTopIconInHomePage"/>
+                    <include name="verifyNavigationToVideoTutorialsPage"/>
                 </methods>
             </class>
             <class name="tests.Functional.LoginTests">
                 <methods>
-                    <include name="VerifyThatLoginSuccessfullWithValidCredentials"/>
-                    <include name="VerifyThatLoginFailedWithInvalidCredentials"/>
-                    <include name="VerifyThatLogoutSuccessfull"/>
-                    <include name="VerifyThatAccountDeletedSuccessfully"/>
+                    <include name="verifyThatLoginSuccessfulWithValidCredentials"/>
+                    <include name="verifyThatLoginFailsWithInvalidCredentials"/>
+                    <include name="verifyThatLogoutSuccessful"/>
+                    <include name="verifyThatAccountDeletedSuccessfully"/>
                 </methods>
             </class>
             <class name="tests.Functional.ProductsTests">
                 <methods>
-                    <include name="VerifyThatProductsPageLoadedSuccessfully"/>
-                    <include name="VerifyThatSearchFunctionalityIsWorkingForProductsPage"/>
-                    <include name="VerifyThatProductCountIsCorrectForEachBrand"/>
-                    <include name="VerifyThatProductSubCategoriesCountIsCorrect"/>
-                    <include name="VerifyThatProductDetailsAreDisplayedOnProductDetailsPage"/>
-                    <include name="VerifyThatWeAreAbleToGiveReviewForProducts"/>
-                    <include name="VerifyEndToEndProductCheckoutFunctionality"/>
+                    <include name="verifyThatProductsPageLoadedSuccessfully"/>
+                    <include name="verifyThatSearchFunctionalityIsWorkingForProductsPage"/>
+                    <include name="verifyThatProductCountIsCorrectForEachBrand"/>
+                    <include name="verifyThatProductSubCategoriesCountIsCorrect"/>
+                    <include name="verifyThatProductDetailsAreDisplayedOnProductDetailsPage"/>
+                    <include name="verifyThatWeAreAbleToGiveReviewForProducts"/>
+                    <include name="verifyEndToEndProductCheckoutFunctionality"/>
                 </methods>
             </class>
             <class name="tests.Functional.SignUpTests">
                 <methods>
-                    <include name="VerifyThatSignUpSuccessfullWithNewUser"/>
-                    <include name="VerifyThatSignUpFailedWithExistingUserEmail"/>
+                    <include name="verifyThatSignUpSuccessfulWithNewUser"/>
+                    <include name="verifyThatSignUpFailsWithExistingUserEmail"/>
                 </methods>
             </class>
             <class name="tests.Functional.TestCasesPageTests">
                 <methods>
-                    <include name="VerifyThatTestCasesAreDisplayed"/>
+                    <include name="verifyThatTestCasesAreDisplayed"/>
                 </methods>
             </class>
         </classes>

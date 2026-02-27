@@ -24,6 +24,7 @@ public class UserRequestDF {
     public static UserDO setValidSignUpDetails(){
         UserDO userRequestDO = new UserDO();
         userRequestDO.setEmail("user_" + UUID.randomUUID() + "@yopmail.com");
+        userRequestDO.setPassword("12345678");
         userRequestDO.setTitle("Mr");
         userRequestDO.setBirth_day("12");
         userRequestDO.setBirth_month("6");

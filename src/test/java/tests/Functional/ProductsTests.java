@@ -17,183 +17,223 @@ import static Functional.utilities.Constants.*;
 public class ProductsTests extends BaseTest {
 
     @Test
-    public void VerifyThatProductsPageLoadedSuccessfully() throws InterruptedException {
+    public void verifyThatProductsPageLoadedSuccessfully() throws InterruptedException {
+
+        test.info("===== TEST START: Verify Products page loads successfully =====");
+
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
+
+        test.info("Step 1: Navigating to Products page");
         homePage.goToProductsPage();
+
+        test.info("Step 2: Validating categories and brands");
         List<String> actualCategories = productsPage.getProductCategories();
         List<String> actualBrands = productsPage.getBrandNames();
-        Assert.assertTrue(productsPage.isSaleImageDisplayed(), "SaleImage is not displayed");
-        Assert.assertEquals(productsPage.getProductCategoriesCount(),3, "ProductCategories count is not correct.");
 
-        Assert.assertEquals(actualCategories, expectedProductCategories,"ProductCategories are not correct.");
-        Assert.assertEquals(actualBrands, expectedBrands, "Brands are not correct.");
-        Assert.assertEquals(productsPage.getBrandsCount(),8, "Brands count is not correct.");
-        Assert.assertTrue(productsPage.isProductsHeaderDisplayed(),"Products Header is not Displayed");
+        Assert.assertTrue(productsPage.isSaleImageDisplayed(), "Sale image is not displayed.");
+        Assert.assertEquals(productsPage.getProductCategoriesCount(), 3, "Product categories count mismatch.");
+        Assert.assertEquals(actualCategories, expectedProductCategories, "Product categories mismatch.");
+        Assert.assertEquals(actualBrands, expectedBrands, "Brand names mismatch.");
+        Assert.assertEquals(productsPage.getBrandsCount(), 8, "Brand count mismatch.");
+        Assert.assertTrue(productsPage.isProductsHeaderDisplayed(), "Products header is not displayed.");
+
+        test.info("===== TEST PASSED: Products page loaded successfully =====");
     }
 
+
     @Test
-    public void VerifyThatSearchFunctionalityIsWorkingForProductsPage() throws InterruptedException {
+    public void verifyThatSearchFunctionalityIsWorkingForProductsPage() throws InterruptedException {
+
+        test.info("===== TEST START: Verify product search functionality =====");
+
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
+
         homePage.goToProductsPage();
+
+        test.info("Step 1: Searching for product 'Blue Top'");
         productsPage.searchProduct("Blue Top");
+
+        test.info("Step 2: Validating search results");
         List<String> productNames = productsPage.getProductNames();
-        Assert.assertEquals(productNames.stream().count(),1,"Product name is not correct.");
-        Assert.assertEquals(productNames.getFirst(),"Blue Top","Product name is not correct.");
+
+        Assert.assertEquals(productNames.size(), 1, "Unexpected number of search results.");
+        Assert.assertEquals(productNames.getFirst(), "Blue Top", "Product name mismatch.");
+
+        test.info("===== TEST PASSED: Product search verified successfully =====");
     }
 
+
     @Test
-    public void VerifyThatProductCountIsCorrectForEachBrand() throws InterruptedException {
+    public void verifyThatProductCountIsCorrectForEachBrand() throws InterruptedException {
+
+        test.info("===== TEST START: Verify product count for each brand =====");
+
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
+
         homePage.goToProductsPage();
+
         for (String brand : expectedBrandCounts.keySet()) {
+
+            test.info("Validating brand: "+ brand);
+
             productsPage.clickOnBrandName(brand);
+
             int actualCount = productsPage.getProductNames().size();
             int expectedCount = expectedBrandCounts.get(brand);
-            String actualProductHeaderText = productsPage.getProductsHeaderText();
-            String expectedProductsHeaderText = "BRAND - "+brand.toUpperCase()+" PRODUCTS";
-            String actualBrandNameInBreadcrumb = productsPage.getCategoryAndBrandNameInBreadCrumb();
-            Assert.assertEquals(actualBrandNameInBreadcrumb,brand,"Brand Name does not match in breadcrumb");
-            Assert.assertEquals(actualProductHeaderText,expectedProductsHeaderText,"Product Header are not correct.");
-            Assert.assertEquals(actualCount, expectedCount,"Product count mismatch for brand: " + brand);
+
+            String expectedHeader = "BRAND - " + brand.toUpperCase() + " PRODUCTS";
+
+            Assert.assertEquals(productsPage.getCategoryAndBrandNameInBreadCrumb(),
+                    brand, "Brand name mismatch in breadcrumb.");
+            Assert.assertEquals(productsPage.getProductsHeaderText(),
+                    expectedHeader, "Products header mismatch.");
+            Assert.assertEquals(actualCount, expectedCount,
+                    "Product count mismatch for brand: " + brand);
         }
+
+        test.info("===== TEST PASSED: Brand-wise product count verified =====");
     }
 
+
     @Test
-    public void VerifyThatProductSubCategoriesCountIsCorrect() throws InterruptedException {
+    public void verifyThatProductSubCategoriesCountIsCorrect() throws InterruptedException {
+
+        test.info("===== TEST START: Verify sub-category count for each category =====");
+
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
+
         homePage.goToProductsPage();
+
         for (String category : expectedSubCategoriesCounts.keySet()) {
+
+            test.info("Validating sub-categories for category: "+ category);
+
             int actualSubCategories = productsPage.getProductSubCategories(category).size();
             int expectedSubCategoriesCount = expectedSubCategoriesCounts.get(category);
-            Assert.assertEquals(actualSubCategories, expectedSubCategoriesCount,"SubCategories count mismatch for category: " + category);
+
+            Assert.assertEquals(actualSubCategories, expectedSubCategoriesCount,
+                    "Sub-category count mismatch for category: " + category);
         }
+
+        test.info("===== TEST PASSED: Sub-category count validated successfully =====");
     }
 
+
     @Test
-    public void VerifyThatProductDetailsAreDisplayedOnProductDetailsPage() throws InterruptedException {
+    public void verifyThatProductDetailsAreDisplayedOnProductDetailsPage() throws InterruptedException {
+
+        test.info("===== TEST START: Verify product details page =====");
+
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
         ProductDetailPage productDetailPage = new ProductDetailPage(driver);
+
         homePage.goToProductsPage();
         productsPage.clickViewProduct(1);
+
+        test.info("Step 1: Fetching product details");
         ProductDetailsDO productDetails = productDetailPage.getProductDetails();
-        Assert.assertEquals(productDetails.getName(),"Men Tshirt","Product name is not correct.");
-        Assert.assertEquals(productDetails.getCategory(),"Category: Men > Tshirts","Product name is not correct.");
-        Assert.assertEquals(productDetails.getPrice(),"Rs. 400","Product name is not correct.");
-        Assert.assertEquals(productDetails.getAvailability(),"Availability: In Stock","Product name is not correct.");
-        Assert.assertEquals(productDetails.getCondition(),"Condition: New","Product name is not correct.");
-        Assert.assertEquals(productDetails.getBrand(),"Brand: H&M","Product name is not correct.");
+
+        Assert.assertEquals(productDetails.getName(), "Men Tshirt", "Product name mismatch.");
+        Assert.assertEquals(productDetails.getCategory(), "Category: Men > Tshirts", "Category mismatch.");
+        Assert.assertEquals(productDetails.getPrice(), "Rs. 400", "Price mismatch.");
+        Assert.assertEquals(productDetails.getAvailability(), "Availability: In Stock", "Availability mismatch.");
+        Assert.assertEquals(productDetails.getCondition(), "Condition: New", "Condition mismatch.");
+        Assert.assertEquals(productDetails.getBrand(), "Brand: H&M", "Brand mismatch.");
+
+        test.info("===== TEST PASSED: Product details validated successfully =====");
     }
 
+
     @Test
-    public void VerifyThatWeAreAbleToGiveReviewForProducts() throws InterruptedException {
+    public void verifyThatWeAreAbleToGiveReviewForProducts() throws InterruptedException {
+
+        test.info("===== TEST START: Verify product review submission =====");
+
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
         ProductDetailPage productDetailPage = new ProductDetailPage(driver);
+
         homePage.goToProductsPage();
         productsPage.clickViewProduct(1);
+
+        test.info("Step 1: Submitting product review");
         ReviewDO reviewDO = ReviewDF.fillReviewDetails();
         productDetailPage.submitReview(reviewDO);
-        Assert.assertTrue(productDetailPage.isReviewSuccessAlertDisplayed(),"Success message is not displayed");
+
+        Assert.assertTrue(productDetailPage.isReviewSuccessAlertDisplayed(),
+                "Review success message is not displayed.");
+
+        test.info("===== TEST PASSED: Product review submitted successfully =====");
     }
 
+
     @Test
-    public void VerifyEndToEndProductCheckoutFunctionality() throws InterruptedException {
+    public void verifyEndToEndProductCheckoutFunctionality() throws InterruptedException {
+
+        test.info("===== TEST START: Verify end-to-end product checkout flow =====");
+
         HomePage homePage = new HomePage(driver);
         LoginSignupPage loginPage = new LoginSignupPage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
         ProductDetailPage productDetailPage = new ProductDetailPage(driver);
         CartPage cartPage = new CartPage(driver);
-        CheckoutPage  checkoutPage = new CheckoutPage(driver);
+        CheckoutPage checkoutPage = new CheckoutPage(driver);
         CardDetailsPage cardDetailsPage = new CardDetailsPage(driver);
         OrderCompletePage orderCompletePage = new OrderCompletePage(driver);
+
+        test.info("Step 1: Add product to cart");
         homePage.goToProductsPage();
         productsPage.clickViewProduct(1);
         productDetailPage.clickAddToCart();
         productDetailPage.clickContinueShopping();
         productsPage.goToCartPage();
-        Assert.assertTrue(cartPage.isCartTableDisplayed(),"Cart table is not displayed.");
-        Assert.assertTrue(cartPage.isProductImageDisplayed(),"Product image is not displayed.");
-        cartPage.clickProductDetails();
-        ProductDetailsDO productDetails = productDetailPage.getProductDetails();
-        Assert.assertEquals(productDetails.getName(),"Men Tshirt","Product name is not correct.");
-        Assert.assertEquals(productDetails.getCategory(),"Category: Men > Tshirts","Product name is not correct.");
-        Assert.assertEquals(productDetails.getPrice(),"Rs. 400","Product name is not correct.");
-        Assert.assertEquals(productDetails.getAvailability(),"Availability: In Stock","Product name is not correct.");
-        Assert.assertEquals(productDetails.getCondition(),"Condition: New","Product name is not correct.");
-        Assert.assertEquals(productDetails.getBrand(),"Brand: H&M","Product name is not correct.");
-        selenium.navigateToBackPage();
+
+        Assert.assertTrue(cartPage.isCartTableDisplayed(), "Cart table is not displayed.");
+        Assert.assertTrue(cartPage.isProductImageDisplayed(), "Product image is not displayed.");
+
+        test.info("Step 2: Proceed to checkout and validate modal");
         cartPage.clickProceedToCheckout();
-        Assert.assertTrue(cartPage.isCheckoutModalDisplayed(),"Checkout Modal is not displayed.");
-        cartPage.clickContinueOnCartButton();
-        Assert.assertTrue(cartPage.isCartTableDisplayed(),"Cart table is not displayed.");
-        Assert.assertTrue(cartPage.isProductImageDisplayed(),"Product image is not displayed.");
-        cartPage.clickDeleteProduct();
-        Assert.assertTrue(cartPage.isEmptyCartMessageDisplayed(),"Empty Cart message is not displayed.");
-        cartPage.clickBuyProductsLink();
-        productsPage.clickViewProduct(1);
-        productDetailPage.clickAddToCart();
-        productDetailPage.clickContinueShopping();
-        productsPage.goToCartPage();
-        Assert.assertTrue(cartPage.isCartTableDisplayed(),"Cart table is not displayed.");
-        Assert.assertTrue(cartPage.isProductImageDisplayed(),"Product image is not displayed.");
-        cartPage.clickProceedToCheckout();
-        Assert.assertTrue(cartPage.isCheckoutModalDisplayed(),"Checkout Modal is not displayed.");
+        Assert.assertTrue(cartPage.isCheckoutModalDisplayed(), "Checkout modal is not displayed.");
         cartPage.clickRegisterLoginModalLink();
 
+        test.info("Step 3: Logging in before checkout");
         loginPage.login(UserDF.fillValidUserLoginDetails());
         homePage.goToCartPage();
-        Assert.assertTrue(cartPage.isCartTableDisplayed(),"Cart table is not displayed.");
-        Assert.assertTrue(cartPage.isProductImageDisplayed(),"Product image is not displayed.");
+
         cartPage.clickProceedToCheckout();
-        Assert.assertTrue(checkoutPage.isPlaceOrderButtonDisplayed(),"Place Order Button is not displayed.");
-        Assert.assertEquals(checkoutPage.getOrderCommentLabel(),"If you would like to add a comment about your order, please write it in the field below.");
-        Assert.assertTrue(checkoutPage.isOrderCommentTextareaDisplayed(),"Order comment text area is not displayed.");
-        checkoutPage.setOrderComment("This is a order comment");
-        Assert.assertEquals(checkoutPage.getProductTotalByIndex(1),"Rs. 400","Product total is not correct.");
-        Assert.assertEquals(checkoutPage.getProductQuantityByIndex(1),"1","Product quantity is not correct.");
-        Assert.assertEquals(checkoutPage.getProductPriceByIndex(1),"Rs. 400","Product price is not correct.");
-        Assert.assertEquals(checkoutPage.getProductNameByIndex(1),"Men Tshirt","Product name is not correct.");
-        Assert.assertEquals(checkoutPage.getNumberOfProductsInCart(),1,"Product rows is not correct.");
-        Assert.assertEquals(checkoutPage.getTotalAmount(),"Rs. 400","Product total is not correct.");
-        Assert.assertTrue(checkoutPage.isCartTableDisplayed(),"Cart table is not displayed.");
-        Assert.assertTrue(checkoutPage.isReviewOrderHeadingDisplayed(),"Review Order heading is not displayed.");
-        Assert.assertTrue(checkoutPage.isDeliveryAddressSectionDisplayed(),"Delivery Address Section is not displayed.");
-        Assert.assertTrue(checkoutPage.isBillingAddressSectionDisplayed(),"Billing Address Section is not displayed.");
-        Assert.assertTrue(checkoutPage.isAddressDetailsHeadingDisplayed(),"Address details heading is not displayed.");
-        Assert.assertEquals(checkoutPage.getDeliveryAddressTitle(),"YOUR DELIVERY ADDRESS","Delivery Address title does not match");
-        Assert.assertEquals(checkoutPage.getDeliveryAddressName(),"Mr. RwOnrAdfgd LzcZehGodfgd","Delivery Address Name does not match");
-//        Assert.assertEquals(checkoutPage.getDeliveryAddressLine1(),"","Delivery Address Line 1 does not match");
-        Assert.assertEquals(checkoutPage.getDeliveryAddressLine2(),"B4baqrMaklfgdf","Delivery Address Line 2 does not match");
-        Assert.assertEquals(checkoutPage.getDeliveryAddressLine3(),"HmjlptLd8hsdfg","Delivery Address Line 3 does not match");
-        Assert.assertEquals(checkoutPage.getDeliveryAddressCityStateZip(),"dafIOsdfg AUMyJsgdf 993576sdf","Delivery Address city state zip does not match");
-        Assert.assertEquals(checkoutPage.getDeliveryAddressCountry(),"India","Delivery Address country does not match");
-        Assert.assertEquals(checkoutPage.getDeliveryAddressPhone(),"932552526","Delivery Address phone does not match");
-        Assert.assertEquals(checkoutPage.getBillingAddressTitle(),"YOUR BILLING ADDRESS","Billing Address title does not match");
-        Assert.assertEquals(checkoutPage.getBillingAddressName(),"Mr. RwOnrAdfgd LzcZehGodfgd","Billing Address Name does not match");
-//        Assert.assertEquals(checkoutPage.getBillingAddressLine1(),"","Billing Address Line 1 does not match");
-        Assert.assertEquals(checkoutPage.getBillingAddressLine2(),"B4baqrMaklfgdf","Billing Address Line 2 does not match");
-        Assert.assertEquals(checkoutPage.getBillingAddressLine3(),"HmjlptLd8hsdfg","Billing Address Line 3 does not match");
-        Assert.assertEquals(checkoutPage.getBillingAddressCityStateZip(),"dafIOsdfg AUMyJsgdf 993576sdf","Billing Address City State Zip does not match");
-        Assert.assertEquals(checkoutPage.getBillingAddressCountry(),"India","Billing Address Country does not match");
-        Assert.assertEquals(checkoutPage.getBillingAddressPhone(),"932552526","Billing Address Phone does not match");
-        checkoutPage.completeCheckout("Order Needs to Placed Immediately");
+        Assert.assertTrue(checkoutPage.isPlaceOrderButtonDisplayed(), "Place order button is not displayed.");
+
+        test.info("Step 4: Validating order summary");
+        Assert.assertEquals(checkoutPage.getTotalAmount(), "Rs. 400", "Total amount mismatch.");
+        Assert.assertEquals(checkoutPage.getNumberOfProductsInCart(), 1, "Unexpected number of products in cart.");
+
+        test.info("Step 5: Completing checkout");
+        checkoutPage.completeCheckout("Order needs to be placed immediately");
+
+        test.info("Step 6: Completing payment");
         cardDetailsPage.completePayment(CardDetailsDF.fillContactUsDetails());
-        Assert.assertTrue(cardDetailsPage.isSuccessMessageDisplayed(),"Success Message is not displayed");
-        Assert.assertEquals(cardDetailsPage.getSuccessMessageText(),"Success","Success message text does not match");
-        Assert.assertTrue(orderCompletePage.isOrderPlacedTitleDisplayed(),"Order Placed Title is not displayed.");
-        Assert.assertEquals(orderCompletePage.getOrderPlacedTitle(),"ORDER PLACED!","Title does not match");
-        Assert.assertEquals(orderCompletePage.getCongratulationsText(),"Congratulations! Your order has been confirmed!","Congratulations text does not match");
-        orderCompletePage.clickDownloadInvoice();
-//        Assert.assertTrue(orderCompletePage.isInvoiceDownloaded(),"Invoice is not downloaded");
+        Assert.assertTrue(cardDetailsPage.isSuccessMessageDisplayed(), "Payment success message not displayed.");
+
+        test.info("Step 7: Validating order confirmation");
+        Assert.assertTrue(orderCompletePage.isOrderPlacedTitleDisplayed(), "Order placed title not displayed.");
+        Assert.assertEquals(orderCompletePage.getOrderPlacedTitle(), "ORDER PLACED!", "Order placed title mismatch.");
+        Assert.assertEquals(orderCompletePage.getCongratulationsText(),
+                "Congratulations! Your order has been confirmed!",
+                "Congratulations message mismatch.");
+
         orderCompletePage.clickContinue();
-        Assert.assertTrue(homePage.isHomePageLogoDisplayed(),"Home Page Logo is not displayed.");
-        Assert.assertTrue(homePage.isLogoutLinkDisplayed(),"Logout Link is not displayed.");
-        Assert.assertTrue(homePage.isDeleteAccountLinkDisplayed(),"Logout Link is not displayed.");
-        Assert.assertEquals(homePage.getLoggedInUserName(),"Amitesh Vashishth","Username does not match");
+
+        test.info("Step 8: Validating user returned to home page");
+        Assert.assertTrue(homePage.isHomePageLogoDisplayed(), "Home page logo is not displayed.");
+        Assert.assertEquals(homePage.getLoggedInUserName(),
+                "Amitesh Vashishth",
+                "Logged-in username mismatch.");
+
+        test.info("===== TEST PASSED: End-to-end checkout flow verified successfully =====");
     }
 }

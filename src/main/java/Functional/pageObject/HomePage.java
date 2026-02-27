@@ -9,7 +9,7 @@ public class HomePage extends CommonPage {
     }
 
     private final By testCasesButton = By.xpath("//a[@class='test_cases_list']/button");
-    private final By apiListButton = By.xpath("//a[@class='api_list']/button");
+    private final By apiListButton = By.xpath("//a[@class='apis_list']/button");
     private final By carouselImage = By.xpath("//img[@class='girl img-responsive']");
     private final By product = By.xpath("//div[@class='productinfo text-center']");
     private final By productImage = By.xpath("//div[@class='productinfo text-center']/img");

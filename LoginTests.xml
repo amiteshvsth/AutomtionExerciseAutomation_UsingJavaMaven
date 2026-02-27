@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="C:/Users/amitesh/IdeaProjects/AutomtionExerciseAutomation_UsingJavaMaven">
+        <classes>
+            <class name="tests.Functional.LoginTests">
+                <methods>
+                    <include name="verifyThatLoginSuccessfulWithValidCredentials"/>
+                    <include name="verifyThatLoginFailsWithInvalidCredentials"/>
+                    <include name="verifyThatLogoutSuccessful"/>
+                    <include name="verifyThatAccountDeletedSuccessfully"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
