@@ -24,7 +24,7 @@ jobs:
         run: mvn clean install -DskipTests
 
       - name: Run Tests with TestNG
-        run: mvn -B clean test -q -Dorg.slf4j.simpleLogger.defaultLogLevel=warn
+        run: mvn -B clean test -q -Dorg.slf4j.simpleLogger.defaultLogLevel=warn -Dbrowser=chrome-headless
 
   publish-job:
     runs-on: ubuntu-latest
