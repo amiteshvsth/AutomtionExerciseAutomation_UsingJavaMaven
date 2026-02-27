@@ -96,11 +96,17 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDown(ITestResult result) {
+
         try {
+
             if (isSetupFailed.get()) {
                 result.setStatus(ITestResult.FAILURE);
-                result.setThrowable(new Exception("Test aborted due to " + result.getThrowable().getMessage()));
+                result.setThrowable(new Exception("Test aborted due to setup failure"));
             }
+
+            // 🔥 THIS LINE WAS MISSING
+            captureTestResult(result);
+
         } catch (Exception e) {
             throw new RuntimeException("Error in tearDown: " + e.getMessage(), e);
         } finally {
@@ -127,7 +133,11 @@ public class BaseTest {
 
         switch (result.getStatus()) {
             case ITestResult.FAILURE:
-                test.fail("Test failed: " + result.getThrowable().getMessage());
+                if (result.getThrowable() != null) {
+                    test.fail(result.getThrowable());
+                } else {
+                    test.fail("Test failed.");
+                }
                 break;
             case ITestResult.SUCCESS:
                 test.pass("Test passed");
