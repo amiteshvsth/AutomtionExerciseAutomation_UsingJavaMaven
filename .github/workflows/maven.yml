@@ -70,6 +70,14 @@ jobs:
           name: surefire-reports
           path: target/surefire-reports/
 
+      - name: Upload Extent Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-report
+          path: ExtentReport/
+          if-no-files-found: ignore
+
 
   # ========================
   # 3️⃣ PUBLISH JOB
