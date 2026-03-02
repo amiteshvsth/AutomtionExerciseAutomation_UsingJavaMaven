@@ -44,6 +44,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
 
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [ chrome-headless, firefox-headless ]
+
     steps:
       - uses: actions/checkout@v4
 
@@ -53,31 +58,32 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - run: mvn -B test -q -Dbrowser=chrome-headless -Dorg.slf4j.simpleLogger.defaultLogLevel=warn
+      - name: Run TestNG Tests (${{ matrix.browser }})
+        run: mvn -B test -q -Dbrowser=${{ matrix.browser }} -Dorg.slf4j.simpleLogger.defaultLogLevel=warn
 
-      - name: Publish Test Results (JUnit Format)
+      - name: Publish Test Results
         if: always()
         uses: dorny/test-reporter@v1
         with:
-          name: TestNG Results
+          name: TestNG Results (${{ matrix.browser }})
           path: target/surefire-reports/TEST-*.xml
           reporter: java-junit
           fail-on-error: false
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Surefire Reports
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: surefire-reports
+          name: surefire-reports-${{ matrix.browser }}
           path: target/surefire-reports/
 
       - name: Upload Extent Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: extent-report
+          name: extent-report-${{ matrix.browser }}
           path: ExtentReport/
           if-no-files-found: ignore
-
 
   # ========================
   # 3️⃣ PUBLISH JOB
