@@ -13,87 +13,107 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DriverManager {
-    private WebDriver driver;
+
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+    public static WebDriver getDriver() {
+        return driver.get();
+    }
 
     public WebDriver setUp(String browserName, String browserMode, Map<String, Object> customPrefs) {
+
         switch (browserName.toLowerCase()) {
+
             case "chrome":
-                WebDriverManager.chromedriver().setup(); // Auto-downloads ChromeDriver
-                Map<String, Object> prefs = new HashMap<>();
-                prefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
-                prefs.put("profile.default_content_setting_values.notifications", 2);
-                prefs.put("profile.default_content_settings.popups", 0);
-                prefs.put("download.default_directory", Constants.DOWNLOAD_FOLDER);
-                prefs.put("download.prompt_for_download", false);
-                prefs.put("download.directory_upgrade", true);
-                prefs.putAll(customPrefs);
-                ChromeOptions cOptions = new ChromeOptions();
-                cOptions.setExperimentalOption("prefs", prefs);
-                cOptions.addArguments(
+                WebDriverManager.chromedriver().setup();
+
+                Map<String, Object> chromePrefs = new HashMap<>();
+                chromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
+                chromePrefs.put("profile.default_content_setting_values.notifications", 2);
+                chromePrefs.put("profile.default_content_settings.popups", 0);
+                chromePrefs.put("download.default_directory", Constants.DOWNLOAD_FOLDER);
+                chromePrefs.put("download.prompt_for_download", false);
+                chromePrefs.put("download.directory_upgrade", true);
+                chromePrefs.putAll(customPrefs);
+
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.setExperimentalOption("prefs", chromePrefs);
+
+                chromeOptions.addArguments(
                         "--host-resolver-rules=MAP googlesyndication.com 127.0.0.1, " +
                                 "MAP doubleclick.net 127.0.0.1, " +
                                 "MAP googleads.g.doubleclick.net 127.0.0.1"
                 );
+
                 if (browserMode.equalsIgnoreCase("incognito")) {
-                    cOptions.addArguments("--incognito");
+                    chromeOptions.addArguments("--incognito");
                 }
-                driver = new ChromeDriver(cOptions);
+
+                driver.set(new ChromeDriver(chromeOptions));
                 break;
+
+
             case "chrome-headless":
-                WebDriverManager.chromedriver().setup(); // Auto-downloads ChromeDriver
-                Map<String, Object> prefs1 = new HashMap<>();
-                prefs1.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
-                prefs1.put("profile.default_content_setting_values.notifications", 2);
-                prefs1.put("profile.default_content_settings.popups", 0);
-                prefs1.put("download.default_directory", Constants.DOWNLOAD_FOLDER);
-                prefs1.put("download.prompt_for_download", false);
-                prefs1.put("download.directory_upgrade", true);
-                prefs1.putAll(customPrefs);
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--headless=new");
-                chromeOptions.addArguments("--no-sandbox");
-                chromeOptions.addArguments("--disable-dev-shm-usage");
-                chromeOptions.addArguments("--window-size=1920,1080");
-                chromeOptions.addArguments("--remote-allow-origins=*");
+                WebDriverManager.chromedriver().setup();
 
-                chromeOptions.setExperimentalOption("prefs", prefs1);
+                Map<String, Object> headlessChromePrefs = new HashMap<>();
+                headlessChromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
+                headlessChromePrefs.put("profile.default_content_setting_values.notifications", 2);
+                headlessChromePrefs.put("profile.default_content_settings.popups", 0);
+                headlessChromePrefs.put("download.default_directory", Constants.DOWNLOAD_FOLDER);
+                headlessChromePrefs.put("download.prompt_for_download", false);
+                headlessChromePrefs.put("download.directory_upgrade", true);
+                headlessChromePrefs.putAll(customPrefs);
 
-                driver = new ChromeDriver(chromeOptions);
+                ChromeOptions headlessOptions = new ChromeOptions();
+                headlessOptions.setExperimentalOption("prefs", headlessChromePrefs);
+
+                headlessOptions.addArguments("--headless=new");
+                headlessOptions.addArguments("--no-sandbox");
+                headlessOptions.addArguments("--disable-dev-shm-usage");
+                headlessOptions.addArguments("--window-size=1920,1080");
+
+                driver.set(new ChromeDriver(headlessOptions));
                 break;
+
+
             case "firefox-headless":
-                WebDriverManager.firefoxdriver().setup(); // Auto-downloads ChromeDriver
-                Map<String, Object> prefs2 = new HashMap<>();
-                prefs2.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
-                prefs2.put("profile.default_content_setting_values.notifications", 2);
-                prefs2.put("profile.default_content_settings.popups", 0);
-                prefs2.put("download.default_directory", Constants.DOWNLOAD_FOLDER);
-                prefs2.put("download.prompt_for_download", false);
-                prefs2.put("download.directory_upgrade", true);
-                prefs2.putAll(customPrefs);
+                WebDriverManager.firefoxdriver().setup();
+
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
-                firefoxOptions.addArguments("--headless=new");
-                firefoxOptions.addArguments("--no-sandbox");
-                firefoxOptions.addArguments("--disable-dev-shm-usage");
-                firefoxOptions.addArguments("--window-size=1920,1080");
-                firefoxOptions.addArguments("--remote-allow-origins=*");
 
-                firefoxOptions.addPreference("prefs", prefs2);
+                firefoxOptions.addArguments("-headless");
+                firefoxOptions.addArguments("--width=1920");
+                firefoxOptions.addArguments("--height=1080");
 
-                driver = new FirefoxDriver(firefoxOptions);
+                firefoxOptions.addPreference("browser.download.folderList", 2);
+                firefoxOptions.addPreference("browser.download.dir", Constants.DOWNLOAD_FOLDER);
+                firefoxOptions.addPreference("browser.helperApps.neverAsk.saveToDisk",
+                        "application/pdf,application/octet-stream");
+                firefoxOptions.addPreference("browser.download.manager.showWhenStarting", false);
+                firefoxOptions.addPreference("pdfjs.disabled", true);
+
+                driver.set(new FirefoxDriver(firefoxOptions));
                 break;
+
+
             default:
-                throw new IllegalArgumentException("Please specify valid browser name. Valid browser names are: chrome, chrome-headless");
+                throw new IllegalArgumentException(
+                        "Valid browser names: chrome, chrome-headless, firefox-headless");
         }
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
-        driver.manage().window().setSize(new Dimension(1920, 1080));
-        driver.manage().deleteAllCookies();
-        return driver;
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+        getDriver().manage().window().setSize(new Dimension(1920, 1080));
+        getDriver().manage().deleteAllCookies();
+
+        return getDriver();
     }
 
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
+    public static void tearDown() {
+        if (getDriver() != null) {
+            getDriver().quit();
+            driver.remove();
         }
     }
 }
