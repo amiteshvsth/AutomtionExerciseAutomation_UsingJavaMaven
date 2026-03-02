@@ -5,6 +5,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -57,6 +59,27 @@ public class DriverManager {
                 chromeOptions.setExperimentalOption("prefs", prefs1);
 
                 driver = new ChromeDriver(chromeOptions);
+                break;
+            case "firefox-headless":
+                WebDriverManager.firefoxdriver().setup(); // Auto-downloads ChromeDriver
+                Map<String, Object> prefs2 = new HashMap<>();
+                prefs2.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
+                prefs2.put("profile.default_content_setting_values.notifications", 2);
+                prefs2.put("profile.default_content_settings.popups", 0);
+                prefs2.put("download.default_directory", Constants.DOWNLOAD_FOLDER);
+                prefs2.put("download.prompt_for_download", false);
+                prefs2.put("download.directory_upgrade", true);
+                prefs2.putAll(customPrefs);
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                firefoxOptions.addArguments("--headless=new");
+                firefoxOptions.addArguments("--no-sandbox");
+                firefoxOptions.addArguments("--disable-dev-shm-usage");
+                firefoxOptions.addArguments("--window-size=1920,1080");
+                firefoxOptions.addArguments("--remote-allow-origins=*");
+
+                firefoxOptions.addPreference("prefs", prefs2);
+
+                driver = new FirefoxDriver(firefoxOptions);
                 break;
             default:
                 throw new IllegalArgumentException("Please specify valid browser name. Valid browser names are: chrome, chrome-headless");
