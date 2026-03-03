@@ -32,13 +32,15 @@ public class BaseTest extends CommonBaseTest {
         try {
             String className = this.getClass().getSimpleName();
             String methodName = method.getName();
-            test = extent.createTest(methodName).assignCategory(className);
+            extentTest.set(
+                    extent.createTest(methodName).assignCategory(className)
+            );
+            test = extentTest.get();
 
             Map<String, Object> customPrefs = new HashMap<>();
 
             driverManager = new DriverManager();
             driver = driverManager.setUp(browser, browserMode, customPrefs);
-            driver.manage().window().maximize();
             selenium = new SeleniumHelpers(driver);
 
             selenium.navigateToPage(Constants.LOGIN_PAGE_URL);
@@ -69,6 +71,7 @@ public class BaseTest extends CommonBaseTest {
             driverManager.tearDown();
             isSetupFailed.remove();
             Logger.remove();
+            extentTest.remove();
         }
     }
 
@@ -80,7 +83,6 @@ public class BaseTest extends CommonBaseTest {
 
         Reporter.getOutput(result).forEach(test::info);
         attachScreenshot(result.getName());
-        selenium.hardWait(5);
 
         switch (result.getStatus()) {
             case ITestResult.FAILURE:
@@ -97,8 +99,9 @@ public class BaseTest extends CommonBaseTest {
 
     private void attachScreenshot(String testName) {
         try {
+            String browser = System.getProperty("browser");
             String screenshotPath = selenium.takeScreenshot(testName);
-            String relativePath = "../screenshots/" + new File(screenshotPath).getName();
+            String relativePath = "../screenshots/"  + browser + new File(screenshotPath).getName();
             test.addScreenCaptureFromPath(relativePath);
         } catch (Exception e) {
             test.warning("Screenshot capture failed: " + e.getMessage());

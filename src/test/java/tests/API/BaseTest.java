@@ -24,7 +24,11 @@ public class BaseTest extends CommonBaseTest {
         String className = this.getClass().getSimpleName();
         String methodName = method.getName();
 
-        test = extent.createTest(methodName)
-                .assignCategory("API - " + className);
+        extentTest.set(
+                extent.createTest(methodName)
+                        .assignCategory("API - " + className)
+        );
+
+        test = extentTest.get();
     }
 }

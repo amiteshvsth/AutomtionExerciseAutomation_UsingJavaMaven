@@ -59,7 +59,7 @@ jobs:
           cache: maven
 
       - name: Run TestNG Tests (${{ matrix.browser }})
-        run: mvn -B test -q -Dbrowser=${{ matrix.browser }} -Dorg.slf4j.simpleLogger.defaultLogLevel=warn
+        run: mvn -B test -q -Dbrowser=${{ matrix.browser }} -DthreadCount=4 -Dorg.slf4j.simpleLogger.defaultLogLevel=warn
 
       - name: Publish Test Results
         if: always()

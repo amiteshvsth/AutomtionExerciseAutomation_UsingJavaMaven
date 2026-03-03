@@ -1,6 +1,7 @@
 package tests;
 
 import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import org.testng.annotations.AfterSuite;
@@ -12,8 +13,8 @@ import java.time.format.DateTimeFormatter;
 
 public class CommonBaseTest {
 
+    protected static ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
     protected static ExtentReports extent;
-
     @BeforeSuite(alwaysRun = true)
     public void setupExtentReport() {
 
@@ -46,8 +47,10 @@ public class CommonBaseTest {
 
     @AfterSuite(alwaysRun = true)
     public void flushExtentReport() {
-        if (extent != null) {
-            extent.flush();
+        synchronized (CommonBaseTest.class) {
+            if (extent == null) {
+                // initialize
+            }
         }
     }
 }
