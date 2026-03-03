@@ -1,8 +1,6 @@
 FROM maven:3.9.6-eclipse-temurin-21
 
-# -----------------------------
 # Install required system libs
-# -----------------------------
 RUN apt-get update && \
     apt-get install -y \
         wget \
@@ -31,9 +29,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# -----------------------------
-# Install Google Chrome
-# -----------------------------
+# Install Chrome
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-linux.gpg && \
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
     > /etc/apt/sources.list.d/google.list && \
@@ -42,20 +38,16 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearm
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# -----------------------------
-# Install Firefox (fixed version, no redirect)
-# -----------------------------
+# Install Firefox (XZ archive, no bzip2 dependency)
 ENV FIREFOX_VERSION=128.0
 
-RUN wget -q https://ftp.mozilla.org/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O firefox.tar.bz2 && \
-    tar -xjf firefox.tar.bz2 && \
+RUN wget -q https://ftp.mozilla.org/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.xz -O firefox.tar.xz && \
+    tar -xJf firefox.tar.xz && \
     mv firefox /opt/firefox && \
     ln -s /opt/firefox/firefox /usr/bin/firefox && \
-    rm firefox.tar.bz2
+    rm firefox.tar.xz
 
-# -----------------------------
-# Install Geckodriver (fixed version)
-# -----------------------------
+# Install Geckodriver
 ENV GECKO_VERSION=0.35.0
 
 RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v${GECKO_VERSION}/geckodriver-v${GECKO_VERSION}-linux64.tar.gz -O geckodriver.tar.gz && \
@@ -63,9 +55,5 @@ RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v${GECKO_VE
     mv geckodriver /usr/local/bin/ && \
     rm geckodriver.tar.gz
 
-# -----------------------------
-# Verify installation
-# -----------------------------
-RUN google-chrome --version && \
-    firefox --version && \
-    geckodriver --version
+# Verify
+RUN google-chrome --version && firefox --version && geckodriver --version
