@@ -56,7 +56,7 @@ test:
       - BROWSER: "firefox-headless"
 
   script:
-    - mvn -B test -Dbrowser=$BROWSER -DthreadCount=4 -Dorg.slf4j.simpleLogger.defaultLogLevel=warn || true
+    - mvn -B test -Dbrowser=$BROWSER -DthreadCount=1 -Dorg.slf4j.simpleLogger.defaultLogLevel=warn || true
 
   artifacts:
     when: always

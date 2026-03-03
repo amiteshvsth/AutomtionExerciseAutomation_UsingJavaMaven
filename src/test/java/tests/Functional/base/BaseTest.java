@@ -49,7 +49,7 @@ public class BaseTest extends CommonBaseTest {
 
         } catch (Exception e) {
             isSetupFailed.set(true);
-            test.fail("Browser setup failed: " + e.getMessage());
+            throw new RuntimeException("Browser setup failed", e);
         }
     }
 
