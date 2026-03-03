@@ -34,7 +34,7 @@ public class CommonBaseTest {
 
         ExtentSparkReporter sparkReporter = new ExtentSparkReporter(reportPath);
         sparkReporter.config().setDocumentTitle("Automation Report");
-        sparkReporter.config().setReportName("UI + API Automation Results");
+        sparkReporter.config().setReportName("Functional + API Automation Results");
         sparkReporter.config().setTheme(Theme.DARK);
 
         extent = new ExtentReports();
@@ -47,10 +47,9 @@ public class CommonBaseTest {
 
     @AfterSuite(alwaysRun = true)
     public void flushExtentReport() {
-        synchronized (CommonBaseTest.class) {
-            if (extent == null) {
-                // initialize
-            }
+        if (extent != null) {
+            extent.flush();
+            System.out.println("Extent report flushed successfully.");
         }
     }
 }
