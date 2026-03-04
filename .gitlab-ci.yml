@@ -107,11 +107,11 @@ pages:
     - mkdir -p public/firefox
 
     # Chrome report
-    - CHROME=$(find . -name "ExtentReport_*.html" | head -n 1)
+    - CHROME=$(find . -name "ExtentReport_*.html" | sed -n '1p')
     - if [ -n "$CHROME" ]; then cp "$CHROME" public/chrome/index.html; fi
 
     # Firefox report
-    - FIREFOX=$(find . -name "ExtentReport_*.html" | tail -n 1)
+    - FIREFOX=$(find . -name "ExtentReport_*.html" | sed -n '2p')
     - if [ -n "$FIREFOX" ]; then cp "$FIREFOX" public/firefox/index.html; fi
 
     # Landing page
