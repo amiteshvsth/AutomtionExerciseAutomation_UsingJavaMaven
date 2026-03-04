@@ -39,8 +39,8 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearm
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Firefox
-RUN wget -q "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US" -O firefox.tar.bz2 && \
+# Install Firefox (Direct link to ESR version to ensure it is a valid bzip2 file)
+RUN wget -q "https://ftp.mozilla.org/pub/firefox/releases/128.0esr/linux-x86_64/en-US/firefox-128.0esr.tar.bz2" -O firefox.tar.bz2 && \
     tar -xjf firefox.tar.bz2 && \
     mv firefox /opt/firefox && \
     ln -s /opt/firefox/firefox /usr/bin/firefox && \
