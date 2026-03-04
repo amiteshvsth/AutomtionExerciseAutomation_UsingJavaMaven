@@ -17,6 +17,7 @@ jobs:
   # ========================
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v4
@@ -27,9 +28,16 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - run: java -version && mvn -version
+      - name: Verify Java & Maven
+        run: java -version && mvn -version
 
-      - run: mvn -B clean package -DskipTests
+      # Prefetch dependencies
+      - name: Download Maven Dependencies
+        run: mvn -B dependency:go-offline
+
+      # Parallel Maven build
+      - name: Build Project
+        run: mvn -B -T 1C clean package -DskipTests
 
       - uses: actions/upload-artifact@v4
         with:
@@ -43,6 +51,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: build
+    timeout-minutes: 30
 
     strategy:
       fail-fast: false
@@ -59,8 +68,9 @@ jobs:
           cache: maven
 
       - name: Run TestNG Tests (${{ matrix.browser }})
-        run: mvn -B test -q -Dbrowser=${{ matrix.browser }} -DthreadCount=4 -Dorg.slf4j.simpleLogger.defaultLogLevel=warn -Dmaven.test.failure.ignore=true
-        continue-on-error: true
+        run: |
+          echo "Running tests on ${{ matrix.browser }}"
+          mvn -B test -Dbrowser=${{ matrix.browser }} -DthreadCount=4 -Dsurefire.rerunFailingTestsCount=2 -Dorg.slf4j.simpleLogger.defaultLogLevel=warn
 
       - name: Publish Test Results
         if: always()
@@ -106,7 +116,7 @@ jobs:
           path: staging
 
   # ========================
-  # 4️⃣ PUSH CODE TO GITLAB (ALWAYS RUN)
+  # 4️⃣ PUSH CODE TO GITLAB
   # ========================
   sync-gitlab:
     runs-on: ubuntu-latest
@@ -122,3 +132,34 @@ jobs:
         run: |
           git remote add gitlab https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/amiteshvsth-group/AutomtionExerciseAutomation_UsingJavaMaven.git
           git push gitlab main --force
+
+  # ========================
+  # 5️⃣ PUBLISH EXTENT REPORT TO GITHUB PAGES
+  # ========================
+  publish-report:
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Download Extent Reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: extent-report-*
+          merge-multiple: true
+          path: public
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
