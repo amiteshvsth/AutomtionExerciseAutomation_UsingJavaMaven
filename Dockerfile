@@ -25,7 +25,8 @@ RUN apt-get update && \
         libdrm2 \
         libxss1 \
         libxext6 \
-        xdg-utils && \
+        xdg-utils \
+        bzip2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -38,18 +39,15 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearm
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Firefox (XZ archive, no bzip2 dependency)
-ENV FIREFOX_VERSION=128.0
-
-RUN wget -q https://ftp.mozilla.org/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.xz -O firefox.tar.xz && \
-    tar -xJf firefox.tar.xz && \
+# Install Firefox
+RUN wget -q "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US" -O firefox.tar.bz2 && \
+    tar -xjf firefox.tar.bz2 && \
     mv firefox /opt/firefox && \
     ln -s /opt/firefox/firefox /usr/bin/firefox && \
-    rm firefox.tar.xz
+    rm firefox.tar.bz2
 
 # Install Geckodriver
 ENV GECKO_VERSION=0.35.0
-
 RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v${GECKO_VERSION}/geckodriver-v${GECKO_VERSION}-linux64.tar.gz -O geckodriver.tar.gz && \
     tar -xzf geckodriver.tar.gz && \
     mv geckodriver /usr/local/bin/ && \
