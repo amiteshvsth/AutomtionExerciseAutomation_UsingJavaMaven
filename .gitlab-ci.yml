@@ -3,17 +3,19 @@ stages:
   - build
   - test
   - publish
+  - report
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   DOCKER_TLS_CERTDIR: ""
 
 cache:
+  key: maven-cache
   paths:
     - .m2/repository
 
 # ========================
-# 0️⃣ BUILD CUSTOM DOCKER IMAGE (ONE TIME / WHEN NEEDED)
+# 0️⃣ BUILD CUSTOM DOCKER IMAGE (ONLY WHEN DOCKERFILE CHANGES)
 # ========================
 docker-build:
   stage: docker-build
@@ -22,7 +24,7 @@ docker-build:
     - docker:dind
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:latest .
+    - docker build --pull -t $CI_REGISTRY_IMAGE:latest .
     - docker push $CI_REGISTRY_IMAGE:latest
   only:
     changes:
@@ -34,21 +36,29 @@ docker-build:
 build:
   stage: build
   image: $CI_REGISTRY_IMAGE:latest
+
   script:
     - java -version
     - mvn -version
-    - mvn -B clean package -DskipTests
+
+    # Pre-download dependencies (faster builds)
+    - mvn -B dependency:go-offline
+
+    # Parallel Maven build
+    - mvn -B -T 1C clean package -DskipTests
+
   artifacts:
     paths:
       - target/*.jar
     expire_in: 1 week
 
 # ========================
-# 2️⃣ TEST JOB (Matrix Browsers)
+# 2️⃣ TEST JOB (PARALLEL BROWSER MATRIX)
 # ========================
 test:
   stage: test
   image: $CI_REGISTRY_IMAGE:latest
+  timeout: 30m
 
   parallel:
     matrix:
@@ -56,7 +66,12 @@ test:
       - BROWSER: "firefox-headless"
 
   script:
-    - mvn -B test -Dbrowser=$BROWSER -DthreadCount=1 -Dorg.slf4j.simpleLogger.defaultLogLevel=warn || true
+    - echo "Running tests on $BROWSER"
+    - mvn -B test \
+      -Dbrowser=$BROWSER \
+      -DthreadCount=4 \
+      -Dsurefire.rerunFailingTestsCount=2 \
+      -Dorg.slf4j.simpleLogger.defaultLogLevel=warn
 
   artifacts:
     when: always
@@ -68,16 +83,34 @@ test:
     expire_in: 1 week
 
 # ========================
-# 3️⃣ PUBLISH JOB
+# 3️⃣ PUBLISH BUILD ARTIFACT
 # ========================
 publish:
   stage: publish
   image: $CI_REGISTRY_IMAGE:latest
   needs: ["build"]
+
   script:
-    - mkdir staging
+    - mkdir -p staging
     - cp target/*.jar staging || true
+
   artifacts:
     paths:
       - staging/
     expire_in: 1 week
+
+# ========================
+# 4️⃣ PUBLISH EXTENT REPORT AS WEB PAGE
+# ========================
+pages:
+  stage: report
+  image: alpine:latest
+  needs: ["test"]
+
+  script:
+    - mkdir public
+    - cp -r ExtentReport/* public/ || true
+
+  artifacts:
+    paths:
+      - public
