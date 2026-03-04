@@ -134,8 +134,8 @@ jobs:
           git push gitlab main --force
 
   # ========================
-  # 5️⃣ PUBLISH EXTENT REPORT TO GITHUB PAGES
-  # ========================
+# 5️⃣ PUBLISH EXTENT REPORT TO GITHUB PAGES
+# ========================
   publish-report:
     runs-on: ubuntu-latest
     needs: test
@@ -162,22 +162,101 @@ jobs:
           name: extent-report-firefox-headless
           path: site/firefox
 
-      - name: Create Report Landing Page
+      - name: Flatten Extent report folders
+        run: |
+          if [ -d "site/chrome/ExtentReport" ]; then
+            mv site/chrome/ExtentReport/* site/chrome/
+            rm -rf site/chrome/ExtentReport
+          fi
+  
+          if [ -d "site/firefox/ExtentReport" ]; then
+            mv site/firefox/ExtentReport/* site/firefox/
+            rm -rf site/firefox/ExtentReport
+          fi
+
+      - name: Create Report Dashboard
         run: |
           mkdir -p site
+          DATE=$(date +"%Y-%m-%d %H:%M:%S")
+
           cat <<EOF > site/index.html
+          <!DOCTYPE html>
           <html>
           <head>
-          <title>Automation Test Reports</title>
+          <title>Automation Test Dashboard</title>
+
           <style>
-          body { font-family: Arial; text-align:center; margin-top:80px; }
-          a { display:block; margin:20px; font-size:20px; }
+          body {
+              font-family: Arial, sans-serif;
+              background:#f4f6f8;
+              text-align:center;
+              padding-top:60px;
+          }
+
+          .container {
+              background:white;
+              width:600px;
+              margin:auto;
+              padding:40px;
+              border-radius:10px;
+              box-shadow:0 4px 12px rgba(0,0,0,0.1);
+          }
+
+          h1 {
+              margin-bottom:10px;
+          }
+
+          .date {
+              color:#666;
+              margin-bottom:30px;
+          }
+
+          .btn {
+              display:block;
+              margin:15px auto;
+              padding:12px 25px;
+              width:250px;
+              background:#2c7be5;
+              color:white;
+              text-decoration:none;
+              border-radius:6px;
+              font-size:18px;
+          }
+
+          .btn:hover {
+              background:#1a68d1;
+          }
+
+          .status {
+              margin-top:30px;
+              color:#444;
+              font-size:15px;
+          }
+
           </style>
           </head>
+
           <body>
-          <h1>Automation Test Reports</h1>
-          <a href="./chrome/index.html">Chrome Test Report</a>
-          <a href="./firefox/index.html">Firefox Test Report</a>
+
+          <div class="container">
+
+              <h1>Automation Test Dashboard</h1>
+
+              <div class="date">
+              Last CI Run: $DATE
+              </div>
+
+              <a class="btn" href="./chrome/index.html">Chrome Test Report</a>
+              <a class="btn" href="./firefox/index.html">Firefox Test Report</a>
+
+              <div class="status">
+              ✔ Tests executed via GitHub Actions<br>
+              ✔ Reports published automatically<br>
+              ✔ Selenium cross-browser execution
+              </div>
+
+          </div>
+
           </body>
           </html>
           EOF
