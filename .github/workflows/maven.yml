@@ -162,16 +162,19 @@ jobs:
           name: extent-report-firefox-headless
           path: site/firefox
 
-      - name: Flatten Extent report folders
+      - name: Normalize Extent Reports
         run: |
-          if [ -d "site/chrome/ExtentReport" ]; then
-            mv site/chrome/ExtentReport/* site/chrome/
-            rm -rf site/chrome/ExtentReport
+          mkdir -p site/chrome
+          mkdir -p site/firefox
+
+          CHROME_FILE=$(find chrome-report -name "*.html" | head -n 1)
+          if [ -n "$CHROME_FILE" ]; then
+            cp "$CHROME_FILE" site/chrome/index.html
           fi
-  
-          if [ -d "site/firefox/ExtentReport" ]; then
-            mv site/firefox/ExtentReport/* site/firefox/
-            rm -rf site/firefox/ExtentReport
+
+          FIREFOX_FILE=$(find firefox-report -name "*.html" | head -n 1)
+          if [ -n "$FIREFOX_FILE" ]; then
+            cp "$FIREFOX_FILE" site/firefox/index.html
           fi
 
       - name: Create Report Dashboard
