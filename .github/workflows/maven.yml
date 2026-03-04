@@ -164,17 +164,18 @@ jobs:
 
       - name: Normalize Extent Reports
         run: |
-          mkdir -p site/chrome
-          mkdir -p site/firefox
-
-          CHROME_FILE=$(find chrome-report -name "*.html" | head -n 1)
-          if [ -n "$CHROME_FILE" ]; then
-            cp "$CHROME_FILE" site/chrome/index.html
+          # Chrome
+          if [ -d "site/chrome/reports" ]; then
+            CHROME_FILE=$(ls site/chrome/reports/*.html | head -n 1)
+            mv "$CHROME_FILE" site/chrome/index.html
+            rm -rf site/chrome/reports
           fi
 
-          FIREFOX_FILE=$(find firefox-report -name "*.html" | head -n 1)
-          if [ -n "$FIREFOX_FILE" ]; then
-            cp "$FIREFOX_FILE" site/firefox/index.html
+          # Firefox
+          if [ -d "site/firefox/reports" ]; then
+            FIREFOX_FILE=$(ls site/firefox/reports/*.html | head -n 1)
+            mv "$FIREFOX_FILE" site/firefox/index.html
+            rm -rf site/firefox/reports
           fi
 
       - name: Create Report Dashboard
