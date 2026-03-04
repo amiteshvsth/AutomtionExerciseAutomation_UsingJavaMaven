@@ -145,13 +145,42 @@ jobs:
       pages: write
       id-token: write
 
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - name: Download Extent Reports
+      - name: Download Chrome Report
         uses: actions/download-artifact@v4
         with:
-          pattern: extent-report-*
-          merge-multiple: true
-          path: public
+          name: extent-report-chrome-headless
+          path: site/chrome
+
+      - name: Download Firefox Report
+        uses: actions/download-artifact@v4
+        with:
+          name: extent-report-firefox-headless
+          path: site/firefox
+
+      - name: Create Report Landing Page
+        run: |
+          mkdir -p site
+          cat <<EOF > site/index.html
+          <html>
+          <head>
+          <title>Automation Test Reports</title>
+          <style>
+          body { font-family: Arial; text-align:center; margin-top:80px; }
+          a { display:block; margin:20px; font-size:20px; }
+          </style>
+          </head>
+          <body>
+          <h1>Automation Test Reports</h1>
+          <a href="./chrome/index.html">Chrome Test Report</a>
+          <a href="./firefox/index.html">Firefox Test Report</a>
+          </body>
+          </html>
+          EOF
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -159,7 +188,8 @@ jobs:
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public
+          path: site
 
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
