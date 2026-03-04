@@ -100,14 +100,34 @@ publish:
 # ========================
 pages:
   stage: report
-  when: always
   image: alpine:latest
-  needs: ["test"]
 
   script:
-    - mkdir public
-    - cp -r ExtentReport/* public/ || true
+    - mkdir -p public/chrome
+    - mkdir -p public/firefox
+
+    # Find chrome report
+    - CHROME_REPORT=$(find . -path "*/chrome*/reports/*.html" | head -n 1)
+    - if [ -n "$CHROME_REPORT" ]; then cp "$CHROME_REPORT" public/chrome/index.html; fi
+
+    # Find firefox report
+    - FIREFOX_REPORT=$(find . -path "*/firefox*/reports/*.html" | head -n 1)
+    - if [ -n "$FIREFOX_REPORT" ]; then cp "$FIREFOX_REPORT" public/firefox/index.html; fi
+
+    # Create landing page
+    - |
+      cat <<EOF > public/index.html
+      <html>
+      <head><title>Automation Test Reports</title></head>
+      <body style="font-family:Arial;text-align:center;margin-top:80px;">
+      <h1>Automation Test Reports</h1>
+      <p><a href="./chrome/">Chrome Report</a></p>
+      <p><a href="./firefox/">Firefox Report</a></p>
+      </body>
+      </html>
+      EOF
 
   artifacts:
     paths:
       - public
+  when: always
