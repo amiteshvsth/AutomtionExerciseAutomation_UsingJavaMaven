@@ -44,10 +44,6 @@ public class CardDetailsPage extends CommonPage {
         return selenium.isElementPresent(successMessage);
     }
 
-    public String getSuccessMessageText() {
-        return selenium.getText(successMessage);
-    }
-
     public void fillPaymentDetails(String nameOnCard, String cardNumber, String cvc, String expiryMonth, String expiryYear) {
         enterNameOnCard(nameOnCard);
         enterCardNumber(cardNumber);

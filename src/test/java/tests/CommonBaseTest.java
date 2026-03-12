@@ -21,9 +21,17 @@ public class CommonBaseTest {
         if (extent != null) return;
 
         String reportFolderPath = System.getProperty("user.dir") + "/ExtentReport/reports/";
+        String screenshotsFolderPath = System.getProperty("user.dir") + "/ExtentReport/screenshots/";
         File reportFolder = new File(reportFolderPath);
+        File screenshotFolder = new File(screenshotsFolderPath);
 
+
+        reportFolder.delete();
+        screenshotFolder.delete();
         if (!reportFolder.exists()) {
+            reportFolder.mkdirs();
+        }
+        if (!screenshotFolder.exists()) {
             reportFolder.mkdirs();
         }
 

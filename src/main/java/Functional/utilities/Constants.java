@@ -11,9 +11,8 @@ public class Constants {
 
     //Selenium constants
     public static final int WEBDRIVER_WAIT_DURATION = Integer.parseInt(JavaHelpers.getPropertyValue(PROPERTY_FILE, "WebDriverWaitDuration"));
-    public static final int PAGEFACTORY_WAIT_DURATION = Integer.parseInt(JavaHelpers.getPropertyValue(PROPERTY_FILE, "PageFactoryWaitDuration"));
+    public static final int PAGE_FACTORY_WAIT_DURATION = Integer.parseInt(JavaHelpers.getPropertyValue(PROPERTY_FILE, "PageFactoryWaitDuration"));
     public static final String SCREENSHOT_LOCATION = JavaHelpers.getPropertyValue(PROPERTY_FILE, "ScreenshotLocation");
-    public static final String EXTENT_REPORT = System.getProperty("user.dir") + File.separator + "ExtentReport";
     public static final String LOGIN_PAGE_URL = JavaHelpers.getPropertyValue(PROPERTY_FILE, "loginPageUrl");
 
     //Path

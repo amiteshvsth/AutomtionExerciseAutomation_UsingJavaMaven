@@ -14,12 +14,10 @@ public class CartPage extends CommonPage {
     // Modal
     private final By checkoutModal = By.id("checkoutModal");
     private final By registerLoginModalLink = By.xpath("//div[@id='checkoutModal']//a[@href='/login']");
-    private final By continueOnCartBtn = By.xpath("//button[@class='btn btn-success close-checkout-modal btn-block']");
 
     // Cart table
     private final By cartInfoTable = By.id("cart_info_table");
     private final By productImage = By.xpath("//img[@class='product_image']");
-    private final By productDetailsLink = By.xpath("//a[@href='/product_details/2']");
     private final By deleteProductBtn = By.xpath("//a[@class='cart_quantity_delete']");
     private final By emptyCartMessage = By.id("empty_cart");
     private final By buyProductsLink = By.xpath("//span[@id='empty_cart']//a[@href='/products']");
@@ -57,10 +55,6 @@ public class CartPage extends CommonPage {
         selenium.clickOn(registerLoginModalLink);
     }
 
-    public void clickContinueOnCartButton() throws InterruptedException {
-        selenium.clickOn(continueOnCartBtn);
-    }
-
     // Cart methods
     public boolean isCartTableDisplayed() {
         return selenium.isElementPresent(cartInfoTable);
@@ -71,9 +65,6 @@ public class CartPage extends CommonPage {
         return !elements.isEmpty() && elements.getFirst().isDisplayed();
     }
 
-    public void clickProductDetails() throws InterruptedException {
-        selenium.clickOn(productDetailsLink);
-    }
 
     public void clickDeleteProduct() throws InterruptedException {
         selenium.clickOn(deleteProductBtn);
@@ -82,10 +73,6 @@ public class CartPage extends CommonPage {
 
     public boolean isEmptyCartMessageDisplayed() {
         return selenium.isElementPresent(emptyCartMessage);
-    }
-
-    public void clickBuyProductsLink() throws InterruptedException {
-        selenium.clickOn(buyProductsLink);
     }
 
     public boolean isBuyProductsLinkDisplayed()  {

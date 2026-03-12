@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import tests.Functional.base.BaseTest;
 
+import java.util.Objects;
+
 public class HomePageTests extends BaseTest {
 
     @Test
@@ -117,7 +119,7 @@ public class HomePageTests extends BaseTest {
         loginSignupPage.goToVideoTutorialsPage();
 
         test.info("Step 2: Validating URL of Video Tutorials page");
-        Assert.assertTrue(driver.getCurrentUrl().endsWith("AutomationExercise"),
+        Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).endsWith("AutomationExercise"),
                 "Video Tutorials page URL is incorrect.");
 
         test.info("===== TEST PASSED: Navigation to Video Tutorials page successful =====");

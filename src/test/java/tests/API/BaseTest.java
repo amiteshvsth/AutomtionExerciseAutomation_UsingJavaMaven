@@ -4,6 +4,7 @@ import API.client.ApiClient;
 import com.aventstack.extentreports.ExtentTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.asserts.SoftAssert;
 import tests.CommonBaseTest;
 
 import java.lang.reflect.Method;
@@ -12,10 +13,12 @@ public class BaseTest extends CommonBaseTest {
 
     protected ApiClient apiClient;
     protected ExtentTest test;
+    protected SoftAssert softAssert;
 
     @BeforeClass
     public void setup() {
         apiClient = new ApiClient();
+        softAssert = new SoftAssert();
     }
 
     @BeforeMethod

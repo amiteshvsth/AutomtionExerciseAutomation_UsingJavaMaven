@@ -18,7 +18,6 @@ public class ProductDetailPage extends CommonPage {
     private final By brand = By.xpath("//div[@class='product-information']/p/b[text()='Brand:']/parent::p");
 
     // Quantity and Add to Cart
-    private final By quantityInput = By.id("quantity");
     private final By addToCartBtn = By.xpath("//button[@type='button' and contains(@class,'cart')]");
 
     // Modal Elements
@@ -43,11 +42,6 @@ public class ProductDetailPage extends CommonPage {
                 selenium.getText(condition),
                 selenium.getText(brand)
         );
-    }
-
-
-    public void setQuantity(String quantity) {
-        selenium.enterText(quantityInput,quantity,true);
     }
 
     public void clickAddToCart() throws InterruptedException {
@@ -88,13 +82,6 @@ public class ProductDetailPage extends CommonPage {
     }
 
     // Validation Methods
-    public boolean isProductNameDisplayed() {
-        return selenium.isElementPresent(productName);
-    }
-
-    public boolean isAddToCartButtonDisplayed() {
-        return selenium.isElementPresent(addToCartBtn);
-    }
 
     public boolean isReviewSuccessAlertDisplayed() {
         return selenium.isElementPresent(reviewSuccessAlert);

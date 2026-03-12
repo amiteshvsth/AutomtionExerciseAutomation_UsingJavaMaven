@@ -1,11 +1,12 @@
 package API.dataFactory.user;
 
+import API.dataFactory.BaseDF;
 import API.dataObjects.request.user.UserDO;
 import API.dataObjects.request.user.UserRequestDO;
 
 import java.util.UUID;
 
-public class UserRequestDF {
+public class UserRequestDF extends BaseDF {
 
     public static UserRequestDO setValidLoginDetails(){
         UserRequestDO userRequestDO = new UserRequestDO();
@@ -16,49 +17,52 @@ public class UserRequestDF {
 
     public static UserRequestDO setInvalidLoginDetails(){
         UserRequestDO userRequestDO = new UserRequestDO();
-        userRequestDO.setEmail("amitesh@yopmail.com");
-        userRequestDO.setPassword("12345ssjkls678");
+        userRequestDO.setEmail(faker.internet().emailAddress());
+        userRequestDO.setPassword(faker.internet().password());
         return userRequestDO;
     }
 
     public static UserDO setValidSignUpDetails(){
         UserDO userRequestDO = new UserDO();
-        userRequestDO.setEmail("user_" + UUID.randomUUID() + "@yopmail.com");
-        userRequestDO.setPassword("12345678");
+
+        userRequestDO.setEmail(faker.internet().emailAddress());
+        userRequestDO.setPassword(faker.internet().password(8,12));
+
         userRequestDO.setTitle("Mr");
-        userRequestDO.setBirth_day("12");
-        userRequestDO.setBirth_month("6");
-        userRequestDO.setBirth_year("1999");
-        userRequestDO.setFirst_name("Amitesh");
-        userRequestDO.setLast_name("Vashishth");
-        userRequestDO.setCompany("Amitesh Org.");
-        userRequestDO.setAddress1("Nikol");
-        userRequestDO.setAddress2("Ahmedabad");
+
+        userRequestDO.setBirth_day(String.valueOf(faker.number().numberBetween(1,28)));
+        userRequestDO.setBirth_month(String.valueOf(faker.number().numberBetween(1,12)));
+        userRequestDO.setBirth_year(String.valueOf(faker.number().numberBetween(1985,2002)));
+
+        userRequestDO.setFirst_name(faker.name().firstName());
+        userRequestDO.setLast_name(faker.name().lastName());
+
+        userRequestDO.setCompany(faker.company().name());
+
+        userRequestDO.setAddress1(faker.address().streetAddress());
+        userRequestDO.setAddress2(faker.address().secondaryAddress());
+
         userRequestDO.setCountry("India");
-        userRequestDO.setState("Gujarat");
-        userRequestDO.setCity("Ahmedabad");
-        userRequestDO.setZipcode("380001");
+        userRequestDO.setState(faker.address().state());
+        userRequestDO.setCity(faker.address().city());
+
+        userRequestDO.setZipcode(faker.address().zipCode());
+        userRequestDO.setMobile_number(faker.phoneNumber().cellPhone());
+
         return userRequestDO;
     }
 
     public static UserDO setInvalidSignUpDetails(){
         UserDO userRequestDO = new UserDO();
-        userRequestDO.setEmail("amiteshvashishth@yopmail.com");
-        userRequestDO.setPassword("12345678");
-        userRequestDO.setTitle("Mr");
-        userRequestDO.setBirth_day("15");
-        userRequestDO.setBirth_month("9");
-        userRequestDO.setBirth_year("2000");
-        userRequestDO.setFirst_name("Rahul");
-        userRequestDO.setLast_name("Mehta");
-        userRequestDO.setCompany("Kalyan Org.");
-        userRequestDO.setAddress1("Naroda");
-        userRequestDO.setAddress2("Gujarat");
-        userRequestDO.setCountry("Canada");
-        userRequestDO.setState("Rajasthan");
-        userRequestDO.setCity("jaipur");
-        userRequestDO.setZipcode("390003");
-        userRequestDO.setMobile_number("123456789");
+
+        userRequestDO.setEmail(faker.internet().emailAddress());
+        userRequestDO.setPassword(faker.internet().password(8,12));
+
+        userRequestDO.setFirst_name(faker.name().firstName());
+        userRequestDO.setLast_name(faker.name().lastName());
+
+        userRequestDO.setCountry("Unknown");
+
         return userRequestDO;
     }
 

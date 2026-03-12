@@ -16,6 +16,6 @@ public class BasePage {
         this.driver = driver;
         selenium = new SeleniumHelpers(driver);
         javaHelpers = new JavaHelpers();
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, Constants.PAGEFACTORY_WAIT_DURATION), this);
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver, Constants.PAGE_FACTORY_WAIT_DURATION), this);
     }
 }

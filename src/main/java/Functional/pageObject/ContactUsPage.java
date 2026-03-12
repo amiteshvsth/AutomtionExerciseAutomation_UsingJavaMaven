@@ -16,7 +16,7 @@ public class ContactUsPage extends CommonPage {
     private final By feedbackDescription = By.xpath("//p[text()='We really appreciate your response to our website.']");
     private final By feedbackEmail = By.xpath("//p[normalize-space()='Kindly share your feedback with us at feedback@automationexercise.com.']");
     private final By suggestionText = By.xpath("//p[text()='If you have any suggestion areas or improvements, do let us know. We will definitely work on it.']");
-    private final By thankyouText = By.xpath("//p[text()='Thank you']");
+    private final By thankYouText = By.xpath("//p[text()='Thank you']");
     private final By contactUsHeader = By.xpath("//div[@class='bg']//div/h2");
     private final By note = By.xpath("//div[@class='contact-form']/div/b");
     private final By getInTouchText = By.xpath("//h2[text()='Get In Touch']");
@@ -36,44 +36,39 @@ public class ContactUsPage extends CommonPage {
         selenium.acceptAlert();
     }
 
-    public void clickOnSubmitButton() throws InterruptedException {
-        selenium.clickOn(submit);
-        wait(5000);
-    }
-
-    public boolean isfileUploadOptionVisible(){
+    public boolean isFileUploadOptionVisible(){
         return selenium.isElementPresent(uploadFile);
     }
 
-    public boolean isFeedbackHeadervisible(){
+    public boolean isFeedbackHeaderVisible(){
         return selenium.isElementPresent(feedBackHeader);
     }
 
-    public boolean isFeedbackDescriptionvisible(){
+    public boolean isFeedbackDescriptionVisible(){
         return selenium.isElementPresent(feedbackDescription);
     }
 
-    public boolean isFeedbackEmailvisible(){
+    public boolean isFeedbackEmailVisible(){
         return selenium.isElementPresent(feedbackEmail);
     }
 
-    public boolean isSuggestionTextvisible(){
+    public boolean isSuggestionTextVisible(){
         return selenium.isElementPresent(suggestionText);
     }
 
-    public boolean isThankyouTextvisible(){
-        return selenium.isElementPresent(thankyouText);
+    public boolean isThankYouTextVisible(){
+        return selenium.isElementPresent(thankYouText);
     }
 
-    public boolean isContactUsHeadervisible(){
+    public boolean isContactUsHeaderVisible(){
         return selenium.isElementPresent(contactUsHeader);
     }
 
-    public boolean isNotevisible(){
+    public boolean isNoteVisible(){
         return selenium.isElementPresent(note);
     }
 
-    public boolean isGetInTouchTextvisible(){
+    public boolean isGetInTouchTextVisible(){
         return selenium.isElementPresent(getInTouchText);
     }
 
@@ -81,7 +76,7 @@ public class ContactUsPage extends CommonPage {
         return selenium.getText(successText);
     }
 
-    public boolean isHomeButtonvisible(){
+    public boolean isHomeButtonVisible(){
         return selenium.isElementPresent(homeButton);
     }
 

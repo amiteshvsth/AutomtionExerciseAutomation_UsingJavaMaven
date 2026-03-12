@@ -10,7 +10,6 @@ public class OrderCompletePage extends CommonPage {
     // Order Placed Section
     private final By orderPlacedTitle = By.xpath("//h2[@data-qa='order-placed']");
     private final By congratulationsText = By.xpath("//p[contains(text(),'Congratulations! Your order has been confirmed!')]");
-    private final By downloadInvoiceBtn = By.xpath("//a[@class='btn btn-default check_out']");
     private final By continueBtn = By.xpath("//a[@data-qa='continue-button']");
 
     // Order Placed Actions
@@ -24,14 +23,6 @@ public class OrderCompletePage extends CommonPage {
 
     public String getCongratulationsText() {
         return selenium.getText(congratulationsText);
-    }
-
-    public void clickDownloadInvoice() throws InterruptedException {
-        selenium.clickOn(downloadInvoiceBtn);
-    }
-
-    public boolean isInvoiceDownloaded() {
-        return selenium.isElementPresent(downloadInvoiceBtn);
     }
 
     public void clickContinue() throws InterruptedException {

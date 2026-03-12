@@ -2,14 +2,14 @@ package Functional.dataFactory;
 
 import Functional.dataObject.ContactUsDO;
 
-public class ContactUsDF {
+public class ContactUsDF extends BaseDF {
 
     public static ContactUsDO fillContactUsDetails(){
         ContactUsDO contactUs= new ContactUsDO();
-        contactUs.setName("Amitesh");
-        contactUs.setEmail("amitesh@yopmail.com");
-        contactUs.setSubject("Amitesh");
-        contactUs.setMessage("This is a message");
+        contactUs.setName(faker.name().fullName());
+        contactUs.setEmail(faker.internet().emailAddress());
+        contactUs.setSubject(faker.lorem().sentence(3));
+        contactUs.setMessage(faker.lorem().paragraph());
         return contactUs;
     }
 }

@@ -23,6 +23,9 @@
         <restassured.version>5.5.5</restassured.version>
         <maven.surefire.version>3.5.2</maven.surefire.version>
         <extentreports.version>5.1.2</extentreports.version>
+        <slf4j.version>2.0.12</slf4j.version>
+        <webdrivermanager.version>5.9.1</webdrivermanager.version>
+        <javafaker.version>1.0.2</javafaker.version>
     </properties>
 
     <dependencies>
@@ -50,11 +53,6 @@
             <version>${fasterxml.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>kernel</artifactId>
-            <version>${itextpdf.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
@@ -73,7 +71,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>2.0.12</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>com.aventstack</groupId>
@@ -83,7 +81,14 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.9.1</version>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>${javafaker.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

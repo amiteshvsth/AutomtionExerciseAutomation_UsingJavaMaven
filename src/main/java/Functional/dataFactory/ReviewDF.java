@@ -2,13 +2,13 @@ package Functional.dataFactory;
 
 import Functional.dataObject.ReviewDO;
 
-public class ReviewDF {
+public class ReviewDF extends BaseDF{
 
     public static ReviewDO fillReviewDetails(){
         ReviewDO user = new ReviewDO();
-        user.setName("Amitesh");
-        user.setEmail("amiteshvashishth@yopmail.com");
-        user.setReviewText("This product is very nice");
+        user.setName(faker.name().fullName());
+        user.setEmail(faker.internet().emailAddress());
+        user.setReviewText(faker.lorem().sentence(8));
         return user;
     }
 

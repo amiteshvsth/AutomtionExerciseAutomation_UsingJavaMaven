@@ -26,6 +26,6 @@ public class ProductService {
     }
 
     public ApiResponse<CommonResponseDO> addANewProduct(String product) {
-        return ApiClient.post( APIRoutes.PRODUCTS, null,CommonResponseDO.class);
+        return ApiClient.post( APIRoutes.PRODUCTS, Map.of("product", product),CommonResponseDO.class);
     }
 }

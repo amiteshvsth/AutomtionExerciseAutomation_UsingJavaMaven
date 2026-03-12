@@ -9,7 +9,6 @@ import org.testng.annotations.*;
 import tests.CommonBaseTest;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +19,6 @@ public class BaseTest extends CommonBaseTest {
     protected ExtentTest test;
     DriverManager driverManager;
     protected SeleniumHelpers selenium;
-    protected JavaHelpers javaHelpers = new JavaHelpers();
     protected ThreadLocal<Boolean> isSetupFailed = ThreadLocal.withInitial(() -> false);
 
     @BeforeMethod
@@ -68,14 +66,14 @@ public class BaseTest extends CommonBaseTest {
         } catch (Exception e) {
             throw new RuntimeException("Error in tearDown: " + e.getMessage(), e);
         } finally {
-            driverManager.tearDown();
+            DriverManager.tearDown();
             isSetupFailed.remove();
             Logger.remove();
             extentTest.remove();
         }
     }
 
-    private void captureTestResult(ITestResult result) throws IOException, InterruptedException {
+    private void captureTestResult(ITestResult result) {
 
         if (test == null) {
             test = extent.createTest(result.getMethod().getMethodName());

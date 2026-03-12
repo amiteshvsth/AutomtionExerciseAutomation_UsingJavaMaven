@@ -21,23 +21,23 @@ public class ContactUsTests extends BaseTest {
         homePage.goToContactUsPage();
 
         test.info("Step 2: Validating Contact Us page elements");
-        Assert.assertTrue(contactUsPage.isContactUsHeadervisible(),
+        Assert.assertTrue(contactUsPage.isContactUsHeaderVisible(),
                 "Contact Us header is not visible.");
-        Assert.assertTrue(contactUsPage.isfileUploadOptionVisible(),
+        Assert.assertTrue(contactUsPage.isFileUploadOptionVisible(),
                 "File upload option is not visible.");
-        Assert.assertTrue(contactUsPage.isFeedbackHeadervisible(),
+        Assert.assertTrue(contactUsPage.isFeedbackHeaderVisible(),
                 "Feedback header is not visible.");
-        Assert.assertTrue(contactUsPage.isFeedbackDescriptionvisible(),
+        Assert.assertTrue(contactUsPage.isFeedbackDescriptionVisible(),
                 "Feedback description is not visible.");
-        Assert.assertTrue(contactUsPage.isFeedbackEmailvisible(),
+        Assert.assertTrue(contactUsPage.isFeedbackEmailVisible(),
                 "Feedback email text is not visible.");
-        Assert.assertTrue(contactUsPage.isSuggestionTextvisible(),
+        Assert.assertTrue(contactUsPage.isSuggestionTextVisible(),
                 "Suggestion text is not visible.");
-        Assert.assertTrue(contactUsPage.isThankyouTextvisible(),
+        Assert.assertTrue(contactUsPage.isThankYouTextVisible(),
                 "Thank you text is not visible.");
-        Assert.assertTrue(contactUsPage.isNotevisible(),
+        Assert.assertTrue(contactUsPage.isNoteVisible(),
                 "Note section is not visible.");
-        Assert.assertTrue(contactUsPage.isGetInTouchTextvisible(),
+        Assert.assertTrue(contactUsPage.isGetInTouchTextVisible(),
                 "Get in touch text is not visible.");
 
         test.info("Step 3: Submitting Contact Us form with valid details");
@@ -49,9 +49,9 @@ public class ContactUsTests extends BaseTest {
                 "Success message is not displayed.");
 
         test.info("Step 5: Validating post-submission UI changes");
-        Assert.assertFalse(contactUsPage.isfileUploadOptionVisible(),
+        Assert.assertFalse(contactUsPage.isFileUploadOptionVisible(),
                 "File upload option is still visible after submission.");
-        Assert.assertTrue(contactUsPage.isHomeButtonvisible(),
+        Assert.assertTrue(contactUsPage.isHomeButtonVisible(),
                 "Home button is not visible after submission.");
 
         test.info("Step 6: Navigating back to Home page");
