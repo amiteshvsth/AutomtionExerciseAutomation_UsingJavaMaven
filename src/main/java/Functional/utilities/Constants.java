@@ -17,7 +17,6 @@ public class Constants {
 
     //Path
     public static final String DOWNLOAD_FOLDER = System.getProperty("user.dir") + File.separator + "src\\main\\resources\\downloadFiles";
-    public static final String UPLOAD_FOLDER = System.getProperty("user.dir") + File.separator + "src\\main\\resources\\uploadFiles";
 
     public static List<String> EXPECTED_PRODUCT_CATEGORIES = Arrays.asList("WOMEN","MEN", "KIDS");
     public static List<String> EXPECTED_BRANDS = Arrays.asList("POLO", "H&M" ,"MADAME", "MAST & HARBOUR", "BABYHUG" , "ALLEN SOLLY JUNIOR", "KOOKIE KIDS", "BIBA");

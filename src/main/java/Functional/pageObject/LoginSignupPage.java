@@ -21,11 +21,10 @@ public class LoginSignupPage extends CommonPage {
     private final By loginErrorMessage = By.xpath("//p[text()='Your email or password is incorrect!']");
     private final By signUpErrorMessage = By.xpath("//p[text()='Email Address already exist!']");
 
-    public HomePage login(UserDO user) throws InterruptedException {
+    public void login(UserDO user) throws InterruptedException {
         selenium.enterText(loginEmail,user.getEmail(),true);
         selenium.enterText(loginPassword,user.getPassword(),true);
         selenium.clickOn(loginBtn);
-        return new HomePage(driver);
     }
 
     public void signup(UserDO user) throws InterruptedException {

@@ -8,7 +8,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"CallToPrintStackTrace", "unused"})
+@SuppressWarnings({"unused"})
 public class WaitHelpers {
     protected WebDriver driver;
 
