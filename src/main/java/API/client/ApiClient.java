@@ -9,7 +9,7 @@ import java.util.Map;
 public class ApiClient {
 
     static {
-        RestAssured.baseURI = ConfigManager.getValue("apiUrl");
+        RestAssured.baseURI = ConfigManager.getValue("API_URL");
     }
 
     private static <T> ApiResponse<T> execute(

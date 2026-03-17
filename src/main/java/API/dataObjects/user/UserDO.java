@@ -1,4 +1,4 @@
-package API.dataObjects.response.user;
+package API.dataObjects.user;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,9 +7,10 @@ import lombok.Setter;
 @Setter
 public class UserDO {
 
-    private int id;
+    private String id;
     private String name;
     private String email;
+    private String password;
     private String title;
     private String birth_day;
     private String birth_month;
@@ -23,4 +24,5 @@ public class UserDO {
     private String state;
     private String city;
     private String zipcode;
+    private String mobile_number;
 }

@@ -1,11 +1,11 @@
-package API.dataObjects.response.user;
+package API.dataObjects.user;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class UserResponseDO {
+public  class UserResponseDO {
 
     private int responseCode;
     private UserDO user;

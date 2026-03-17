@@ -2,11 +2,11 @@ package API.services;
 
 import API.client.ApiClient;
 import API.client.ApiResponse;
-import API.dataObjects.request.user.UserDO;
-import API.dataObjects.request.user.UserRequestDO;
-import API.dataObjects.response.common.CommonResponseDO;
-import API.dataObjects.response.user.UserResponseDO;
-import API.endpoints.APIRoutes;
+import API.dataObjects.user.UserDO;
+import API.dataObjects.user.UserRequestDO;
+import API.dataObjects.common.CommonResponseDO;
+import API.dataObjects.user.UserResponseDO;
+import API.utilities.Endpoints;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class UserService {
 
         Map<String, String> requestBody = getUserDetails(user);
         return ApiClient.post(
-                APIRoutes.CREATE_ACCOUNT,
+                Endpoints.CREATE_ACCOUNT,
                 requestBody,
                 CommonResponseDO.class
         );
@@ -26,20 +26,20 @@ public class UserService {
     public ApiResponse<CommonResponseDO> updateUser(UserDO user) {
 
         Map<String, String> requestBody = getUserDetails(user);
-        return ApiClient.put(APIRoutes.UPDATE_ACCOUNT, requestBody, CommonResponseDO.class );
+        return ApiClient.put(Endpoints.UPDATE_ACCOUNT, requestBody, CommonResponseDO.class );
     }
 
     public ApiResponse<CommonResponseDO> deleteUser(UserRequestDO userData) {
 
-        return ApiClient.delete( APIRoutes.DELETE_ACCOUNT, Map.of("email", userData.getEmail(), "password", userData.getPassword()), CommonResponseDO.class );
+        return ApiClient.delete( Endpoints.DELETE_ACCOUNT, Map.of("email", userData.getEmail(), "password", userData.getPassword()), CommonResponseDO.class );
     }
 
     public ApiResponse<UserResponseDO> getUserByEmail(String email) {
-        return ApiClient.get( APIRoutes.GET_USER_BY_EMAIL + "?email=" + email, UserResponseDO.class );
+        return ApiClient.get( Endpoints.GET_USER_BY_EMAIL + "?email=" + email, UserResponseDO.class );
     }
 
     public ApiResponse<CommonResponseDO> getUserByInvalidEmail(String email) {
-        return ApiClient.get( APIRoutes.GET_USER_BY_EMAIL + "?email=" + email, CommonResponseDO.class );
+        return ApiClient.get( Endpoints.GET_USER_BY_EMAIL + "?email=" + email, CommonResponseDO.class );
     }
 
     // Helper Method

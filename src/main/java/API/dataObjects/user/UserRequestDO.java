@@ -1,4 +1,4 @@
-package API.dataObjects.request.user;
+package API.dataObjects.user;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -33,8 +33,8 @@ public class ProductsTests extends BaseTest {
 
         Assert.assertTrue(productsPage.isSaleImageDisplayed(), "Sale image is not displayed.");
         Assert.assertEquals(productsPage.getProductCategoriesCount(), 3, "Product categories count mismatch.");
-        Assert.assertEquals(actualCategories, expectedProductCategories, "Product categories mismatch.");
-        Assert.assertEquals(actualBrands, expectedBrands, "Brand names mismatch.");
+        Assert.assertEquals(actualCategories, EXPECTED_PRODUCT_CATEGORIES, "Product categories mismatch.");
+        Assert.assertEquals(actualBrands, EXPECTED_BRANDS, "Brand names mismatch.");
         Assert.assertEquals(productsPage.getBrandsCount(), 8, "Brand count mismatch.");
         Assert.assertTrue(productsPage.isProductsHeaderDisplayed(), "Products header is not displayed.");
 
@@ -75,14 +75,14 @@ public class ProductsTests extends BaseTest {
 
         homePage.goToProductsPage();
 
-        for (String brand : expectedBrandCounts.keySet()) {
+        for (String brand : EXPECTED_BRANDS_COUNTS.keySet()) {
 
             test.info("Validating brand: "+ brand);
 
             productsPage.clickOnBrandName(brand);
 
             int actualCount = productsPage.getProductNames().size();
-            int expectedCount = expectedBrandCounts.get(brand);
+            int expectedCount = EXPECTED_BRANDS_COUNTS.get(brand);
 
             String expectedHeader = "BRAND - " + brand.toUpperCase() + " PRODUCTS";
 
@@ -108,12 +108,12 @@ public class ProductsTests extends BaseTest {
 
         homePage.goToProductsPage();
 
-        for (String category : expectedSubCategoriesCounts.keySet()) {
+        for (String category : EXPECTED_SUBCATEGORIES_COUNT.keySet()) {
 
             test.info("Validating sub-categories for category: "+ category);
 
             int actualSubCategories = productsPage.getProductSubCategories(category).size();
-            int expectedSubCategoriesCount = expectedSubCategoriesCounts.get(category);
+            int expectedSubCategoriesCount = EXPECTED_SUBCATEGORIES_COUNT.get(category);
 
             Assert.assertEquals(actualSubCategories, expectedSubCategoriesCount,
                     "Sub-category count mismatch for category: " + category);

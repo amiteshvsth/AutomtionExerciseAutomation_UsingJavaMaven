@@ -2,11 +2,11 @@ package tests.API;
 
 import API.client.ApiResponse;
 import API.dataFactory.user.UserRequestDF;
-import API.dataObjects.request.user.UserRequestDO;
-import API.dataObjects.response.common.CommonResponseDO;
-import API.dataObjects.response.user.UserDO;
+import API.dataObjects.user.UserRequestDO;
+import API.dataObjects.common.CommonResponseDO;
+import API.dataObjects.user.UserDO;
+import API.dataObjects.user.UserResponseDO;
 import API.services.UserService;
-import API.dataObjects.response.user.UserResponseDO;
 import org.testng.annotations.Test;
 
 public class UserTests extends BaseTest {

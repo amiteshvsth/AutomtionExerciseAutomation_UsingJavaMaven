@@ -1,4 +1,4 @@
-package API.dataObjects.response.product;
+package API.dataObjects.product;
 
 import lombok.Getter;
 import lombok.Setter;

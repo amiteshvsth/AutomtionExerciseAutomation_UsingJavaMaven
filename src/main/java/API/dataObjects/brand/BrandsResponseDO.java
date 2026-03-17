@@ -1,4 +1,4 @@
-package API.dataObjects.response.product;
+package API.dataObjects.brand;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,8 +7,9 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ProductsResponseDO {
+public class BrandsResponseDO {
 
     private int responseCode;
-    private List<ProductDO> products;
+    private List<BrandDO> brands;
+
 }

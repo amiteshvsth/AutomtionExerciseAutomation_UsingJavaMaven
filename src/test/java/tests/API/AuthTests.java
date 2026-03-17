@@ -2,7 +2,7 @@ package tests.API;
 
 import API.client.ApiResponse;
 import API.dataFactory.user.UserRequestDF;
-import API.dataObjects.response.common.CommonResponseDO;
+import API.dataObjects.common.CommonResponseDO;
 import API.services.AuthService;
 import org.testng.annotations.Test;
 

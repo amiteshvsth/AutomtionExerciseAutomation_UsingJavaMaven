@@ -13,16 +13,16 @@ public class Constants {
     public static final int WEBDRIVER_WAIT_DURATION = Integer.parseInt(JavaHelpers.getPropertyValue(PROPERTY_FILE, "WebDriverWaitDuration"));
     public static final int PAGE_FACTORY_WAIT_DURATION = Integer.parseInt(JavaHelpers.getPropertyValue(PROPERTY_FILE, "PageFactoryWaitDuration"));
     public static final String SCREENSHOT_LOCATION = JavaHelpers.getPropertyValue(PROPERTY_FILE, "ScreenshotLocation");
-    public static final String LOGIN_PAGE_URL = JavaHelpers.getPropertyValue(PROPERTY_FILE, "loginPageUrl");
+    public static final String LOGIN_PAGE_URL = JavaHelpers.getPropertyValue(PROPERTY_FILE, "LOGIN_PAGE_URL");
 
     //Path
     public static final String DOWNLOAD_FOLDER = System.getProperty("user.dir") + File.separator + "src\\main\\resources\\downloadFiles";
     public static final String UPLOAD_FOLDER = System.getProperty("user.dir") + File.separator + "src\\main\\resources\\uploadFiles";
 
-    public static List<String> expectedProductCategories = Arrays.asList("WOMEN","MEN", "KIDS");
-    public static List<String> expectedBrands = Arrays.asList("POLO", "H&M" ,"MADAME", "MAST & HARBOUR", "BABYHUG" , "ALLEN SOLLY JUNIOR", "KOOKIE KIDS", "BIBA");
+    public static List<String> EXPECTED_PRODUCT_CATEGORIES = Arrays.asList("WOMEN","MEN", "KIDS");
+    public static List<String> EXPECTED_BRANDS = Arrays.asList("POLO", "H&M" ,"MADAME", "MAST & HARBOUR", "BABYHUG" , "ALLEN SOLLY JUNIOR", "KOOKIE KIDS", "BIBA");
 
-    public static Map<String, Integer> expectedBrandCounts = Map.of(
+    public static Map<String, Integer> EXPECTED_BRANDS_COUNTS = Map.of(
             "Polo", 6,
             "H&M", 5,
             "Madame", 5,
@@ -33,7 +33,7 @@ public class Constants {
             "Biba", 5
     );
 
-    public static Map<String, Integer> expectedSubCategoriesCounts = Map.of(
+    public static Map<String, Integer> EXPECTED_SUBCATEGORIES_COUNT = Map.of(
             "Men", 2,
             "Women", 3,
             "Kids", 2

@@ -1,7 +1,8 @@
-package API.endpoints;
+package API.utilities;
 
-public class APIRoutes {
+public class Endpoints {
 
+    public static final String BASE_URI = "https://automationexercise.com/api";
     // Products
     public static final String PRODUCTS = "/productsList";
     public static final String SEARCH_PRODUCT = "/searchProduct";

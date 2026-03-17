@@ -1,10 +1,10 @@
 package tests.API;
 
 import API.client.ApiResponse;
-import API.dataObjects.response.common.CommonResponseDO;
+import API.dataObjects.common.CommonResponseDO;
 import API.services.ProductService;
-import API.dataObjects.response.product.ProductsResponseDO;
-import API.dataObjects.response.product.ProductDO;
+import API.dataObjects.product.ProductsResponseDO;
+import API.dataObjects.product.ProductDO;
 import org.testng.annotations.Test;
 
 import java.util.List;

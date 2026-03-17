@@ -1,10 +1,9 @@
 package API.dataFactory.user;
 
 import API.dataFactory.BaseDF;
-import API.dataObjects.request.user.UserDO;
-import API.dataObjects.request.user.UserRequestDO;
+import API.dataObjects.user.UserDO;
+import API.dataObjects.user.UserRequestDO;
 
-import java.util.UUID;
 
 public class UserRequestDF extends BaseDF {
 
@@ -55,7 +54,7 @@ public class UserRequestDF extends BaseDF {
     public static UserDO setInvalidSignUpDetails(){
         UserDO userRequestDO = new UserDO();
 
-        userRequestDO.setEmail(faker.internet().emailAddress());
+        userRequestDO.setEmail("amitesh.vashishth@gmail.com");
         userRequestDO.setPassword(faker.internet().password(8,12));
 
         userRequestDO.setFirst_name(faker.name().firstName());

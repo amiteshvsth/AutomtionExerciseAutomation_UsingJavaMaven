@@ -1,4 +1,4 @@
-package API.dataObjects.response.brand;
+package API.dataObjects.brand;
 
 import lombok.Getter;
 import lombok.Setter;
