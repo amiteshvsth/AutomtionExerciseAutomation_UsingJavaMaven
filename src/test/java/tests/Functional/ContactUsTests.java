@@ -12,8 +12,6 @@ public class ContactUsTests extends BaseTest {
     @Test
     public void verifyThatContactUsFormIsSubmittedSuccessfully() throws Exception {
 
-        step("===== TEST START: Verify Contact Us form submission =====");
-
         HomePage homePage = new HomePage(driver);
         ContactUsPage contactUsPage = new ContactUsPage(driver);
 
@@ -61,6 +59,5 @@ public class ContactUsTests extends BaseTest {
         Assert.assertTrue(homePage.isHomePageLogoDisplayed(),
                 "Home page logo is not displayed.");
 
-        step("===== TEST PASSED: Contact Us form submitted successfully =====");
     }
 }

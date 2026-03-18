@@ -1,12 +1,13 @@
 package Functional.utilities;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import java.awt.Toolkit;
+import java.awt.Dimension;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -104,8 +105,14 @@ public class DriverManager {
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
-        var windowSize = getDriver().manage().window().getSize();
-        getDriver().manage().window().setSize(windowSize);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        getDriver().manage().window().setSize(
+                new org.openqa.selenium.Dimension(
+                        (int) screenSize.getWidth(),
+                        (int) screenSize.getHeight()
+                )
+        );
         getDriver().manage().deleteAllCookies();
 
         return getDriver();

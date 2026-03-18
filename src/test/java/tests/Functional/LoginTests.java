@@ -86,8 +86,6 @@ public class LoginTests extends BaseTest {
     @Test
     public void verifyThatAccountDeletedSuccessfully() throws InterruptedException {
 
-        step("===== TEST START: Verify account creation and deletion workflow =====");
-
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
         SignUpPage signUpPage = new SignUpPage(driver);
         AccountCreatedPage accountCreatedPage = new AccountCreatedPage(driver);
@@ -153,6 +151,5 @@ public class LoginTests extends BaseTest {
                 "Your email or password is incorrect!",
                 "Expected error message is not displayed for deleted account.");
 
-        step("===== TEST PASSED: Account deletion workflow verified successfully =====");
     }
 }

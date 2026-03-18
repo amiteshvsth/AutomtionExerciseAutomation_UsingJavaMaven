@@ -14,8 +14,6 @@ public class CartTests extends BaseTest {
     @Test
     public void verifyThatCartIsEmptyByDefault() throws InterruptedException {
 
-        step("===== TEST START: Verify cart is empty by default =====");
-
         CartPage cartPage = new CartPage(driver);
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
 
@@ -30,14 +28,11 @@ public class CartTests extends BaseTest {
         Assert.assertTrue(cartPage.isBuyProductsLinkDisplayed(),
                 "'Buy Products' link is not displayed.");
 
-        step("===== TEST PASSED: Cart is empty by default =====");
     }
 
 
     @Test
     public void verifyAddToCartFunctionality() throws InterruptedException {
-
-        step("===== TEST START: Verify add to cart functionality =====");
 
         CartPage cartPage = new CartPage(driver);
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
@@ -74,15 +69,11 @@ public class CartTests extends BaseTest {
         step("Validating checkout option is available");
         Assert.assertTrue(cartPage.isProceedToCheckoutButtonDisplayed(),
                 "Proceed to checkout button is not displayed.");
-
-        step("===== TEST PASSED: Add to cart functionality verified successfully =====");
     }
 
 
     @Test
     public void verifyThatProductCanBeRemovedFromCart() throws InterruptedException {
-
-        step("===== TEST START: Verify product can be removed from cart =====");
 
         CartPage cartPage = new CartPage(driver);
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
@@ -123,7 +114,5 @@ public class CartTests extends BaseTest {
                 "Empty cart message is not displayed.");
         Assert.assertTrue(cartPage.isBuyProductsLinkDisplayed(),
                 "'Buy Products' link is not displayed.");
-
-        step("===== TEST PASSED: Product removed from cart successfully =====");
     }
 }

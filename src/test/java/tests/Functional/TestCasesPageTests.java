@@ -12,8 +12,6 @@ public class TestCasesPageTests extends BaseTest {
     @Test
     public void verifyThatTestCasesAreDisplayed() throws InterruptedException {
 
-        step("===== TEST START: Verify Test Cases page content =====");
-
         HomePage homePage = new HomePage(driver);
         TestCasesPage testCasesPage = new TestCasesPage(driver);
 
@@ -29,6 +27,5 @@ public class TestCasesPageTests extends BaseTest {
                 26,
                 "Test cases count mismatch.");
 
-        step("===== TEST PASSED: Test Cases page validated successfully =====");
     }
 }

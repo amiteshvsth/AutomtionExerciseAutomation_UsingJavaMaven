@@ -12,8 +12,6 @@ public class ApiTestingPageTests extends BaseTest {
     @Test
     public void verifySmokeTestsForApiTestingPage() throws InterruptedException {
 
-        step("===== TEST START: Verify smoke test validations for API Testing page =====");
-
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
         ApiPage apiPage = new ApiPage(driver);
 
@@ -43,7 +41,5 @@ public class ApiTestingPageTests extends BaseTest {
         step("Validating total API count displayed on page");
         Assert.assertEquals(apiPage.getApiCount(), 14,
                 "API count displayed is incorrect.");
-
-        step("===== TEST PASSED: API Testing page smoke validations successful =====");
     }
 }

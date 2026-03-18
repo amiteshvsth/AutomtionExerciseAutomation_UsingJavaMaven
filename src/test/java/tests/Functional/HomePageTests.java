@@ -13,8 +13,6 @@ public class HomePageTests extends BaseTest {
     @Test
     public void verifyHomePageSmokeTest() throws InterruptedException {
 
-        step("===== TEST START: Verify Home Page smoke validations =====");
-
         HomePage homePage = new HomePage(driver);
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
 
@@ -48,14 +46,11 @@ public class HomePageTests extends BaseTest {
         Assert.assertTrue(homePage.isBrandsHeaderDisplayed(), "Brands header is not displayed.");
         Assert.assertTrue(homePage.isFeaturedItemsHeaderDisplayed(), "Featured items header is not displayed.");
 
-        step("===== TEST PASSED: Home page smoke validations successful =====");
     }
 
 
     @Test
     public void verifySubscribeEmailInHomePage() throws InterruptedException {
-
-        step("===== TEST START: Verify subscription functionality on Home page =====");
 
         HomePage homePage = new HomePage(driver);
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
@@ -78,14 +73,12 @@ public class HomePageTests extends BaseTest {
         Assert.assertTrue(homePage.isSuccessMessageDisplayed(),
                 "Subscription success message is not displayed.");
 
-        step("===== TEST PASSED: Subscription functionality verified successfully =====");
     }
 
 
     @Test
     public void verifyScrollToTopIconInHomePage() throws InterruptedException {
 
-        step("===== TEST START: Verify scroll-to-top functionality =====");
 
         HomePage homePage = new HomePage(driver);
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
@@ -104,14 +97,11 @@ public class HomePageTests extends BaseTest {
         Assert.assertTrue(homePage.isHomePageLogoDisplayed(),
                 "Home page logo is not visible after scrolling to top.");
 
-        step("===== TEST PASSED: Scroll-to-top functionality verified successfully =====");
     }
 
 
     @Test
     public void verifyNavigationToVideoTutorialsPage() throws InterruptedException {
-
-        step("===== TEST START: Verify navigation to Video Tutorials page =====");
 
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
 
@@ -122,6 +112,5 @@ public class HomePageTests extends BaseTest {
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).endsWith("AutomationExercise"),
                 "Video Tutorials page URL is incorrect.");
 
-        step("===== TEST PASSED: Navigation to Video Tutorials page successful =====");
     }
 }

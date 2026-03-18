@@ -20,7 +20,6 @@ public class ProductsTests extends BaseTest {
     @Test
     public void verifyThatProductsPageLoadedSuccessfully() throws InterruptedException {
 
-        step("===== TEST START: Verify Products page loads successfully =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
@@ -39,14 +38,12 @@ public class ProductsTests extends BaseTest {
         Assert.assertEquals(productsPage.getBrandsCount(), 8, "Brand count mismatch.");
         Assert.assertTrue(productsPage.isProductsHeaderDisplayed(), "Products header is not displayed.");
 
-        step("===== TEST PASSED: Products page loaded successfully =====");
     }
 
 
     @Test
     public void verifyThatSearchFunctionalityIsWorkingForProductsPage() throws InterruptedException {
 
-        step("===== TEST START: Verify product search functionality =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
@@ -62,14 +59,12 @@ public class ProductsTests extends BaseTest {
         Assert.assertEquals(productNames.size(), 1, "Unexpected number of search results.");
         Assert.assertEquals(productNames.getFirst(), "Blue Top", "Product name mismatch.");
 
-        step("===== TEST PASSED: Product search verified successfully =====");
     }
 
 
     @Test
     public void verifyThatProductCountIsCorrectForEachBrand() throws InterruptedException {
 
-        step("===== TEST START: Verify product count for each brand =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
@@ -95,14 +90,11 @@ public class ProductsTests extends BaseTest {
                     "Product count mismatch for brand: " + brand);
         }
 
-        step("===== TEST PASSED: Brand-wise product count verified =====");
     }
 
 
     @Test
     public void verifyThatProductSubCategoriesCountIsCorrect() throws InterruptedException {
-
-        step("===== TEST START: Verify sub-category count for each category =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
@@ -120,14 +112,11 @@ public class ProductsTests extends BaseTest {
                     "Sub-category count mismatch for category: " + category);
         }
 
-        step("===== TEST PASSED: Sub-category count validated successfully =====");
     }
 
 
     @Test
     public void verifyThatProductDetailsAreDisplayedOnProductDetailsPage() throws InterruptedException {
-
-        step("===== TEST START: Verify product details page =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
@@ -146,14 +135,11 @@ public class ProductsTests extends BaseTest {
         Assert.assertEquals(productDetails.getCondition(), "Condition: New", "Condition mismatch.");
         Assert.assertEquals(productDetails.getBrand(), "Brand: H&M", "Brand mismatch.");
 
-        step("===== TEST PASSED: Product details validated successfully =====");
     }
 
 
     @Test
     public void verifyThatWeAreAbleToGiveReviewForProducts() throws InterruptedException {
-
-        step("===== TEST START: Verify product review submission =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
@@ -169,14 +155,11 @@ public class ProductsTests extends BaseTest {
         Assert.assertTrue(productDetailPage.isReviewSuccessAlertDisplayed(),
                 "Review success message is not displayed.");
 
-        step("===== TEST PASSED: Product review submitted successfully =====");
     }
 
 
     @Test
     public void verifyEndToEndProductCheckoutFunctionality() throws InterruptedException {
-
-        step("===== TEST START: Verify end-to-end product checkout flow =====");
 
         HomePage homePage = new HomePage(driver);
         LoginSignupPage loginPage = new LoginSignupPage(driver);
@@ -236,6 +219,5 @@ public class ProductsTests extends BaseTest {
                 "Amitesh Vashishth",
                 "Logged-in username mismatch.");
 
-        step("===== TEST PASSED: End-to-end checkout flow verified successfully =====");
     }
 }

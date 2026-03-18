@@ -16,8 +16,6 @@ public class SignUpTests extends BaseTest {
     @Test
     public void verifyThatSignUpSuccessfulWithNewUser() throws Exception {
 
-        step("===== TEST START: Verify successful sign-up with new user =====");
-
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
         SignUpPage signUpPage = new SignUpPage(driver);
         AccountCreatedPage accountCreatedPage = new AccountCreatedPage(driver);
@@ -52,14 +50,11 @@ public class SignUpTests extends BaseTest {
         Assert.assertTrue(commonPage.isDeleteAccountLinkDisplayed(),
                 "Delete account link is not displayed.");
 
-        step("===== TEST PASSED: New user sign-up verified successfully =====");
     }
 
 
     @Test
     public void verifyThatSignUpFailsWithExistingUserEmail() throws Exception {
-
-        step("===== TEST START: Verify sign-up fails with existing email =====");
 
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
 
@@ -74,6 +69,5 @@ public class SignUpTests extends BaseTest {
                 "Email Address already exist!",
                 "Expected error message for existing email is not displayed.");
 
-        step("===== TEST PASSED: Existing email correctly rejected during sign-up =====");
     }
 }
