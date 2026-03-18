@@ -11,5 +11,5 @@ public  class UserResponseDO {
     @JsonProperty("responseCode")
     private int responseCode;
     @JsonProperty("user")
-    private UserDO user;
+    private UserDetailsRequestDO user;
 }

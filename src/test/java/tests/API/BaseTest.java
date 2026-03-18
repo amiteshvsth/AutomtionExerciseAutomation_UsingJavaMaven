@@ -13,12 +13,10 @@ public class BaseTest extends CommonBaseTest {
 
     protected ApiClient apiClient;
     protected ExtentTest test;
-    protected SoftAssert softAssert;
 
     @BeforeClass
     public void setup() {
         apiClient = new ApiClient();
-        softAssert = new SoftAssert();
     }
 
     @BeforeMethod

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BrandDO {
+public class BrandRequestDO {
 
     @JsonProperty("id")
     private int id;

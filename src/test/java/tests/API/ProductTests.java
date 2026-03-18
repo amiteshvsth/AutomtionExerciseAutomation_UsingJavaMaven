@@ -4,8 +4,9 @@ import API.client.ApiResponse;
 import API.dataObjects.common.CommonResponseDO;
 import API.services.ProductService;
 import API.dataObjects.product.ProductsResponseDO;
-import API.dataObjects.product.ProductDO;
+import API.dataObjects.product.ProductRequestDO;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class ProductTests extends BaseTest {
 
         ProductService productService = new ProductService();
 
+        SoftAssert softAssert = new SoftAssert();
         test.info("Sending request to retrieve all products");
         ApiResponse<ProductsResponseDO> response = productService.getAllProducts();
 
@@ -27,14 +29,14 @@ public class ProductTests extends BaseTest {
         softAssert.assertNotNull(response.getDto().getProducts(),
                 "Products list is null.");
 
-        List<ProductDO> products = response.getDto().getProducts();
+        List<ProductRequestDO> products = response.getDto().getProducts();
 
         test.info("Validating products list is not empty");
         softAssert.assertFalse(products.isEmpty(),
                 "Products list should not be empty.");
 
         test.info("Validating product details for first product");
-        ProductDO product = products.getFirst();
+        ProductRequestDO product = products.getFirst();
 
         softAssert.assertNotNull(product.getId(), "Product ID is null.");
         softAssert.assertNotNull(product.getName(), "Product name is null.");
@@ -54,6 +56,7 @@ public class ProductTests extends BaseTest {
 
         ProductService productService = new ProductService();
 
+        SoftAssert softAssert = new SoftAssert();
         test.info("Sending request to add a new product");
         ApiResponse<CommonResponseDO> response =
                 productService.addANewProduct("Adidas shoes");
@@ -77,6 +80,7 @@ public class ProductTests extends BaseTest {
 
         ProductService productService = new ProductService();
 
+        SoftAssert softAssert = new SoftAssert();
         test.info("Sending product search request with valid keyword");
         ApiResponse<ProductsResponseDO> response =
                 productService.searchProduct("Adidas shoes");
@@ -99,6 +103,7 @@ public class ProductTests extends BaseTest {
 
         ProductService productService = new ProductService();
 
+        SoftAssert softAssert = new SoftAssert();
         test.info("Sending product search request without search parameter");
         ApiResponse<CommonResponseDO> response =
                 productService.searchProductWithoutParameter();

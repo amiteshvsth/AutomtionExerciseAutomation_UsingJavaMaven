@@ -2,7 +2,7 @@ package API.services;
 
 import API.client.ApiClient;
 import API.client.ApiResponse;
-import API.dataObjects.user.UserDO;
+import API.dataObjects.user.UserDetailsRequestDO;
 import API.dataObjects.user.UserRequestDO;
 import API.dataObjects.common.CommonResponseDO;
 import API.dataObjects.user.UserResponseDO;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class UserService {
 
-    public ApiResponse<CommonResponseDO> createUser(UserDO user) {
+    public ApiResponse<CommonResponseDO> createUser(UserDetailsRequestDO user) {
 
         Map<String, String> requestBody = getUserDetails(user);
         return ApiClient.post(
@@ -23,7 +23,7 @@ public class UserService {
         );
     }
 
-    public ApiResponse<CommonResponseDO> updateUser(UserDO user) {
+    public ApiResponse<CommonResponseDO> updateUser(UserDetailsRequestDO user) {
 
         Map<String, String> requestBody = getUserDetails(user);
         return ApiClient.put(Endpoints.UPDATE_ACCOUNT, requestBody, CommonResponseDO.class );
@@ -43,7 +43,7 @@ public class UserService {
     }
 
     // Helper Method
-    private Map<String, String> getUserDetails(UserDO user) {
+    private Map<String, String> getUserDetails(UserDetailsRequestDO user) {
         Map<String, String> requestBody = new HashMap<>();
 
         requestBody.put("name", user.getName());

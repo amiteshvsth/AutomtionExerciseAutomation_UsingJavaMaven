@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductDO {
+public class ProductRequestDO {
 
     @JsonProperty("id")
     private int id;
@@ -17,5 +17,5 @@ public class ProductDO {
     @JsonProperty("brand")
     private String brand;
     @JsonProperty("category")
-    private CategoryDO category;
+    private CategoryRequestDO category;
 }

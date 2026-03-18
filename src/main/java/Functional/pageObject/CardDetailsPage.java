@@ -20,7 +20,7 @@ public class CardDetailsPage extends CommonPage {
         return selenium.isElementPresent(successMessage);
     }
 
-    public void completePayment(CardDetailsDO cardDetails) throws InterruptedException {
+    public void fillPaymentDetails(CardDetailsDO cardDetails) throws InterruptedException {
         selenium.enterText(nameOnCardInput,cardDetails.getName(),true);
         selenium.enterText(cardNumberInput,cardDetails.getCardNumber(),true);
         selenium.enterText(cvcInput,cardDetails.getCvc(),true);

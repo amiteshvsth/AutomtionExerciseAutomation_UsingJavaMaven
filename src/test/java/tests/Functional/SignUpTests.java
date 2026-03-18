@@ -1,5 +1,6 @@
 package tests.Functional;
 
+import Functional.dataObject.SignUpDO;
 import Functional.dataObject.UserDO;
 import Functional.dataFactory.SignUpDF;
 import Functional.dataFactory.UserDF;
@@ -24,8 +25,9 @@ public class SignUpTests extends BaseTest {
         step("Initiating sign-up with valid new user details");
         loginSignupPage.signup(UserDF.getData());
 
+        SignUpDO signUpData = SignUpDF.getData();
         step("Completing account registration form");
-        signUpPage.createAccount(SignUpDF.getData());
+        signUpPage.createAccount(signUpData);
 
         step("Validating account creation confirmation page");
         Assert.assertTrue(accountCreatedPage.isAccountCreatedTextDisplayed(),
@@ -43,7 +45,7 @@ public class SignUpTests extends BaseTest {
         Assert.assertTrue(commonPage.isHomePageLogoDisplayed(),
                 "Home page logo is not displayed.");
         Assert.assertEquals(commonPage.getLoggedInUserName(),
-                "Amitesh",
+                signUpData.getFirstName(),
                 "Logged-in username mismatch.");
         Assert.assertTrue(commonPage.isLogoutLinkDisplayed(),
                 "Logout link is not displayed.");
@@ -59,7 +61,7 @@ public class SignUpTests extends BaseTest {
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
 
         UserDO userData = UserDF.getData();
-        userData.setEmail("amiteshvashishth@yopmail.com");
+        userData.setEmail("amiteshvashishthh@yopmail.com");
 
         step("Attempting sign-up with already registered email");
         loginSignupPage.signup(userData);

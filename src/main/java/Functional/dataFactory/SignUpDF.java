@@ -15,7 +15,11 @@ public class SignUpDF extends BaseDF{
         signUpDO.setPassword(faker.internet().password(8,12));
 
         signUpDO.setDay(String.valueOf(faker.number().numberBetween(1,28)));
-        signUpDO.setMonth(Month.of(faker.number().numberBetween(1, 12)).name().charAt(0) +Month.of(faker.number().numberBetween(1,12)).name().substring(1).toLowerCase());
+        Month month = Month.of(faker.number().numberBetween(1, 12));
+        String formattedMonth = month.name().charAt(0)
+                + month.name().substring(1).toLowerCase();
+
+        signUpDO.setMonth(formattedMonth);
         signUpDO.setYear(String.valueOf(faker.number().numberBetween(1985,2004)));
         signUpDO.setNewsletter(true);
         signUpDO.setOption(true);

@@ -6,10 +6,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CategoryDO {
+public class CategoryRequestDO {
 
     @JsonProperty("usertype")
-    private UserTypeDO usertype;
+    private UserTypeRequestDO usertype;
     @JsonProperty("category")
     private String category;
 }

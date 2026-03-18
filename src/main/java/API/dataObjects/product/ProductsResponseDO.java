@@ -13,5 +13,5 @@ public class ProductsResponseDO {
     @JsonProperty("responseCode")
     private int responseCode;
     @JsonProperty("products")
-    private List<ProductDO> products;
+    private List<ProductRequestDO> products;
 }

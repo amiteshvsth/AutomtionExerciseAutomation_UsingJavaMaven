@@ -4,8 +4,9 @@ import API.client.ApiResponse;
 import API.dataObjects.common.CommonResponseDO;
 import API.services.BrandService;
 import API.dataObjects.brand.BrandsResponseDO;
-import API.dataObjects.brand.BrandDO;
+import API.dataObjects.brand.BrandRequestDO;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class BrandTests extends BaseTest {
     public void verifyThatAllBrandsAreReturnedSuccessfully() {
 
 
+        SoftAssert softAssert = new SoftAssert();
         BrandService brandService = new BrandService();
 
         test.info("Sending request to retrieve all brands");
@@ -28,14 +30,14 @@ public class BrandTests extends BaseTest {
         softAssert.assertNotNull(response.getDto().getBrands(),
                 "Brands list is null.");
 
-        List<BrandDO> brands = response.getDto().getBrands();
+        List<BrandRequestDO> brands = response.getDto().getBrands();
 
         test.info("Validating brands list is not empty");
         softAssert.assertFalse(brands.isEmpty(),
                 "Brands list should not be empty.");
 
         test.info("Validating first brand object contains brand name");
-        BrandDO brand = brands.getFirst();
+        BrandRequestDO brand = brands.getFirst();
         softAssert.assertNotNull(brand.getBrand(),
                 "Brand name is null.");
 
@@ -47,6 +49,7 @@ public class BrandTests extends BaseTest {
     public void verifyThatWeAreNotAbleToAddNewBrands() {
 
 
+        SoftAssert softAssert = new SoftAssert();
         BrandService brandService = new BrandService();
 
         test.info("Sending request to add a new brand");

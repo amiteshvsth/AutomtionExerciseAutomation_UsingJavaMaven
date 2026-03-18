@@ -1,13 +1,15 @@
 package tests.API;
 
 import API.client.ApiResponse;
-import API.dataFactory.user.UserRequestDF;
+import API.dataFactory.user.LoginDF;
+import API.dataFactory.user.SignUpDF;
 import API.dataObjects.user.UserRequestDO;
 import API.dataObjects.common.CommonResponseDO;
-import API.dataObjects.user.UserDO;
+import API.dataObjects.user.UserDetailsRequestDO;
 import API.dataObjects.user.UserResponseDO;
 import API.services.UserService;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 public class UserTests extends BaseTest {
 
@@ -16,8 +18,9 @@ public class UserTests extends BaseTest {
 
 
         UserService userService = new UserService();
-        String email = "amiteshvashishth@yopmail.com";
+        String email = "amiteshvashishthh@yopmail.com";
 
+        SoftAssert softAssert = new SoftAssert();
         test.info("Sending request to retrieve user by email");
         ApiResponse<UserResponseDO> response = userService.getUserByEmail(email);
 
@@ -32,24 +35,24 @@ public class UserTests extends BaseTest {
                 "User object is null.");
 
         test.info("Validating returned user details");
-        UserDO user = response.getDto().getUser();
+        UserDetailsRequestDO user = response.getDto().getUser();
 
         softAssert.assertEquals(user.getEmail(), email, "Email mismatch.");
         softAssert.assertNotNull(user.getId(), "User ID is null.");
-        softAssert.assertEquals(user.getName(), "", "Name mismatch.");
-        softAssert.assertEquals(user.getTitle(), "Mr", "Title mismatch.");
-        softAssert.assertEquals(user.getBirth_day(), "15", "Birth day mismatch.");
-        softAssert.assertEquals(user.getBirth_month(), "9", "Birth month mismatch.");
-        softAssert.assertEquals(user.getBirth_year(), "2000", "Birth year mismatch.");
-        softAssert.assertEquals(user.getFirst_name(), "Rahul", "First name mismatch.");
-        softAssert.assertEquals(user.getLast_name(), "Mehta", "Last name mismatch.");
-        softAssert.assertEquals(user.getCompany(),"Kalyan Org.", "Company field mismatch.");
-        softAssert.assertEquals(user.getAddress1(), "Naroda", "Address1 mismatch.");
-        softAssert.assertEquals(user.getAddress2(), "Gujarat", "Address2 mismatch.");
-        softAssert.assertEquals(user.getCountry(), "Canada", "Country mismatch.");
-        softAssert.assertEquals(user.getState(), "Rajasthan", "State mismatch.");
-        softAssert.assertEquals(user.getCity(), "jaipur", "City mismatch.");
-        softAssert.assertEquals(user.getZipcode(), "390003", "Zipcode mismatch.");
+        softAssert.assertEquals(user.getName(), "Amitesh Vashishth", "Name mismatch.");
+        softAssert.assertEquals(user.getTitle(), "", "Title mismatch.");
+        softAssert.assertEquals(user.getBirth_day(), "14", "Birth day mismatch.");
+        softAssert.assertEquals(user.getBirth_month(), "1", "Birth month mismatch.");
+        softAssert.assertEquals(user.getBirth_year(), "2005", "Birth year mismatch.");
+        softAssert.assertEquals(user.getFirst_name(), "RwOnrAdfgd", "First name mismatch.");
+        softAssert.assertEquals(user.getLast_name(), "LzcZehGodfgd", "Last name mismatch.");
+        softAssert.assertEquals(user.getCompany(),"Amitesh & Sons pvt ltd", "Company field mismatch.");
+        softAssert.assertEquals(user.getAddress1(), "B4baqrMaklfgdf", "Address1 mismatch.");
+        softAssert.assertEquals(user.getAddress2(), "HmjlptLd8hsdfg", "Address2 mismatch.");
+        softAssert.assertEquals(user.getCountry(), "India", "Country mismatch.");
+        softAssert.assertEquals(user.getState(), "AUMyJsgdf", "State mismatch.");
+        softAssert.assertEquals(user.getCity(), "dafIOsdfg", "City mismatch.");
+        softAssert.assertEquals(user.getZipcode(), "993576sdf", "Zipcode mismatch.");
 
         softAssert.assertAll();
     }
@@ -61,6 +64,7 @@ public class UserTests extends BaseTest {
         UserService userService = new UserService();
         String email = "testslugurlamitesh@xyz.com";
 
+        SoftAssert softAssert = new SoftAssert();
         test.info("Sending request with unknown email");
         ApiResponse<CommonResponseDO> response =
                 userService.getUserByInvalidEmail(email);
@@ -81,9 +85,10 @@ public class UserTests extends BaseTest {
 
         UserService userService = new UserService();
 
+        SoftAssert softAssert = new SoftAssert();
+        UserDetailsRequestDO userData = SignUpDF.getData();
         test.info("Sending account creation request with valid data");
-        ApiResponse<CommonResponseDO> response = userService.createUser(
-                UserRequestDF.setValidSignUpDetails());
+        ApiResponse<CommonResponseDO> response = userService.createUser(userData);
 
         test.info("Validating account creation response");
         softAssert.assertEquals(response.getDto().getResponseCode(), 201,
@@ -101,9 +106,11 @@ public class UserTests extends BaseTest {
 
         UserService userService = new UserService();
 
+        SoftAssert softAssert = new SoftAssert();
+        UserDetailsRequestDO userData = SignUpDF.getData();
+        userData.setEmail("amiteshvashishthh@yopmail.com");
         test.info("Sending account creation request with invalid data");
-        ApiResponse<CommonResponseDO> response = userService.createUser(
-                UserRequestDF.setInvalidSignUpDetails());
+        ApiResponse<CommonResponseDO> response = userService.createUser(userData);
 
         test.info("Validating failure response");
         softAssert.assertEquals(response.getDto().getResponseCode(), 400,
@@ -121,14 +128,15 @@ public class UserTests extends BaseTest {
 
         UserService userService = new UserService();
 
+        SoftAssert softAssert = new SoftAssert();
         test.info("Creating user before deletion");
-        var createUserData = UserRequestDF.setValidSignUpDetails();
-        userService.createUser(createUserData);
+        UserDetailsRequestDO userData = SignUpDF.getData();
+        userService.createUser(userData);
 
         test.info("Preparing delete request");
         UserRequestDO deleteUserData = new UserRequestDO();
-        deleteUserData.setEmail(createUserData.getEmail());
-        deleteUserData.setPassword(createUserData.getPassword());
+        deleteUserData.setEmail(userData.getEmail());
+        deleteUserData.setPassword(userData.getPassword());
 
         test.info("Sending delete request");
         ApiResponse<CommonResponseDO> response = userService.deleteUser(deleteUserData);
@@ -149,9 +157,10 @@ public class UserTests extends BaseTest {
 
         UserService userService = new UserService();
 
+        SoftAssert softAssert = new SoftAssert();
+        UserRequestDO userData = LoginDF.getData();
         test.info("Sending delete request with invalid credentials");
-        ApiResponse<CommonResponseDO> response = userService.deleteUser(
-                UserRequestDF.setInvalidLoginDetails());
+        ApiResponse<CommonResponseDO> response = userService.deleteUser(userData);
 
         test.info("Validating failure response");
         softAssert.assertEquals(response.getDto().getResponseCode(), 404,
@@ -169,9 +178,11 @@ public class UserTests extends BaseTest {
 
         UserService userService = new UserService();
 
+        SoftAssert softAssert = new SoftAssert();
+        UserDetailsRequestDO userData = SignUpDF.getData();
+        userService.createUser(userData);
         test.info("Sending update request with valid data");
-        ApiResponse<CommonResponseDO> response = userService.updateUser(
-                UserRequestDF.setInvalidSignUpDetails());
+        ApiResponse<CommonResponseDO> response = userService.updateUser(userData);
 
         test.info("Validating update response");
         softAssert.assertEquals(response.getDto().getResponseCode(), 200,
@@ -189,9 +200,10 @@ public class UserTests extends BaseTest {
 
         UserService userService = new UserService();
 
+        SoftAssert softAssert = new SoftAssert();
+        UserDetailsRequestDO userData = SignUpDF.getData();
         test.info("Sending update request with invalid data");
-        ApiResponse<CommonResponseDO> response = userService.updateUser(
-                UserRequestDF.setValidSignUpDetails());
+        ApiResponse<CommonResponseDO> response = userService.updateUser(userData);
 
         test.info("Validating failure response");
         softAssert.assertEquals(response.getDto().getResponseCode(), 404,

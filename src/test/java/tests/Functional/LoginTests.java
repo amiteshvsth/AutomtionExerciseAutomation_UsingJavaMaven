@@ -14,13 +14,12 @@ public class LoginTests extends BaseTest {
     @Test
     public void verifyThatLoginSuccessfulWithValidCredentials() throws InterruptedException {
 
-        step("===== TEST START: Verify login with valid credentials =====");
 
         LoginSignupPage loginPage = new LoginSignupPage(driver);
         CommonPage commonPage = new CommonPage(driver);
 
         UserDO userDetails = UserDF.getData();
-        userDetails.setEmail("amiteshvashishth@yopmail.com");
+        userDetails.setEmail("amiteshvashishthh@yopmail.com");
 
         step("Logging in with valid user credentials");
         loginPage.login(userDetails);
@@ -28,22 +27,15 @@ public class LoginTests extends BaseTest {
         step("Validating user is successfully logged in");
         Assert.assertTrue(commonPage.isHomePageLogoDisplayed(),
                 "Home page logo is not displayed.");
-        Assert.assertEquals(commonPage.getLoggedInUserName(),
-                "Amitesh Vashishth",
-                "Logged-in username does not match.");
-        Assert.assertTrue(commonPage.isLogoutLinkDisplayed(),
-                "Logout link is not displayed.");
-        Assert.assertTrue(commonPage.isDeleteAccountLinkDisplayed(),
-                "Delete account link is not displayed.");
+        Assert.assertEquals(commonPage.getLoggedInUserName(),"Amitesh Vashishth", "Logged-in username does not match.");
+        Assert.assertTrue(commonPage.isLogoutLinkDisplayed(),"Logout link is not displayed.");
+        Assert.assertTrue(commonPage.isDeleteAccountLinkDisplayed(),"Delete account link is not displayed.");
 
-        step("===== TEST PASSED: Login successful with valid credentials =====");
     }
 
 
     @Test
     public void verifyThatLoginFailsWithInvalidCredentials() throws InterruptedException {
-
-        step("===== TEST START: Verify login failure with invalid credentials =====");
 
         LoginSignupPage loginPage = new LoginSignupPage(driver);
 
@@ -51,24 +43,22 @@ public class LoginTests extends BaseTest {
         loginPage.login(UserDF.getData());
 
         step("Validating error message is displayed");
-        Assert.assertEquals(loginPage.getLoginErrorMessage(),
-                "Your email or password is incorrect!",
-                "Expected error message is not displayed.");
+        Assert.assertEquals(loginPage.getLoginErrorMessage(), "Your email or password is incorrect!", "Expected error message is not displayed.");
 
-        step("===== TEST PASSED: Invalid login attempt correctly rejected =====");
     }
 
 
     @Test
     public void verifyThatLogoutSuccessful() throws InterruptedException {
 
-        step("===== TEST START: Verify logout functionality =====");
-
         LoginSignupPage loginPage = new LoginSignupPage(driver);
         CommonPage commonPage = new CommonPage(driver);
 
+        UserDO userData = UserDF.getData();
+        userData.setEmail("amiteshvashishthh@yopmail.com");
+        userData.setPassword("12345678");
         step("Logging in with valid credentials");
-        loginPage.login(UserDF.getData());
+        loginPage.login(userData);
 
         step("Performing logout action");
         loginPage.clickOnTopNavLink(TopNavLinks.LOGOUT_USER);
@@ -79,7 +69,6 @@ public class LoginTests extends BaseTest {
         Assert.assertFalse(commonPage.isDeleteAccountLinkDisplayed(),
                 "Delete account link should not be displayed after logout.");
 
-        step("===== TEST PASSED: Logout functionality verified successfully =====");
     }
 
 
@@ -97,7 +86,8 @@ public class LoginTests extends BaseTest {
         loginSignupPage.signup(userDetails);
 
         step("Completing account registration");
-        signUpPage.createAccount(SignUpDF.getData());
+        var signupDetails = SignUpDF.getData();
+        signUpPage.createAccount(signupDetails);
 
         step("Validating account creation confirmation");
         Assert.assertTrue(accountCreatedPage.isAccountCreatedTextDisplayed(),
@@ -115,7 +105,7 @@ public class LoginTests extends BaseTest {
         Assert.assertTrue(homePage.isHomePageLogoDisplayed(),
                 "Home page logo is not displayed.");
         Assert.assertEquals(homePage.getLoggedInUserName(),
-                "Amitesh",
+                signupDetails.getFirstName(),
                 "Logged-in username does not match.");
         Assert.assertTrue(homePage.isLogoutLinkDisplayed(),
                 "Logout link is not displayed.");

@@ -13,6 +13,6 @@ public class BrandsResponseDO {
     @JsonProperty("responseCode")
     private int responseCode;
     @JsonProperty("brands")
-    private List<BrandDO> brands;
+    private List<BrandRequestDO> brands;
 
 }
