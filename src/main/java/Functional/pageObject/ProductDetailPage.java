@@ -32,15 +32,22 @@ public class ProductDetailPage extends CommonPage {
     private final By reviewSuccessAlert = By.xpath("//div[@class='alert-success alert']/span[text()='Thank you for your review.']");
     // Product Information Actions
 
+    private String getSafeText(By locator) {
+        try {
+            return selenium.getText(locator);
+        } catch (Exception e) {
+            return null;
+        }
+    }
     public ProductDetailsDO getProductDetails() {
 
         return new ProductDetailsDO(
-                selenium.getText(productName),
-                selenium.getText(category),
-                selenium.getText(price),
-                selenium.getText(availability),
-                selenium.getText(condition),
-                selenium.getText(brand)
+                getSafeText(productName),
+                getSafeText(category),
+                getSafeText(price),
+                getSafeText(availability),
+                getSafeText(condition),
+                getSafeText(brand)
         );
     }
 
@@ -57,28 +64,11 @@ public class ProductDetailPage extends CommonPage {
         selenium.clickOn(continueShopping);
     }
 
-    // Review Actions
-    public void enterReviewName(String name) {
-        selenium.enterText(reviewName,name,true);
-    }
-
-    public void enterReviewEmail(String email) {
-        selenium.enterText(reviewEmail,email,true);
-    }
-
-    public void enterReviewText(String reviewText) {
-        selenium.enterText(reviewTextarea,reviewText,true);
-    }
-
-    public void clickSubmitReview() throws InterruptedException {
-        selenium.clickOn(submitReviewBtn);
-    }
-
     public void submitReview(ReviewDO data) throws InterruptedException {
-        enterReviewName(data.getName());
-        enterReviewEmail(data.getEmail());
-        enterReviewText(data.getReviewText());
-        clickSubmitReview();
+        selenium.enterText(reviewName,data.getName(),true);
+        selenium.enterText(reviewEmail,data.getEmail(),true);
+        selenium.enterText(reviewTextarea,data.getReviewText(),true);
+        selenium.clickOn(submitReviewBtn);
     }
 
     // Validation Methods

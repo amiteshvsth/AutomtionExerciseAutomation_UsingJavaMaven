@@ -27,23 +27,14 @@ public class CheckoutPage extends CommonPage {
         return selenium.getText(totalAmountText);
     }
 
-    public void setOrderComment(String comment) {
-        selenium.enterText(commentTextarea,comment,true);
-    }
-
-    // Place Order Methods
-    public void clickPlaceOrderButton() throws InterruptedException {
-        selenium.clickOn(placeOrderButton);
-    }
-
     public boolean isPlaceOrderButtonDisplayed() {
         return selenium.isElementPresent(placeOrderButton);
     }
 
     // Combined Action Methods
     public void completeCheckout(String orderComment) throws InterruptedException {
-        setOrderComment(orderComment);
-        clickPlaceOrderButton();
+        selenium.enterText(commentTextarea,orderComment,true);
+        selenium.clickOn(placeOrderButton);
     }
 }
 

@@ -2,6 +2,8 @@ package tests.Functional;
 
 import Functional.dataFactory.SignUpDF;
 import Functional.dataFactory.UserDF;
+import Functional.dataObject.UserDO;
+import Functional.enums.TopNavLinks;
 import Functional.pageObject.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -12,15 +14,18 @@ public class LoginTests extends BaseTest {
     @Test
     public void verifyThatLoginSuccessfulWithValidCredentials() throws InterruptedException {
 
-        test.info("===== TEST START: Verify login with valid credentials =====");
+        step("===== TEST START: Verify login with valid credentials =====");
 
         LoginSignupPage loginPage = new LoginSignupPage(driver);
         CommonPage commonPage = new CommonPage(driver);
 
-        test.info("Step 1: Logging in with valid user credentials");
-        loginPage.login(UserDF.fillValidUserLoginDetails());
+        UserDO userDetails = UserDF.getData();
+        userDetails.setEmail("amiteshvashishth@yopmail.com");
 
-        test.info("Step 2: Validating user is successfully logged in");
+        step("Logging in with valid user credentials");
+        loginPage.login(userDetails);
+
+        step("Validating user is successfully logged in");
         Assert.assertTrue(commonPage.isHomePageLogoDisplayed(),
                 "Home page logo is not displayed.");
         Assert.assertEquals(commonPage.getLoggedInUserName(),
@@ -31,57 +36,57 @@ public class LoginTests extends BaseTest {
         Assert.assertTrue(commonPage.isDeleteAccountLinkDisplayed(),
                 "Delete account link is not displayed.");
 
-        test.info("===== TEST PASSED: Login successful with valid credentials =====");
+        step("===== TEST PASSED: Login successful with valid credentials =====");
     }
 
 
     @Test
     public void verifyThatLoginFailsWithInvalidCredentials() throws InterruptedException {
 
-        test.info("===== TEST START: Verify login failure with invalid credentials =====");
+        step("===== TEST START: Verify login failure with invalid credentials =====");
 
         LoginSignupPage loginPage = new LoginSignupPage(driver);
 
-        test.info("Step 1: Attempting login with invalid credentials");
-        loginPage.login(UserDF.fillInvalidUserLoginDetails());
+        step("Attempting login with invalid credentials");
+        loginPage.login(UserDF.getData());
 
-        test.info("Step 2: Validating error message is displayed");
+        step("Validating error message is displayed");
         Assert.assertEquals(loginPage.getLoginErrorMessage(),
                 "Your email or password is incorrect!",
                 "Expected error message is not displayed.");
 
-        test.info("===== TEST PASSED: Invalid login attempt correctly rejected =====");
+        step("===== TEST PASSED: Invalid login attempt correctly rejected =====");
     }
 
 
     @Test
     public void verifyThatLogoutSuccessful() throws InterruptedException {
 
-        test.info("===== TEST START: Verify logout functionality =====");
+        step("===== TEST START: Verify logout functionality =====");
 
         LoginSignupPage loginPage = new LoginSignupPage(driver);
         CommonPage commonPage = new CommonPage(driver);
 
-        test.info("Step 1: Logging in with valid credentials");
-        loginPage.login(UserDF.fillValidUserLoginDetails());
+        step("Logging in with valid credentials");
+        loginPage.login(UserDF.getData());
 
-        test.info("Step 2: Performing logout action");
-        loginPage.logoutUser();
+        step("Performing logout action");
+        loginPage.clickOnTopNavLink(TopNavLinks.LOGOUT_USER);
 
-        test.info("Step 3: Validating user is logged out");
+        step("Validating user is logged out");
         Assert.assertFalse(commonPage.isLogoutLinkDisplayed(),
                 "Logout link should not be displayed after logout.");
         Assert.assertFalse(commonPage.isDeleteAccountLinkDisplayed(),
                 "Delete account link should not be displayed after logout.");
 
-        test.info("===== TEST PASSED: Logout functionality verified successfully =====");
+        step("===== TEST PASSED: Logout functionality verified successfully =====");
     }
 
 
     @Test
     public void verifyThatAccountDeletedSuccessfully() throws InterruptedException {
 
-        test.info("===== TEST START: Verify account creation and deletion workflow =====");
+        step("===== TEST START: Verify account creation and deletion workflow =====");
 
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
         SignUpPage signUpPage = new SignUpPage(driver);
@@ -89,14 +94,14 @@ public class LoginTests extends BaseTest {
         HomePage homePage = new HomePage(driver);
         AccountDeletedPage accountDeletedPage = new AccountDeletedPage(driver);
 
-        test.info("Step 1: Signing up with valid user details");
-        var userDetails = UserDF.fillValidUserSignUpDetails();
+        step("Signing up with valid user details");
+        var userDetails = UserDF.getData();
         loginSignupPage.signup(userDetails);
 
-        test.info("Step 2: Completing account registration");
-        signUpPage.createAccount(SignUpDF.fillSignUpDetails());
+        step("Completing account registration");
+        signUpPage.createAccount(SignUpDF.getData());
 
-        test.info("Step 3: Validating account creation confirmation");
+        step("Validating account creation confirmation");
         Assert.assertTrue(accountCreatedPage.isAccountCreatedTextDisplayed(),
                 "Account created text is not displayed.");
         Assert.assertTrue(accountCreatedPage.isCongratulationsTextDisplayed(),
@@ -108,7 +113,7 @@ public class LoginTests extends BaseTest {
 
         accountCreatedPage.clickOnContinueButton();
 
-        test.info("Step 4: Validating user is logged in after account creation");
+        step("Validating user is logged in after account creation");
         Assert.assertTrue(homePage.isHomePageLogoDisplayed(),
                 "Home page logo is not displayed.");
         Assert.assertEquals(homePage.getLoggedInUserName(),
@@ -119,10 +124,10 @@ public class LoginTests extends BaseTest {
         Assert.assertTrue(homePage.isDeleteAccountLinkDisplayed(),
                 "Delete account link is not displayed.");
 
-        test.info("Step 5: Deleting the newly created account");
+        step("Deleting the newly created account");
         homePage.deleteUserAccount();
 
-        test.info("Step 6: Validating account deletion confirmation");
+        step("Validating account deletion confirmation");
         Assert.assertTrue(accountDeletedPage.isAccountDeletedTextDisplayed(),
                 "Account deleted text is not displayed.");
         Assert.assertTrue(accountDeletedPage.isPermanentlyDeletedTextDisplayed(),
@@ -134,20 +139,20 @@ public class LoginTests extends BaseTest {
 
         accountDeletedPage.clickOnContinueButton();
 
-        test.info("Step 7: Validating user is logged out after deletion");
+        step("Validating user is logged out after deletion");
         Assert.assertFalse(homePage.isLogoutLinkDisplayed(),
                 "Logout link should not be displayed.");
         Assert.assertFalse(homePage.isDeleteAccountLinkDisplayed(),
                 "Delete account link should not be displayed.");
 
-        test.info("Step 8: Attempting login with deleted account credentials");
-        homePage.goToLoginPage();
+        step("Attempting login with deleted account credentials");
+        homePage.clickOnTopNavLink(TopNavLinks.LOGIN_PAGE);
         loginSignupPage.login(userDetails);
 
         Assert.assertEquals(loginSignupPage.getLoginErrorMessage(),
                 "Your email or password is incorrect!",
                 "Expected error message is not displayed for deleted account.");
 
-        test.info("===== TEST PASSED: Account deletion workflow verified successfully =====");
+        step("===== TEST PASSED: Account deletion workflow verified successfully =====");
     }
 }

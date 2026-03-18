@@ -5,6 +5,7 @@ import Functional.dataFactory.ReviewDF;
 import Functional.dataFactory.UserDF;
 import Functional.dataObject.ProductDetailsDO;
 import Functional.dataObject.ReviewDO;
+import Functional.enums.TopNavLinks;
 import Functional.pageObject.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -19,15 +20,15 @@ public class ProductsTests extends BaseTest {
     @Test
     public void verifyThatProductsPageLoadedSuccessfully() throws InterruptedException {
 
-        test.info("===== TEST START: Verify Products page loads successfully =====");
+        step("===== TEST START: Verify Products page loads successfully =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
 
-        test.info("Step 1: Navigating to Products page");
-        homePage.goToProductsPage();
+        step("Navigating to Products page");
+        homePage.clickOnTopNavLink(TopNavLinks.PRODUCTS);
 
-        test.info("Step 2: Validating categories and brands");
+        step("Validating categories and brands");
         List<String> actualCategories = productsPage.getProductCategories();
         List<String> actualBrands = productsPage.getBrandNames();
 
@@ -38,46 +39,46 @@ public class ProductsTests extends BaseTest {
         Assert.assertEquals(productsPage.getBrandsCount(), 8, "Brand count mismatch.");
         Assert.assertTrue(productsPage.isProductsHeaderDisplayed(), "Products header is not displayed.");
 
-        test.info("===== TEST PASSED: Products page loaded successfully =====");
+        step("===== TEST PASSED: Products page loaded successfully =====");
     }
 
 
     @Test
     public void verifyThatSearchFunctionalityIsWorkingForProductsPage() throws InterruptedException {
 
-        test.info("===== TEST START: Verify product search functionality =====");
+        step("===== TEST START: Verify product search functionality =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
 
-        homePage.goToProductsPage();
+        homePage.clickOnTopNavLink(TopNavLinks.PRODUCTS);
 
-        test.info("Step 1: Searching for product 'Blue Top'");
+        step("Searching for product 'Blue Top'");
         productsPage.searchProduct("Blue Top");
 
-        test.info("Step 2: Validating search results");
+        step("Validating search results");
         List<String> productNames = productsPage.getProductNames();
 
         Assert.assertEquals(productNames.size(), 1, "Unexpected number of search results.");
         Assert.assertEquals(productNames.getFirst(), "Blue Top", "Product name mismatch.");
 
-        test.info("===== TEST PASSED: Product search verified successfully =====");
+        step("===== TEST PASSED: Product search verified successfully =====");
     }
 
 
     @Test
     public void verifyThatProductCountIsCorrectForEachBrand() throws InterruptedException {
 
-        test.info("===== TEST START: Verify product count for each brand =====");
+        step("===== TEST START: Verify product count for each brand =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
 
-        homePage.goToProductsPage();
+        homePage.clickOnTopNavLink(TopNavLinks.PRODUCTS);
 
         for (String brand : EXPECTED_BRANDS_COUNTS.keySet()) {
 
-            test.info("Validating brand: "+ brand);
+            step("Validating brand: " + brand);
 
             productsPage.clickOnBrandName(brand);
 
@@ -94,23 +95,23 @@ public class ProductsTests extends BaseTest {
                     "Product count mismatch for brand: " + brand);
         }
 
-        test.info("===== TEST PASSED: Brand-wise product count verified =====");
+        step("===== TEST PASSED: Brand-wise product count verified =====");
     }
 
 
     @Test
     public void verifyThatProductSubCategoriesCountIsCorrect() throws InterruptedException {
 
-        test.info("===== TEST START: Verify sub-category count for each category =====");
+        step("===== TEST START: Verify sub-category count for each category =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
 
-        homePage.goToProductsPage();
+        homePage.clickOnTopNavLink(TopNavLinks.PRODUCTS);
 
         for (String category : EXPECTED_SUBCATEGORIES_COUNT.keySet()) {
 
-            test.info("Validating sub-categories for category: "+ category);
+            step("Validating sub-categories for category: " + category);
 
             int actualSubCategories = productsPage.getProductSubCategories(category).size();
             int expectedSubCategoriesCount = EXPECTED_SUBCATEGORIES_COUNT.get(category);
@@ -119,23 +120,23 @@ public class ProductsTests extends BaseTest {
                     "Sub-category count mismatch for category: " + category);
         }
 
-        test.info("===== TEST PASSED: Sub-category count validated successfully =====");
+        step("===== TEST PASSED: Sub-category count validated successfully =====");
     }
 
 
     @Test
     public void verifyThatProductDetailsAreDisplayedOnProductDetailsPage() throws InterruptedException {
 
-        test.info("===== TEST START: Verify product details page =====");
+        step("===== TEST START: Verify product details page =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
         ProductDetailPage productDetailPage = new ProductDetailPage(driver);
 
-        homePage.goToProductsPage();
+        homePage.clickOnTopNavLink(TopNavLinks.PRODUCTS);
         productsPage.clickViewProduct(1);
 
-        test.info("Step 1: Fetching product details");
+        step("Fetching product details");
         ProductDetailsDO productDetails = productDetailPage.getProductDetails();
 
         Assert.assertEquals(productDetails.getName(), "Men Tshirt", "Product name mismatch.");
@@ -145,37 +146,37 @@ public class ProductsTests extends BaseTest {
         Assert.assertEquals(productDetails.getCondition(), "Condition: New", "Condition mismatch.");
         Assert.assertEquals(productDetails.getBrand(), "Brand: H&M", "Brand mismatch.");
 
-        test.info("===== TEST PASSED: Product details validated successfully =====");
+        step("===== TEST PASSED: Product details validated successfully =====");
     }
 
 
     @Test
     public void verifyThatWeAreAbleToGiveReviewForProducts() throws InterruptedException {
 
-        test.info("===== TEST START: Verify product review submission =====");
+        step("===== TEST START: Verify product review submission =====");
 
         HomePage homePage = new HomePage(driver);
         ProductsPage productsPage = new ProductsPage(driver);
         ProductDetailPage productDetailPage = new ProductDetailPage(driver);
 
-        homePage.goToProductsPage();
+        homePage.clickOnTopNavLink(TopNavLinks.PRODUCTS);
         productsPage.clickViewProduct(1);
 
-        test.info("Step 1: Submitting product review");
-        ReviewDO reviewDO = ReviewDF.fillReviewDetails();
+        step("Submitting product review");
+        ReviewDO reviewDO = ReviewDF.getData();
         productDetailPage.submitReview(reviewDO);
 
         Assert.assertTrue(productDetailPage.isReviewSuccessAlertDisplayed(),
                 "Review success message is not displayed.");
 
-        test.info("===== TEST PASSED: Product review submitted successfully =====");
+        step("===== TEST PASSED: Product review submitted successfully =====");
     }
 
 
     @Test
     public void verifyEndToEndProductCheckoutFunctionality() throws InterruptedException {
 
-        test.info("===== TEST START: Verify end-to-end product checkout flow =====");
+        step("===== TEST START: Verify end-to-end product checkout flow =====");
 
         HomePage homePage = new HomePage(driver);
         LoginSignupPage loginPage = new LoginSignupPage(driver);
@@ -185,41 +186,42 @@ public class ProductsTests extends BaseTest {
         CheckoutPage checkoutPage = new CheckoutPage(driver);
         CardDetailsPage cardDetailsPage = new CardDetailsPage(driver);
         OrderCompletePage orderCompletePage = new OrderCompletePage(driver);
+        CheckoutModalPage checkoutModalPage = new CheckoutModalPage(driver);
 
-        test.info("Step 1: Add product to cart");
-        homePage.goToProductsPage();
+        step("Add product to cart");
+        homePage.clickOnTopNavLink(TopNavLinks.PRODUCTS);
         productsPage.clickViewProduct(1);
         productDetailPage.clickAddToCart();
         productDetailPage.clickContinueShopping();
-        productsPage.goToCartPage();
+        productsPage.clickOnTopNavLink(TopNavLinks.CART_MENU_PAGE);
 
         Assert.assertTrue(cartPage.isCartTableDisplayed(), "Cart table is not displayed.");
         Assert.assertTrue(cartPage.isProductImageDisplayed(), "Product image is not displayed.");
 
-        test.info("Step 2: Proceed to checkout and validate modal");
+        step("Proceed to checkout and validate modal");
         cartPage.clickProceedToCheckout();
-        Assert.assertTrue(cartPage.isCheckoutModalDisplayed(), "Checkout modal is not displayed.");
-        cartPage.clickRegisterLoginModalLink();
+        Assert.assertTrue(checkoutModalPage.isCheckoutModalDisplayed(), "Checkout modal is not displayed.");
+        checkoutModalPage.clickRegisterLoginModalLink();
 
-        test.info("Step 3: Logging in before checkout");
-        loginPage.login(UserDF.fillValidUserLoginDetails());
-        homePage.goToCartPage();
+        step("Logging in before checkout");
+        loginPage.login(UserDF.getData());
+        homePage.clickOnTopNavLink(TopNavLinks.CART_MENU_PAGE);
 
         cartPage.clickProceedToCheckout();
         Assert.assertTrue(checkoutPage.isPlaceOrderButtonDisplayed(), "Place order button is not displayed.");
 
-        test.info("Step 4: Validating order summary");
+        step("Validating order summary");
         Assert.assertEquals(checkoutPage.getTotalAmount(), "Rs. 400", "Total amount mismatch.");
         Assert.assertEquals(checkoutPage.getNumberOfProductsInCart(), 1, "Unexpected number of products in cart.");
 
-        test.info("Step 5: Completing checkout");
+        step("Completing checkout");
         checkoutPage.completeCheckout("Order needs to be placed immediately");
 
-        test.info("Step 6: Completing payment");
-        cardDetailsPage.completePayment(CardDetailsDF.fillContactUsDetails());
+        step("Completing payment");
+        cardDetailsPage.completePayment(CardDetailsDF.getData());
         Assert.assertTrue(cardDetailsPage.isSuccessMessageDisplayed(), "Payment success message not displayed.");
 
-        test.info("Step 7: Validating order confirmation");
+        step("Validating order confirmation");
         Assert.assertTrue(orderCompletePage.isOrderPlacedTitleDisplayed(), "Order placed title not displayed.");
         Assert.assertEquals(orderCompletePage.getOrderPlacedTitle(), "ORDER PLACED!", "Order placed title mismatch.");
         Assert.assertEquals(orderCompletePage.getCongratulationsText(),
@@ -228,12 +230,12 @@ public class ProductsTests extends BaseTest {
 
         orderCompletePage.clickContinue();
 
-        test.info("Step 8: Validating user returned to home page");
+        step("Validating user returned to home page");
         Assert.assertTrue(homePage.isHomePageLogoDisplayed(), "Home page logo is not displayed.");
         Assert.assertEquals(homePage.getLoggedInUserName(),
                 "Amitesh Vashishth",
                 "Logged-in username mismatch.");
 
-        test.info("===== TEST PASSED: End-to-end checkout flow verified successfully =====");
+        step("===== TEST PASSED: End-to-end checkout flow verified successfully =====");
     }
 }

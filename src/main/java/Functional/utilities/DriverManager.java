@@ -104,7 +104,8 @@ public class DriverManager {
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
-        getDriver().manage().window().setSize(new Dimension(1920, 1080));
+        var windowSize = getDriver().manage().window().getSize();
+        getDriver().manage().window().setSize(windowSize);
         getDriver().manage().deleteAllCookies();
 
         return getDriver();

@@ -12,15 +12,15 @@ public class ContactUsTests extends BaseTest {
     @Test
     public void verifyThatContactUsFormIsSubmittedSuccessfully() throws Exception {
 
-        test.info("===== TEST START: Verify Contact Us form submission =====");
+        step("===== TEST START: Verify Contact Us form submission =====");
 
         HomePage homePage = new HomePage(driver);
         ContactUsPage contactUsPage = new ContactUsPage(driver);
 
-        test.info("Step 1: Navigating to Contact Us page");
-        homePage.goToContactUsPage();
+        step("Navigating to Contact Us page");
+        homePage.navigateToContactUsPage();
 
-        test.info("Step 2: Validating Contact Us page elements");
+        step("Validating Contact Us page elements");
         Assert.assertTrue(contactUsPage.isContactUsHeaderVisible(),
                 "Contact Us header is not visible.");
         Assert.assertTrue(contactUsPage.isFileUploadOptionVisible(),
@@ -40,27 +40,27 @@ public class ContactUsTests extends BaseTest {
         Assert.assertTrue(contactUsPage.isGetInTouchTextVisible(),
                 "Get in touch text is not visible.");
 
-        test.info("Step 3: Submitting Contact Us form with valid details");
-        contactUsPage.submitForm(ContactUsDF.fillContactUsDetails());
+        step("Submitting Contact Us form with valid details");
+        contactUsPage.submitForm(ContactUsDF.getData());
 
-        test.info("Step 4: Validating success message after submission");
+        step("Validating success message after submission");
         Assert.assertEquals(contactUsPage.getSuccessText(),
                 "Success! Your details have been submitted successfully.",
                 "Success message is not displayed.");
 
-        test.info("Step 5: Validating post-submission UI changes");
+        step("Validating post-submission UI changes");
         Assert.assertFalse(contactUsPage.isFileUploadOptionVisible(),
                 "File upload option is still visible after submission.");
         Assert.assertTrue(contactUsPage.isHomeButtonVisible(),
                 "Home button is not visible after submission.");
 
-        test.info("Step 6: Navigating back to Home page");
+        step("Navigating back to Home page");
         contactUsPage.clickOnHomeButton();
 
-        test.info("Step 7: Validating Home page is displayed");
+        step("Validating Home page is displayed");
         Assert.assertTrue(homePage.isHomePageLogoDisplayed(),
                 "Home page logo is not displayed.");
 
-        test.info("===== TEST PASSED: Contact Us form submitted successfully =====");
+        step("===== TEST PASSED: Contact Us form submitted successfully =====");
     }
 }

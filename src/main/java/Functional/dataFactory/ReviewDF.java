@@ -4,7 +4,7 @@ import Functional.dataObject.ReviewDO;
 
 public class ReviewDF extends BaseDF{
 
-    public static ReviewDO fillReviewDetails(){
+    public static ReviewDO getData(){
         ReviewDO user = new ReviewDO();
         user.setName(faker.name().fullName());
         user.setEmail(faker.internet().emailAddress());

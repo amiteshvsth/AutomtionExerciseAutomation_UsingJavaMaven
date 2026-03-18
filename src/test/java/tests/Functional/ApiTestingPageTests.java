@@ -1,5 +1,6 @@
 package tests.Functional;
 
+import Functional.enums.TopNavLinks;
 import Functional.pageObject.ApiPage;
 import Functional.pageObject.LoginSignupPage;
 import org.testng.Assert;
@@ -11,27 +12,27 @@ public class ApiTestingPageTests extends BaseTest {
     @Test
     public void verifySmokeTestsForApiTestingPage() throws InterruptedException {
 
-        test.info("===== TEST START: Verify smoke test validations for API Testing page =====");
+        step("===== TEST START: Verify smoke test validations for API Testing page =====");
 
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
         ApiPage apiPage = new ApiPage(driver);
 
-        test.info("Step 1: Navigating to API Testing page");
-        loginSignupPage.goToApiTestingPage();
+        step("Navigating to API Testing page");
+        loginSignupPage.clickOnTopNavLink(TopNavLinks.API_LIST_PAGE);
 
-        test.info("Step 2: Validating API header is displayed");
+        step("Validating API header is displayed");
         Assert.assertTrue(apiPage.isApiHeaderDisplayed(),
                 "API header is not displayed.");
 
-        test.info("Step 3: Validating API description is displayed");
+        step("Validating API description is displayed");
         Assert.assertTrue(apiPage.isApiDescriptionDisplayed(),
                 "API description is not displayed.");
 
-        test.info("Step 4: Validating Feedback section header is displayed");
+        step("Validating Feedback section header is displayed");
         Assert.assertTrue(apiPage.isFeedbackHeaderDisplayed(),
                 "Feedback header is not displayed.");
 
-        test.info("Step 5: Validating Feedback description lines are displayed");
+        step("Validating Feedback description lines are displayed");
         Assert.assertTrue(apiPage.isFeedbackDescriptionLine1Displayed(),
                 "Feedback description line 1 is not displayed.");
         Assert.assertTrue(apiPage.isFeedbackDescriptionLine2Displayed(),
@@ -39,10 +40,10 @@ public class ApiTestingPageTests extends BaseTest {
         Assert.assertTrue(apiPage.isFeedbackDescriptionLine3Displayed(),
                 "Feedback description line 3 is not displayed.");
 
-        test.info("Step 6: Validating total API count displayed on page");
+        step("Validating total API count displayed on page");
         Assert.assertEquals(apiPage.getApiCount(), 14,
                 "API count displayed is incorrect.");
 
-        test.info("===== TEST PASSED: API Testing page smoke validations successful =====");
+        step("===== TEST PASSED: API Testing page smoke validations successful =====");
     }
 }

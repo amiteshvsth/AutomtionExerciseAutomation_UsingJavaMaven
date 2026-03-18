@@ -4,7 +4,7 @@ import Functional.dataObject.CardDetailsDO;
 
 public class CardDetailsDF extends BaseDF {
 
-    public static CardDetailsDO fillContactUsDetails(){
+    public static CardDetailsDO getData(){
         CardDetailsDO cardDetails = new CardDetailsDO();
 
         cardDetails.setName(faker.name().fullName());

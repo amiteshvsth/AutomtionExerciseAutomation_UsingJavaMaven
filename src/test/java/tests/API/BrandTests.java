@@ -14,57 +14,53 @@ public class BrandTests extends BaseTest {
     @Test
     public void verifyThatAllBrandsAreReturnedSuccessfully() {
 
-        test.info("===== TEST START: Verify all brands are returned successfully =====");
 
         BrandService brandService = new BrandService();
 
-        test.info("Step 1: Sending request to retrieve all brands");
+        test.info("Sending request to retrieve all brands");
         ApiResponse<BrandsResponseDO> response = brandService.getAllBrands();
 
-        test.info("Step 2: Validating API response code");
+        test.info("Validating API response code");
         softAssert.assertEquals(response.getDto().getResponseCode(), 200,
                 "Unexpected API response code.");
 
-        test.info("Step 3: Validating brands list is not null");
+        test.info("Validating brands list is not null");
         softAssert.assertNotNull(response.getDto().getBrands(),
                 "Brands list is null.");
 
         List<BrandDO> brands = response.getDto().getBrands();
 
-        test.info("Step 4: Validating brands list is not empty");
+        test.info("Validating brands list is not empty");
         softAssert.assertFalse(brands.isEmpty(),
                 "Brands list should not be empty.");
 
-        test.info("Step 5: Validating first brand object contains brand name");
+        test.info("Validating first brand object contains brand name");
         BrandDO brand = brands.getFirst();
         softAssert.assertNotNull(brand.getBrand(),
                 "Brand name is null.");
 
         softAssert.assertAll();
-        test.info("===== TEST PASSED: All brands retrieved successfully =====");
     }
 
 
     @Test
     public void verifyThatWeAreNotAbleToAddNewBrands() {
 
-        test.info("===== TEST START: Verify adding new brand is not allowed =====");
 
         BrandService brandService = new BrandService();
 
-        test.info("Step 1: Sending request to add a new brand");
+        test.info("Sending request to add a new brand");
         ApiResponse<CommonResponseDO> response = brandService.addNewBrand();
 
-        test.info("Step 2: Validating API response code for unsupported method");
+        test.info("Validating API response code for unsupported method");
         softAssert.assertEquals(response.getDto().getResponseCode(), 405,
                 "Unexpected API response code.");
 
-        test.info("Step 3: Validating error message for unsupported request");
+        test.info("Validating error message for unsupported request");
         softAssert.assertEquals(response.getDto().getMessage(),
                 "This request method is not supported.",
                 "Unexpected error message returned.");
 
         softAssert.assertAll();
-        test.info("===== TEST PASSED: API correctly rejected brand creation request =====");
     }
 }

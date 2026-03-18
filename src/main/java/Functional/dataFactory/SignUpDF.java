@@ -8,7 +8,7 @@ import java.time.Month;
 
 public class SignUpDF extends BaseDF{
 
-    public static SignUpDO fillSignUpDetails(){
+    public static SignUpDO getData(){
         SignUpDO signUpDO = new SignUpDO();
         signUpDO.setTitle(Title.MR);
         signUpDO.setName(faker.name().fullName());

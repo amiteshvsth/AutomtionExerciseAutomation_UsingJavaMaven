@@ -49,39 +49,21 @@ public class SignUpPage extends CommonPage {
 
     // ================= METHODS =================
 
-    public void selectTitle(Title title) throws InterruptedException {
-        if (title == Title.MR) {
+    public void createAccount(SignUpDO data) throws InterruptedException {
+
+        if (data.getTitle() == Title.MR) {
             selenium.clickOn(titleMr);
         } else {
             selenium.clickOn(titleMrs);
         }
-    }
-
-    public void enterName(String value) {
-        selenium.enterText(name,value,true);
-    }
-
-    public void enterPassword(String value) {
-        selenium.enterText(password,value,true);
-    }
-
-    public void selectDOB(String day, String month, String year) {
-        selenium.selectDropDownValueByText(days,day);
-        selenium.selectDropDownValueByText(months,month);
-        selenium.selectDropDownValueByText(years,year);
-    }
-
-    public void setNewsletter(boolean value) throws InterruptedException {
-        if (value) selenium.clickOn(newsletter);
-    }
-
-    public void setOptin(boolean value) throws InterruptedException {
-        if (value)
+        selenium.enterText(name,data.getFirstName(),true);
+        selenium.enterText(password,data.getPassword(),true);
+        selenium.selectDropDownValueByText(days,data.getDay());
+        selenium.selectDropDownValueByText(months,data.getMonth());
+        selenium.selectDropDownValueByText(years,data.getYear());
+        if (data.isNewsletter()) selenium.clickOn(newsletter);
+        if (data.isOption())
             selenium.clickOn(optin);
-    }
-
-    public void enterAddressInfo(SignUpDO data) {
-
         selenium.enterText(firstName,data.getFirstName(),true);
         selenium.enterText(lastName,data.getLastName(),true);
         selenium.enterText(company,data.getCompany(),true);
@@ -94,23 +76,7 @@ public class SignUpPage extends CommonPage {
         selenium.enterText(city,data.getCity(),true);
         selenium.enterText(zipcode,data.getZipcode(),true);
         selenium.enterText(mobile,data.getMobile(),true);
-    }
-
-    public void clickCreateAccount() throws InterruptedException {
         selenium.clickOn(createAccountBtn);
-    }
-
-    // 🔥 MAIN BUSINESS METHOD
-    public void createAccount(SignUpDO data) throws InterruptedException {
-
-        selectTitle(data.getTitle());
-        enterName(data.getFirstName());
-        enterPassword(data.getPassword());
-        selectDOB(data.getDay(), data.getMonth(), data.getYear());
-        setNewsletter(data.isNewsletter());
-        setOptin(data.isOption());
-        enterAddressInfo(data);
-        clickCreateAccount();
     }
 }
 

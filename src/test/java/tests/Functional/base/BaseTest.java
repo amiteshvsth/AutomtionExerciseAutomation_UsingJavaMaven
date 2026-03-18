@@ -33,6 +33,7 @@ public class BaseTest extends CommonBaseTest {
             extentTest.set(
                     extent.createTest(methodName).assignCategory(className)
             );
+            StepLogger.reset();   // ✅ reset step counter per test
             test = extentTest.get();
 
             Map<String, Object> customPrefs = new HashMap<>();
@@ -60,7 +61,6 @@ public class BaseTest extends CommonBaseTest {
                 result.setStatus(ITestResult.FAILURE);
                 result.setThrowable(new Exception("Test aborted due to setup failure"));
             }
-
             captureTestResult(result);
 
         } catch (Exception e) {
@@ -69,8 +69,12 @@ public class BaseTest extends CommonBaseTest {
             DriverManager.tearDown();
             isSetupFailed.remove();
             Logger.remove();
+            StepLogger.remove();   // ✅ clean ThreadLocal
             extentTest.remove();
         }
+    }
+    protected void step(String message) {
+        StepLogger.step(test, message);
     }
 
     private void captureTestResult(ITestResult result) {

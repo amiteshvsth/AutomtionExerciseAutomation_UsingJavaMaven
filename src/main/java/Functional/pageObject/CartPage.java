@@ -12,8 +12,7 @@ public class CartPage extends CommonPage {
     private final By proceedToCheckoutBtn = By.xpath("//a[@class='btn btn-default check_out']");
 
     // Modal
-    private final By checkoutModal = By.id("checkoutModal");
-    private final By registerLoginModalLink = By.xpath("//div[@id='checkoutModal']//a[@href='/login']");
+
 
     // Cart table
     private final By cartInfoTable = By.id("cart_info_table");
@@ -47,13 +46,7 @@ public class CartPage extends CommonPage {
     }
 
     // Modal methods
-    public boolean isCheckoutModalDisplayed() {
-        return selenium.isElementPresent(checkoutModal);
-    }
 
-    public void clickRegisterLoginModalLink() throws InterruptedException {
-        selenium.clickOn(registerLoginModalLink);
-    }
 
     // Cart methods
     public boolean isCartTableDisplayed() {

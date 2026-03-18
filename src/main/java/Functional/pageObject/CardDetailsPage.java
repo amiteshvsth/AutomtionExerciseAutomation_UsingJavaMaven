@@ -16,45 +16,17 @@ public class CardDetailsPage extends CommonPage {
     private final By payAndConfirmButton = By.cssSelector("button[data-qa='pay-button']");
     private final By successMessage = By.id("success_message");
 
-    public void enterNameOnCard(String name) {
-        selenium.enterText(nameOnCardInput,name,true);
-    }
-
-    public void enterCardNumber(String cardNumber) {
-        selenium.enterText(cardNumberInput,cardNumber,true);
-    }
-
-    public void enterCvc(String cvc) {
-        selenium.enterText(cvcInput,cvc,true);
-    }
-
-    public void enterExpiryMonth(String month) {
-        selenium.enterText(expiryMonthInput,month,true);
-    }
-
-    public void enterExpiryYear(String year) {
-        selenium.enterText(expiryYearInput,year,true);
-    }
-
-    public void clickPayAndConfirmButton() throws InterruptedException {
-        selenium.clickOn(payAndConfirmButton);
-    }
-
     public boolean isSuccessMessageDisplayed() {
         return selenium.isElementPresent(successMessage);
     }
 
-    public void fillPaymentDetails(String nameOnCard, String cardNumber, String cvc, String expiryMonth, String expiryYear) {
-        enterNameOnCard(nameOnCard);
-        enterCardNumber(cardNumber);
-        enterCvc(cvc);
-        enterExpiryMonth(expiryMonth);
-        enterExpiryYear(expiryYear);
-    }
-
     public void completePayment(CardDetailsDO cardDetails) throws InterruptedException {
-        fillPaymentDetails(cardDetails.getName(), cardDetails.getCardNumber(), cardDetails.getCvc(), cardDetails.getExpiryMonth(), cardDetails.getExpiryYear());
-        clickPayAndConfirmButton();
+        selenium.enterText(nameOnCardInput,cardDetails.getName(),true);
+        selenium.enterText(cardNumberInput,cardDetails.getCardNumber(),true);
+        selenium.enterText(cvcInput,cardDetails.getCvc(),true);
+        selenium.enterText(expiryMonthInput,cardDetails.getExpiryMonth(),true);
+        selenium.enterText(expiryYearInput,cardDetails.getExpiryYear(),true);
+        selenium.clickOn(payAndConfirmButton);
     }
 }
 

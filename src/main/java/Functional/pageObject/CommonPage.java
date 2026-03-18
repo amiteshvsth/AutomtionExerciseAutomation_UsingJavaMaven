@@ -1,5 +1,6 @@
 package Functional.pageObject;
 
+import Functional.enums.TopNavLinks;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import Functional.pageObject.base.BasePage;
@@ -7,18 +8,13 @@ import Functional.pageObject.base.BasePage;
 public class CommonPage extends BasePage {
     public CommonPage(WebDriver driver) {super(driver);}
 
-    private final By productsLink = By.xpath("//a[contains(@href,'products')]");
-    private final By loginLink = By.xpath("//a[contains(@href,'login')]");
     private final By logoutLink = By.xpath("//a[contains(@href,'logout')]");
     private final By deleteAccount = By.xpath("//a[contains(@href,'delete_account')]");
-    private final By testCasesPage = By.xpath("//a[contains(@href,'test_cases')]");
-    private final By apiTestingPage = By.xpath("//a[contains(@href,'api_list')]");
     private final By homePage = By.className("fa-home");
 
     private final By videoTutorialsPage = By.className("fa-youtube-play");
     private final By contactUsPage = By.className("fa-envelope");
     private final By userName = By.xpath("//i[@class='fa fa-user']/following-sibling::b");
-    private final By cartLink = By.xpath("//a[contains(@href,'view_cart')]");
     private final By logo = By.xpath("//img[@alt='Website for automation practice']");
     private final By subscriptionForm = By.className("searchform");
     private final By subscribeEmailInput = By.id("susbscribe_email");
@@ -28,19 +24,20 @@ public class CommonPage extends BasePage {
     private final By scrollToTopIcon = By.xpath("//a[@id='scrollUp']");
     private final By successMessage = By.id("success-subscribe");
 
-    public void goToProductsPage() throws InterruptedException { selenium.clickOn(productsLink); }
-    public void goToLoginPage() throws InterruptedException{ selenium.clickOn(loginLink); }
-    public void goToCartPage() throws InterruptedException{ selenium.clickOn(cartLink); }
-    public void logoutUser() throws InterruptedException{ selenium.clickOn(logoutLink); }
+    public void clickOnTopNavLink(TopNavLinks menu) throws InterruptedException {
+        selenium.clickOn(By.xpath("//a[contains(@href,'"+menu.value+"')]"));
+    }
+
     public void deleteUserAccount() throws InterruptedException{ selenium.clickOn(deleteAccount); }
-    public void goToTestCasesPage() throws InterruptedException{ selenium.clickOn(testCasesPage); }
-    public void goToHomePage() throws InterruptedException{ selenium.clickOn(homePage); }
-    public void goToApiTestingPage() throws InterruptedException{ selenium.clickOn(apiTestingPage); }
-    public void goToVideoTutorialsPage() throws InterruptedException{
+
+    public void navigateToHomePage() throws InterruptedException{
+        selenium.clickOn(homePage);
+    }
+    public void navigateToVideoTutorialsPage() throws InterruptedException{
         selenium.clickOn(videoTutorialsPage);
         selenium.waitForJavascriptToLoad();
     }
-    public void goToContactUsPage() throws InterruptedException{ selenium.clickOn(contactUsPage); }
+    public void navigateToContactUsPage() throws InterruptedException{ selenium.clickOn(contactUsPage); }
     public String getLoggedInUserName() { return selenium.getText(userName); }
     public boolean isHomePageLogoDisplayed() {return selenium.isElementPresent(logo);}
 
@@ -80,8 +77,8 @@ public class CommonPage extends BasePage {
         return selenium.isElementPresent(logoutLink);
     }
 
-    public void submitSubscribeEmailForm() throws InterruptedException {
-        selenium.enterText(subscribeEmailInput,"amiteshvashishth@yopmail.com",true);
+    public void submitSubscribeEmailForm(String email) throws InterruptedException {
+        selenium.enterText(subscribeEmailInput,email,true);
         selenium.clickOn(emailSubmitIcon);
     }
 
