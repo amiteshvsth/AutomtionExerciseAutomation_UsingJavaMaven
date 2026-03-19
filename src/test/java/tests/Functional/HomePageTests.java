@@ -2,6 +2,7 @@ package tests.Functional;
 
 import Functional.pageObject.HomePage;
 import Functional.pageObject.LoginSignupPage;
+import Functional.utilities.Constants;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import tests.Functional.base.BaseTest;
@@ -67,7 +68,7 @@ public class HomePageTests extends BaseTest {
         Assert.assertTrue(homePage.isScrollToTopIconDisplayed(), "Scroll to top icon is not displayed.");
 
         step("Submitting subscription email form");
-        homePage.submitSubscribeEmailForm("amiteshvashishthh@yopmail.com");
+        homePage.submitSubscribeEmailForm(Constants.EXISTING_EMAIL);
 
         step("Validating subscription success message");
         Assert.assertTrue(homePage.isSuccessMessageDisplayed(),

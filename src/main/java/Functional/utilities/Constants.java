@@ -21,6 +21,8 @@ public class Constants {
     public static List<String> EXPECTED_PRODUCT_CATEGORIES = Arrays.asList("WOMEN","MEN", "KIDS");
     public static List<String> EXPECTED_BRANDS = Arrays.asList("POLO", "H&M" ,"MADAME", "MAST & HARBOUR", "BABYHUG" , "ALLEN SOLLY JUNIOR", "KOOKIE KIDS", "BIBA");
 
+    public static String EXISTING_EMAIL = "amiteshvashishthh@yopmail.com";
+    public static String CONSTANT_PASSWORD = "12345678";
     public static Map<String, Integer> EXPECTED_BRANDS_COUNTS = Map.of(
             "Polo", 6,
             "H&M", 5,

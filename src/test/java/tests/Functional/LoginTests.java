@@ -2,9 +2,11 @@ package tests.Functional;
 
 import Functional.dataFactory.SignUpDF;
 import Functional.dataFactory.UserDF;
+import Functional.dataObject.SignUpDO;
 import Functional.dataObject.UserDO;
 import Functional.enums.TopNavLinks;
 import Functional.pageObject.*;
+import Functional.utilities.Constants;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import tests.Functional.base.BaseTest;
@@ -19,7 +21,7 @@ public class LoginTests extends BaseTest {
         CommonPage commonPage = new CommonPage(driver);
 
         UserDO userDetails = UserDF.getData();
-        userDetails.setEmail("amiteshvashishthh@yopmail.com");
+        userDetails.setEmail(Constants.EXISTING_EMAIL);
 
         step("Logging in with valid user credentials");
         loginPage.login(userDetails);
@@ -55,8 +57,8 @@ public class LoginTests extends BaseTest {
         CommonPage commonPage = new CommonPage(driver);
 
         UserDO userData = UserDF.getData();
-        userData.setEmail("amiteshvashishthh@yopmail.com");
-        userData.setPassword("12345678");
+        userData.setEmail(Constants.EXISTING_EMAIL);
+        userData.setPassword(Constants.CONSTANT_PASSWORD);
         step("Logging in with valid credentials");
         loginPage.login(userData);
 
@@ -82,11 +84,11 @@ public class LoginTests extends BaseTest {
         AccountDeletedPage accountDeletedPage = new AccountDeletedPage(driver);
 
         step("Signing up with valid user details");
-        var userDetails = UserDF.getData();
+        UserDO userDetails = UserDF.getData();
         loginSignupPage.signup(userDetails);
 
         step("Completing account registration");
-        var signupDetails = SignUpDF.getData();
+        SignUpDO signupDetails = SignUpDF.getData();
         signUpPage.createAccount(signupDetails);
 
         step("Validating account creation confirmation");

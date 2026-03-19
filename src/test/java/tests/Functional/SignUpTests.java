@@ -8,6 +8,7 @@ import Functional.pageObject.AccountCreatedPage;
 import Functional.pageObject.CommonPage;
 import Functional.pageObject.LoginSignupPage;
 import Functional.pageObject.SignUpPage;
+import Functional.utilities.Constants;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import tests.Functional.base.BaseTest;
@@ -61,7 +62,7 @@ public class SignUpTests extends BaseTest {
         LoginSignupPage loginSignupPage = new LoginSignupPage(driver);
 
         UserDO userData = UserDF.getData();
-        userData.setEmail("amiteshvashishthh@yopmail.com");
+        userData.setEmail(Constants.EXISTING_EMAIL);
 
         step("Attempting sign-up with already registered email");
         loginSignupPage.signup(userData);

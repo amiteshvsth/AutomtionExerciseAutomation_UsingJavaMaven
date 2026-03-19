@@ -8,6 +8,7 @@ import API.dataObjects.common.CommonResponseDO;
 import API.dataObjects.user.UserDetailsRequestDO;
 import API.dataObjects.user.UserResponseDO;
 import API.services.UserService;
+import Functional.utilities.Constants;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -18,7 +19,7 @@ public class UserTests extends BaseTest {
 
 
         UserService userService = new UserService();
-        String email = "amiteshvashishthh@yopmail.com";
+        String email = Constants.EXISTING_EMAIL;
 
         SoftAssert softAssert = new SoftAssert();
         test.info("Sending request to retrieve user by email");
@@ -108,7 +109,7 @@ public class UserTests extends BaseTest {
 
         SoftAssert softAssert = new SoftAssert();
         UserDetailsRequestDO userData = SignUpDF.getData();
-        userData.setEmail("amiteshvashishthh@yopmail.com");
+        userData.setEmail(Constants.EXISTING_EMAIL);
         test.info("Sending account creation request with invalid data");
         ApiResponse<CommonResponseDO> response = userService.createUser(userData);
 

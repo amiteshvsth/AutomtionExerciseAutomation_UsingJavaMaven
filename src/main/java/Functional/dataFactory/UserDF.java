@@ -1,6 +1,7 @@
 package Functional.dataFactory;
 
 import Functional.dataObject.UserDO;
+import Functional.utilities.Constants;
 
 public class UserDF extends BaseDF{
 
@@ -10,7 +11,7 @@ public class UserDF extends BaseDF{
 
         user.setName(faker.name().fullName());
         user.setEmail(faker.internet().emailAddress());
-        user.setPassword("12345678");
+        user.setPassword(Constants.CONSTANT_PASSWORD);
 
         return user;
     }

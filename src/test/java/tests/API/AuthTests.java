@@ -5,6 +5,7 @@ import API.dataFactory.user.LoginDF;
 import API.dataObjects.common.CommonResponseDO;
 import API.dataObjects.user.UserRequestDO;
 import API.services.AuthService;
+import Functional.utilities.Constants;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -18,8 +19,8 @@ public class AuthTests extends BaseTest {
 
         SoftAssert softAssert = new SoftAssert();
         UserRequestDO userData = LoginDF.getData();
-        userData.setEmail("amiteshvashishthh@yopmail.com");
-        userData.setPassword("12345678");
+        userData.setEmail(Constants.EXISTING_EMAIL);
+        userData.setPassword(Constants.CONSTANT_PASSWORD);
         test.info("Sending login request with valid user credentials");
         ApiResponse<CommonResponseDO> response = authService.login(userData);
 
@@ -71,8 +72,8 @@ public class AuthTests extends BaseTest {
 
         SoftAssert softAssert = new SoftAssert();
         UserRequestDO userData = LoginDF.getData();
-        userData.setEmail("amiteshvashishthh@yopmail.com");
-        userData.setPassword("12345678");
+        userData.setEmail(Constants.EXISTING_EMAIL);
+        userData.setPassword(Constants.CONSTANT_PASSWORD);
         test.info("Sending login request without email parameter");
         ApiResponse<CommonResponseDO> response = authService.loginWithoutEmailParameter(userData);
 
@@ -97,8 +98,8 @@ public class AuthTests extends BaseTest {
 
         SoftAssert softAssert = new SoftAssert();
         UserRequestDO userData = LoginDF.getData();
-        userData.setEmail("amiteshvashishthh@yopmail.com");
-        userData.setPassword("12345678");
+        userData.setEmail(Constants.EXISTING_EMAIL);
+        userData.setPassword(Constants.CONSTANT_PASSWORD);
         test.info("Sending DELETE request to login endpoint");
         ApiResponse<CommonResponseDO> response = authService.loginDelete(userData);
 

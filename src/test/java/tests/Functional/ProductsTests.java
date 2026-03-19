@@ -8,6 +8,7 @@ import Functional.dataObject.ReviewDO;
 import Functional.dataObject.UserDO;
 import Functional.enums.TopNavLinks;
 import Functional.pageObject.*;
+import Functional.utilities.Constants;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import tests.Functional.base.BaseTest;
@@ -189,8 +190,8 @@ public class ProductsTests extends BaseTest {
 
         step("Logging in before checkout");
         UserDO userData = UserDF.getData();
-        userData.setEmail("amiteshvashishthh@yopmail.com");
-        userData.setPassword("12345678");
+        userData.setEmail(Constants.EXISTING_EMAIL);
+        userData.setPassword(Constants.CONSTANT_PASSWORD);
         loginPage.login(userData);
         homePage.clickOnTopNavLink(TopNavLinks.CART_MENU_PAGE);
 
