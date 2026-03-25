@@ -1,35 +1,37 @@
 package tests.API;
 
-import API.client.ApiResponse;
 import API.dataObjects.common.CommonResponseDO;
-import API.services.ProductService;
 import API.dataObjects.product.ProductsResponseDO;
 import API.dataObjects.product.ProductRequestDO;
+import API.utilities.ApiHelper;
+import API.utilities.Endpoints;
+import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.List;
+import java.util.Map;
 
 public class ProductTests extends BaseTest {
 
     @Test
     public void verifyThatAllProductsAreReturnedSuccessfully() {
 
-        ProductService productService = new ProductService();
-
         SoftAssert softAssert = new SoftAssert();
         test.info("Sending request to retrieve all products");
-        ApiResponse<ProductsResponseDO> response = productService.getAllProducts();
+        Response response = ApiHelper.get(Endpoints.PRODUCTS);
+        
+        ProductsResponseDO dto = ApiHelper.parseResponse(response, ProductsResponseDO.class);
 
         test.info("Validating HTTP status code");
         softAssert.assertEquals(response.getStatusCode(), 200,
                 "Unexpected HTTP status code.");
 
         test.info("Validating products list is not null");
-        softAssert.assertNotNull(response.getDto().getProducts(),
+        softAssert.assertNotNull(dto.getProducts(),
                 "Products list is null.");
 
-        List<ProductRequestDO> products = response.getDto().getProducts();
+        List<ProductRequestDO> products = dto.getProducts();
 
         test.info("Validating products list is not empty");
         softAssert.assertFalse(products.isEmpty(),
@@ -54,19 +56,18 @@ public class ProductTests extends BaseTest {
     @Test
     public void verifyThatWeAreNotAbleToAddProducts() {
 
-        ProductService productService = new ProductService();
-
         SoftAssert softAssert = new SoftAssert();
         test.info("Sending request to add a new product");
-        ApiResponse<CommonResponseDO> response =
-                productService.addANewProduct("Adidas shoes");
+        Response response = ApiHelper.postWithFormParameters(Endpoints.PRODUCTS, Map.of("product", "Adidas shoes"));
+        
+        CommonResponseDO dto = ApiHelper.parseResponse(response, CommonResponseDO.class);
 
         test.info("Validating API response code for unsupported method");
-        softAssert.assertEquals(response.getDto().getResponseCode(), 405,
+        softAssert.assertEquals(dto.getResponseCode(), 405,
                 "Unexpected API response code.");
 
         test.info("Validating error message for unsupported request");
-        softAssert.assertEquals(response.getDto().getMessage(),
+        softAssert.assertEquals(dto.getMessage(),
                 "This request method is not supported.",
                 "Unexpected error message returned.");
 
@@ -77,20 +78,18 @@ public class ProductTests extends BaseTest {
     @Test
     public void verifyThatWeAreAbleToSearchProducts() {
 
-
-        ProductService productService = new ProductService();
-
         SoftAssert softAssert = new SoftAssert();
         test.info("Sending product search request with valid keyword");
-        ApiResponse<ProductsResponseDO> response =
-                productService.searchProduct("Adidas shoes");
+        Response response = ApiHelper.postWithFormParameters(Endpoints.SEARCH_PRODUCT, Map.of("search_product", "Adidas shoes"));
+        
+        ProductsResponseDO dto = ApiHelper.parseResponse(response, ProductsResponseDO.class);
 
         test.info("Validating API response code");
-        softAssert.assertEquals(response.getDto().getResponseCode(), 200,
+        softAssert.assertEquals(dto.getResponseCode(), 200,
                 "Unexpected API response code.");
 
         test.info("Validating search results are returned");
-        softAssert.assertNotNull(response.getDto().getProducts(),
+        softAssert.assertNotNull(dto.getProducts(),
                 "Search results list is null.");
 
         softAssert.assertAll();
@@ -100,20 +99,18 @@ public class ProductTests extends BaseTest {
     @Test
     public void verifyThatSearchingProductsWithoutParameterFails() {
 
-
-        ProductService productService = new ProductService();
-
         SoftAssert softAssert = new SoftAssert();
         test.info("Sending product search request without search parameter");
-        ApiResponse<CommonResponseDO> response =
-                productService.searchProductWithoutParameter();
+        Response response = ApiHelper.post(Endpoints.SEARCH_PRODUCT);
+        
+        CommonResponseDO dto = ApiHelper.parseResponse(response, CommonResponseDO.class);
 
         test.info("Validating API response code for bad request");
-        softAssert.assertEquals(response.getDto().getResponseCode(), 400,
+        softAssert.assertEquals(dto.getResponseCode(), 400,
                 "Unexpected API response code.");
 
         test.info("Validating error message for missing search parameter");
-        softAssert.assertEquals(response.getDto().getMessage(),
+        softAssert.assertEquals(dto.getMessage(),
                 "Bad request, search_product parameter is missing in POST request.",
                 "Unexpected error message returned.");
 

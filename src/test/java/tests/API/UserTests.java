@@ -1,42 +1,68 @@
 package tests.API;
 
-import API.client.ApiResponse;
 import API.dataFactory.user.LoginDF;
 import API.dataFactory.user.SignUpDF;
 import API.dataObjects.user.UserRequestDO;
 import API.dataObjects.common.CommonResponseDO;
 import API.dataObjects.user.UserDetailsRequestDO;
 import API.dataObjects.user.UserResponseDO;
-import API.services.UserService;
+import API.utilities.ApiHelper;
+import API.utilities.Endpoints;
 import Functional.utilities.Constants;
+import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserTests extends BaseTest {
+
+    private Map<String, String> getUserDetails(UserDetailsRequestDO user) {
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("name", user.getName());
+        requestBody.put("email", user.getEmail());
+        requestBody.put("password", user.getPassword());
+        requestBody.put("title", user.getTitle());
+        requestBody.put("birth_date", user.getBirth_day());
+        requestBody.put("birth_month", user.getBirth_month());
+        requestBody.put("birth_year", user.getBirth_year());
+        requestBody.put("firstname", user.getFirst_name());
+        requestBody.put("lastname", user.getLast_name());
+        requestBody.put("company", user.getCompany());
+        requestBody.put("address1", user.getAddress1());
+        requestBody.put("address2", user.getAddress2());
+        requestBody.put("country", user.getCountry());
+        requestBody.put("zipcode", user.getZipcode());
+        requestBody.put("state", user.getState());
+        requestBody.put("city", user.getCity());
+        requestBody.put("mobile_number", user.getMobile_number());
+        return requestBody;
+    }
 
     @Test
     public void verifyUserCanBeRetrievedByEmail() {
 
-
-        UserService userService = new UserService();
         String email = Constants.EXISTING_EMAIL;
 
         SoftAssert softAssert = new SoftAssert();
         test.info("Sending request to retrieve user by email");
-        ApiResponse<UserResponseDO> response = userService.getUserByEmail(email);
+        Response response = ApiHelper.getWithQueryParameters(Endpoints.GET_USER_BY_EMAIL, Map.of("email", email));
+        
+        UserResponseDO dto = ApiHelper.parseResponse(response, UserResponseDO.class);
 
         test.info("Validating HTTP and API response codes");
         softAssert.assertEquals(response.getStatusCode(), 200,
                 "Unexpected HTTP status code.");
-        softAssert.assertEquals(response.getDto().getResponseCode(), 200,
+        softAssert.assertEquals(dto.getResponseCode(), 200,
                 "Unexpected API response code.");
 
         test.info("Validating user object is returned");
-        softAssert.assertNotNull(response.getDto().getUser(),
+        softAssert.assertNotNull(dto.getUser(),
                 "User object is null.");
 
         test.info("Validating returned user details");
-        UserDetailsRequestDO user = response.getDto().getUser();
+        UserDetailsRequestDO user = dto.getUser();
 
         softAssert.assertEquals(user.getEmail(), email, "Email mismatch.");
         softAssert.assertNotNull(user.getId(), "User ID is null.");
@@ -62,18 +88,18 @@ public class UserTests extends BaseTest {
     @Test
     public void verifyUserCannotBeRetrievedByUnknownEmail() {
 
-        UserService userService = new UserService();
         String email = "testslugurlamitesh@xyz.com";
 
         SoftAssert softAssert = new SoftAssert();
         test.info("Sending request with unknown email");
-        ApiResponse<CommonResponseDO> response =
-                userService.getUserByInvalidEmail(email);
+        Response response = ApiHelper.getWithQueryParameters(Endpoints.GET_USER_BY_EMAIL, Map.of("email", email));
+        
+        CommonResponseDO dto = ApiHelper.parseResponse(response, CommonResponseDO.class);
 
         test.info("Validating error response");
-        softAssert.assertEquals(response.getDto().getResponseCode(), 404,
+        softAssert.assertEquals(dto.getResponseCode(), 404,
                 "Unexpected API response code.");
-        softAssert.assertEquals(response.getDto().getMessage(),
+        softAssert.assertEquals(dto.getMessage(),
                 "Account not found with this email, try another email!",
                 "Unexpected error message returned.");
 
@@ -84,17 +110,17 @@ public class UserTests extends BaseTest {
     @Test
     public void verifyThatWeAreAbleToCreateAccountWithValidDetails() {
 
-        UserService userService = new UserService();
-
         SoftAssert softAssert = new SoftAssert();
         UserDetailsRequestDO userData = SignUpDF.getData();
         test.info("Sending account creation request with valid data");
-        ApiResponse<CommonResponseDO> response = userService.createUser(userData);
+        Response response = ApiHelper.postWithFormParameters(Endpoints.CREATE_ACCOUNT, getUserDetails(userData));
+        
+        CommonResponseDO dto = ApiHelper.parseResponse(response, CommonResponseDO.class);
 
         test.info("Validating account creation response");
-        softAssert.assertEquals(response.getDto().getResponseCode(), 201,
+        softAssert.assertEquals(dto.getResponseCode(), 201,
                 "Unexpected API response code.");
-        softAssert.assertEquals(response.getDto().getMessage(),
+        softAssert.assertEquals(dto.getMessage(),
                 "User created!",
                 "Account creation failed.");
 
@@ -105,18 +131,18 @@ public class UserTests extends BaseTest {
     @Test
     public void verifyThatWeAreNotAbleToCreateAccountWithInvalidDetails() {
 
-        UserService userService = new UserService();
-
         SoftAssert softAssert = new SoftAssert();
         UserDetailsRequestDO userData = SignUpDF.getData();
         userData.setEmail(Constants.EXISTING_EMAIL);
         test.info("Sending account creation request with invalid data");
-        ApiResponse<CommonResponseDO> response = userService.createUser(userData);
+        Response response = ApiHelper.postWithFormParameters(Endpoints.CREATE_ACCOUNT, getUserDetails(userData));
+        
+        CommonResponseDO dto = ApiHelper.parseResponse(response, CommonResponseDO.class);
 
         test.info("Validating failure response");
-        softAssert.assertEquals(response.getDto().getResponseCode(), 400,
+        softAssert.assertEquals(dto.getResponseCode(), 400,
                 "Unexpected API response code.");
-        softAssert.assertEquals(response.getDto().getMessage(),
+        softAssert.assertEquals(dto.getMessage(),
                 "Email already exists!",
                 "Unexpected error message returned.");
 
@@ -127,25 +153,26 @@ public class UserTests extends BaseTest {
     @Test
     public void verifyThatWeAreAbleToDeleteAccountWithValidDetails() {
 
-        UserService userService = new UserService();
-
         SoftAssert softAssert = new SoftAssert();
         test.info("Creating user before deletion");
         UserDetailsRequestDO userData = SignUpDF.getData();
-        userService.createUser(userData);
+        ApiHelper.postWithFormParameters(Endpoints.CREATE_ACCOUNT, getUserDetails(userData));
 
         test.info("Preparing delete request");
-        UserRequestDO deleteUserData = new UserRequestDO();
-        deleteUserData.setEmail(userData.getEmail());
-        deleteUserData.setPassword(userData.getPassword());
+        Map<String, String> deleteParams = Map.of(
+                "email", userData.getEmail(),
+                "password", userData.getPassword()
+        );
 
         test.info("Sending delete request");
-        ApiResponse<CommonResponseDO> response = userService.deleteUser(deleteUserData);
+        Response response = ApiHelper.deleteWithFormParameters(Endpoints.DELETE_ACCOUNT, deleteParams);
+        
+        CommonResponseDO dto = ApiHelper.parseResponse(response, CommonResponseDO.class);
 
         test.info("Validating deletion response");
-        softAssert.assertEquals(response.getDto().getResponseCode(), 200,
+        softAssert.assertEquals(dto.getResponseCode(), 200,
                 "Unexpected API response code.");
-        softAssert.assertEquals(response.getDto().getMessage(),
+        softAssert.assertEquals(dto.getMessage(),
                 "Account deleted!",
                 "Account deletion failed.");
 
@@ -156,17 +183,18 @@ public class UserTests extends BaseTest {
     @Test
     public void verifyThatWeAreNotAbleToDeleteAccountWithInvalidDetails() {
 
-        UserService userService = new UserService();
-
         SoftAssert softAssert = new SoftAssert();
         UserRequestDO userData = LoginDF.getData();
         test.info("Sending delete request with invalid credentials");
-        ApiResponse<CommonResponseDO> response = userService.deleteUser(userData);
+        Response response = ApiHelper.deleteWithFormParameters(Endpoints.DELETE_ACCOUNT, 
+                Map.of("email", userData.getEmail(), "password", userData.getPassword()));
+        
+        CommonResponseDO dto = ApiHelper.parseResponse(response, CommonResponseDO.class);
 
         test.info("Validating failure response");
-        softAssert.assertEquals(response.getDto().getResponseCode(), 404,
+        softAssert.assertEquals(dto.getResponseCode(), 404,
                 "Unexpected API response code.");
-        softAssert.assertEquals(response.getDto().getMessage(),
+        softAssert.assertEquals(dto.getMessage(),
                 "Account not found!",
                 "Unexpected error message returned.");
 
@@ -177,18 +205,18 @@ public class UserTests extends BaseTest {
     @Test
     public void verifyThatWeAreAbleToUpdateAccountWithValidDetails() {
 
-        UserService userService = new UserService();
-
         SoftAssert softAssert = new SoftAssert();
         UserDetailsRequestDO userData = SignUpDF.getData();
-        userService.createUser(userData);
+        ApiHelper.postWithFormParameters(Endpoints.CREATE_ACCOUNT, getUserDetails(userData));
         test.info("Sending update request with valid data");
-        ApiResponse<CommonResponseDO> response = userService.updateUser(userData);
+        Response response = ApiHelper.putWithFormParameters(Endpoints.UPDATE_ACCOUNT, getUserDetails(userData));
+        
+        CommonResponseDO dto = ApiHelper.parseResponse(response, CommonResponseDO.class);
 
         test.info("Validating update response");
-        softAssert.assertEquals(response.getDto().getResponseCode(), 200,
+        softAssert.assertEquals(dto.getResponseCode(), 200,
                 "Unexpected API response code.");
-        softAssert.assertEquals(response.getDto().getMessage(),
+        softAssert.assertEquals(dto.getMessage(),
                 "User updated!",
                 "User update failed.");
 
@@ -199,17 +227,17 @@ public class UserTests extends BaseTest {
     @Test
     public void verifyThatWeAreNotAbleToUpdateAccountWithInValidDetails() {
 
-        UserService userService = new UserService();
-
         SoftAssert softAssert = new SoftAssert();
         UserDetailsRequestDO userData = SignUpDF.getData();
         test.info("Sending update request with invalid data");
-        ApiResponse<CommonResponseDO> response = userService.updateUser(userData);
+        Response response = ApiHelper.putWithFormParameters(Endpoints.UPDATE_ACCOUNT, getUserDetails(userData));
+        
+        CommonResponseDO dto = ApiHelper.parseResponse(response, CommonResponseDO.class);
 
         test.info("Validating failure response");
-        softAssert.assertEquals(response.getDto().getResponseCode(), 404,
+        softAssert.assertEquals(dto.getResponseCode(), 404,
                 "Unexpected API response code.");
-        softAssert.assertEquals(response.getDto().getMessage(),
+        softAssert.assertEquals(dto.getMessage(),
                 "Account not found!",
                 "Unexpected error message returned.");
 
