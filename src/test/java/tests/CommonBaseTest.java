@@ -25,15 +25,11 @@ public class CommonBaseTest {
         File reportFolder = new File(reportFolderPath);
         File screenshotFolder = new File(screenshotsFolderPath);
 
-
-        reportFolder.delete();
-        screenshotFolder.delete();
-        if (!reportFolder.exists()) {
-            reportFolder.mkdirs();
-        }
-        if (!screenshotFolder.exists()) {
-            reportFolder.mkdirs();
-        }
+        deleteFolder(reportFolder);
+        deleteFolder(screenshotFolder);
+        
+        reportFolder.mkdirs();
+        screenshotFolder.mkdirs();
 
         String timestamp = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
@@ -58,6 +54,22 @@ public class CommonBaseTest {
         if (extent != null) {
             extent.flush();
             System.out.println("Extent report flushed successfully.");
+        }
+    }
+
+    private void deleteFolder(File folder) {
+        if (folder.exists()) {
+            File[] files = folder.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        deleteFolder(file);
+                    } else {
+                        file.delete();
+                    }
+                }
+            }
+            folder.delete();
         }
     }
 }

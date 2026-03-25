@@ -101,9 +101,9 @@ public class BaseTest extends CommonBaseTest {
 
     private void attachScreenshot(String testName) {
         try {
-            String browser = System.getProperty("browser");
+            String browser = System.getProperty("browser", "chrome");
             String screenshotPath = selenium.takeScreenshot(testName);
-            String relativePath = "../screenshots/"  + browser + new File(screenshotPath).getName();
+            String relativePath = "../screenshots/" + new File(screenshotPath).getName();
             test.addScreenCaptureFromPath(relativePath);
         } catch (Exception e) {
             test.warning("Screenshot capture failed: " + e.getMessage());
